@@ -1,0 +1,6 @@
+.cache/
+.husky/_
+node_modules/
+public/
+
+yarn.lock

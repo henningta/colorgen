@@ -1,0 +1,16 @@
+# IDE-specific
+.vscode/
+
+# build
+.cache/
+public/
+
+# node
+.jusky/_
+node_modules/
+
+# etc.
+.DS_Store
+.env.*
+*.orig
+yarn-error.log
