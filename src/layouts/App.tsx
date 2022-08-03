@@ -1,9 +1,7 @@
 import React from 'react';
 import { AppThemeProvider, Seo } from '../components';
 import { useColorScheme } from '@mui/joy/styles';
-import Switch from '@mui/joy/Switch';
-import Typography from '@mui/joy/Typography';
-import Container from '@mui/joy/Container';
+import { Container, Switch, Typography } from '@mui/joy';
 
 type AppProps = {
   children: React.ReactNode;
