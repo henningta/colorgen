@@ -1,22 +1,34 @@
+import { Sheet, Typography } from '@mui/joy';
 import React from 'react';
-import { Tab, TabList, TabPanel, Tabs, Typography } from '@mui/joy';
-import { Overview, Page } from '../components';
+import { Page } from '../components';
+import { useColorContext } from '../context';
 
-const HomePage: React.FC = () => (
-  <Page>
-    <Tabs defaultValue={0}>
-      <TabList sx={{ mb: 4 }}>
-        <Tab>Overview</Tab>
-        <Tab>Generator</Tab>
-      </TabList>
-      <TabPanel value={0}>
-        <Overview />
-      </TabPanel>
-      <TabPanel value={1}>
-        <Typography>Tab Two Active</Typography>
-      </TabPanel>
-    </Tabs>
-  </Page>
-);
+const HomePage: React.FC = () => {
+  const { colorHex, colorName, contrastText } = useColorContext();
+
+  return (
+    <>
+      <Sheet
+        sx={{
+          width: '100%',
+          height: 600,
+          backgroundColor: colorHex,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Typography sx={{ color: contrastText, opacity: 0.75 }} level="h5">
+          {colorHex}
+        </Typography>
+        <Typography sx={{ color: contrastText }} level="h1">
+          {colorName}
+        </Typography>
+      </Sheet>
+      <Page></Page>
+    </>
+  );
+};
 
 export default HomePage;

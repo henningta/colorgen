@@ -1,0 +1,22 @@
+/* TODO: remove in favor of Joy UI global styling when that becomes available */
+:root {
+  --bg-color--dark: #1c1b22;
+  --bg-color--light: #f7f8f9;
+
+  --bg-color: var(--bg-color--light);
+}
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-color);
+  margin: 0;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}

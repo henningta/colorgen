@@ -1703,6 +1703,26 @@ var ntc = {
     ['FFFFF0', 'Ivory'],
     ['FFFFFF', 'White'],
   ],
+
+  /**
+   * Looks up a hex value for a given ntc color name
+   * @param {string} name the ntc color name
+   * @returns {string | undefined} A hex value for a valid ntc color, or undefined
+   */
+  lookup: function (name) {
+    const reversed = this.names.reduce((acc, x) => {
+      acc[x[1].toLocaleLowerCase()] = x[0];
+      return acc;
+    }, {});
+
+    function findName() {
+      return reversed.hasOwnProperty(name.toLocaleLowerCase())
+        ? reversed[name.toLocaleLowerCase()]
+        : undefined;
+    }
+
+    return findName(name);
+  },
 };
 
 ntc.init();
