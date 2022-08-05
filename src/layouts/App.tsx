@@ -53,13 +53,15 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
           }}
         >
           <Typography level="h3">colorgen.io</Typography>
-          <Switch
-            componentsProps={{ input: { 'aria-label': 'dark mode' } }}
-            startDecorator="Light"
-            endDecorator="Dark"
-            checked={mounted ? mode === 'dark' : undefined}
-            onChange={(e) => setMode(e.target.checked ? 'dark' : 'light')}
-          />
+          {mounted && (
+            <Switch
+              componentsProps={{ input: { 'aria-label': 'dark mode' } }}
+              startDecorator="Light"
+              endDecorator="Dark"
+              checked={mode === 'dark'}
+              onChange={(e) => setMode(e.target.checked ? 'dark' : 'light')}
+            />
+          )}
         </Container>
       </Sheet>
       <Sheet
