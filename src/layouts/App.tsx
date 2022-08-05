@@ -1,22 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { AppThemeProvider, ColorPicker, Seo } from '../components';
-import { useColorScheme } from '@mui/joy/styles';
 import { Container, Sheet, Switch, Typography } from '@mui/joy';
 import { ColorContextProvider, useColorContext } from '../context';
+import { useClientColorScheme } from '../utils';
 
 type AppProps = {
   children: React.ReactNode;
 };
 
 const AppContent: React.FC<AppProps> = ({ children }) => {
-  const { mode, setMode } = useColorScheme();
+  const { mode, setMode, mounted } = useClientColorScheme();
   const { colorHex, colorName, contrastText } = useColorContext();
-
-  const [mounted, setMounted] = useState(true);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     if (!mounted) {
@@ -63,7 +57,7 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
             componentsProps={{ input: { 'aria-label': 'dark mode' } }}
             startDecorator="Light"
             endDecorator="Dark"
-            checked={mode === 'dark'}
+            checked={mounted ? mode === 'dark' : undefined}
             onChange={(e) => setMode(e.target.checked ? 'dark' : 'light')}
           />
         </Container>

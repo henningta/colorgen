@@ -1,20 +1,12 @@
-import {
-  Box,
-  Button,
-  Container,
-  Menu,
-  MenuItem,
-  TextField,
-  useColorScheme,
-} from '@mui/joy';
+import { Box, Button, Container, Menu, MenuItem, TextField } from '@mui/joy';
 import Card from '@mui/joy/Card';
 import React, { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { useColorContext } from '../context';
-import { useWindowSize } from '../utils';
+import { useClientColorScheme, useWindowSize } from '../utils';
 
 const ColorPicker: React.FC = () => {
-  const { mode } = useColorScheme();
+  const { mode, mounted } = useClientColorScheme();
   const { color, colorHex, setColor } = useColorContext();
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement>();
@@ -73,7 +65,11 @@ const ColorPicker: React.FC = () => {
             sx={{
               width: '2px',
               height: '100%',
-              backgroundColor: mode === 'dark' ? '#333' : '#ccc',
+              backgroundColor: mounted
+                ? mode === 'dark'
+                  ? '#333'
+                  : '#ccc'
+                : undefined,
             }}
           />
           <Box

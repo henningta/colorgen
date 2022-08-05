@@ -1,3 +1,4 @@
+import { useColorScheme } from '@mui/joy';
 import { useEffect, useState } from 'react';
 
 // Hook
@@ -20,4 +21,19 @@ export const useWindowSize = () => {
   }, []);
 
   return [width, height];
+};
+
+export const useClientColorScheme = () => {
+  const colorScheme = useColorScheme();
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  return {
+    ...colorScheme,
+    mounted,
+  };
 };
