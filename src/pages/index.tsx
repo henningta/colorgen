@@ -1,33 +1,58 @@
-import { Sheet, Typography } from '@mui/joy';
+import { Box, Typography } from '@mui/joy';
+import chroma from 'chroma-js';
 import React from 'react';
-import { Page } from '../components';
+import { ColorCard, Page } from '../components';
 import { useColorContext } from '../context';
 
 const HomePage: React.FC = () => {
-  const { colorHex, colorName, contrastText } = useColorContext();
+  const { colorHex } = useColorContext();
 
   return (
-    <>
-      <Sheet
-        sx={{
-          width: '100%',
-          height: 600,
-          backgroundColor: colorHex,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Typography sx={{ color: contrastText, opacity: 0.75 }} level="h5">
-          {colorHex}
-        </Typography>
-        <Typography sx={{ color: contrastText }} level="h1">
-          {colorName}
-        </Typography>
-      </Sheet>
-      <Page></Page>
-    </>
+    <Page title="Color Harmonies (wip)">
+      <Box>
+        <Typography level="h4">Complimentary</Typography>
+        <Box sx={{ display: 'flex' }}>
+          <ColorCard colorHex={chroma(colorHex).set('hsl.h', '+180').hex()} />
+        </Box>
+      </Box>
+      <Box>
+        <Typography level="h4">Split Complimentary</Typography>
+        <Box sx={{ display: 'flex' }}>
+          <ColorCard colorHex={chroma(colorHex).set('hsl.h', '+150').hex()} />
+          <ColorCard colorHex={chroma(colorHex).set('hsl.h', '+210').hex()} />
+        </Box>
+      </Box>
+      <Box>
+        <Typography level="h4">Analogous</Typography>
+        <Box sx={{ display: 'flex' }}>
+          <ColorCard colorHex={chroma(colorHex).set('hsl.h', '-30').hex()} />
+          <ColorCard colorHex={chroma(colorHex).set('hsl.h', '+30').hex()} />
+        </Box>
+      </Box>
+      <Box>
+        <Typography level="h4">Triadic</Typography>
+        <Box sx={{ display: 'flex' }}>
+          <ColorCard colorHex={chroma(colorHex).set('hsl.h', '+120').hex()} />
+          <ColorCard colorHex={chroma(colorHex).set('hsl.h', '-120').hex()} />
+        </Box>
+      </Box>
+      <Box>
+        <Typography level="h4">Tetradic Rectangular</Typography>
+        <Box sx={{ display: 'flex' }}>
+          <ColorCard colorHex={chroma(colorHex).set('hsl.h', '+60').hex()} />
+          <ColorCard colorHex={chroma(colorHex).set('hsl.h', '+180').hex()} />
+          <ColorCard colorHex={chroma(colorHex).set('hsl.h', '-120').hex()} />
+        </Box>
+      </Box>
+      <Box>
+        <Typography level="h4">Tetradic Square</Typography>
+        <Box sx={{ display: 'flex' }}>
+          <ColorCard colorHex={chroma(colorHex).set('hsl.h', '+90').hex()} />
+          <ColorCard colorHex={chroma(colorHex).set('hsl.h', '+180').hex()} />
+          <ColorCard colorHex={chroma(colorHex).set('hsl.h', '-90').hex()} />
+        </Box>
+      </Box>
+    </Page>
   );
 };
 

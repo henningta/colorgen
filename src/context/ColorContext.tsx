@@ -2,7 +2,7 @@ import chroma from 'chroma-js';
 import React, {
   createContext,
   useContext,
-  useEffect,
+  useLayoutEffect,
   useMemo,
   useState,
 } from 'react';
@@ -44,7 +44,7 @@ export const ColorContextProvider: React.FC<ColorContextProviderProps> = ({
   const [color, setColor] = useState(defaultContext.color);
   const [colorHex, setColorHex] = useState(defaultContext.colorHex);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Get hex from NTC lookup table or chroma conversion, if valid
     const ntcLookup = ntc.lookup(color);
     const hex = ntcLookup
@@ -57,8 +57,6 @@ export const ColorContextProvider: React.FC<ColorContextProviderProps> = ({
       setColorHex(hex);
     }
   }, [color]);
-
-  console.log(colorHex);
 
   const contrastText = colorHex ? getContrastColor(colorHex) : 'common.black';
 

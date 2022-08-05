@@ -8,7 +8,7 @@ import {
   useColorScheme,
 } from '@mui/joy';
 import Card from '@mui/joy/Card';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { useColorContext } from '../context';
 import { useWindowSize } from '../utils';
@@ -20,15 +20,7 @@ const ColorPicker: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement>();
 
   const toggleMenu: React.MouseEventHandler<HTMLAnchorElement> = (e) =>
-    setAnchorEl((prev) => {
-      console.log(anchorEl);
-      console.log(prev);
-      return prev ? undefined : e.currentTarget;
-    });
-
-  useEffect(() => {
-    console.log(anchorEl);
-  }, [anchorEl]);
+    setAnchorEl((prev) => (prev ? undefined : e.currentTarget));
 
   const [screenWidth] = useWindowSize();
 
