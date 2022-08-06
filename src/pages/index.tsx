@@ -6,11 +6,12 @@ import { useAppContext, useColorContext } from '../context';
 
 const HomePage: React.FC = () => {
   const { colorHex } = useColorContext();
-  const { setBannerPosition } = useAppContext();
+  const { setBannerPosition, setNav } = useAppContext();
 
   useEffect(() => {
     setBannerPosition('top');
-  }, [setBannerPosition]);
+    setNav(['palette']);
+  }, [setBannerPosition, setNav]);
 
   return (
     <Page title="Color Harmonies (wip)">

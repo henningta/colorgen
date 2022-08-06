@@ -51,6 +51,16 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
           },
         },
       },
+      JoyContainer: {
+        styleOverrides: {
+          root: {
+            '@media (min-width: 600px)': {
+              paddingLeft: '32px',
+              paddingRight: '32px',
+            },
+          },
+        },
+      },
       JoyTab: {
         styleOverrides: {
           root: {

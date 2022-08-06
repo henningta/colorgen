@@ -23,6 +23,7 @@ module.exports = {
     'react/prop-types': 'off',
 
     // review
+    '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-unsafe-assignment': 'off',
     '@typescript-eslint/no-unsafe-return': 'off',
   },

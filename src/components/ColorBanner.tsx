@@ -5,19 +5,19 @@ import { useAppContext, useColorContext } from '../context';
 
 const ColorBanner: React.FC = () => {
   const { colorHex, colorName, contrastText } = useColorContext();
-  const { bannerPosition } = useAppContext();
+  const { bannerPosition, isMobile, nav } = useAppContext();
 
   const styles =
-    bannerPosition === 'top'
+    bannerPosition === 'left'
       ? {
-          width: '100%',
-          height: 600,
-        }
-      : {
           position: 'fixed',
           top: 0,
           width: 400,
           height: '100vh',
+        }
+      : {
+          width: '100%',
+          height: isMobile ? '300px' : '600px',
         };
 
   return (
@@ -46,7 +46,7 @@ const ColorBanner: React.FC = () => {
         <Typography sx={{ color: contrastText }} level="h1">
           {colorName}
         </Typography>
-        {bannerPosition === 'top' && (
+        {bannerPosition === 'top' && nav.includes('palette') && (
           <Button
             sx={{ color: contrastText, position: 'absolute', bottom: 24 }}
             variant="outlined"

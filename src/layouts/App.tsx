@@ -20,8 +20,7 @@ import {
   useAppContext,
   useColorContext,
 } from '../context';
-import { useMounted, useWindowSize } from '../utils';
-import Card from '@mui/joy/Card';
+import { useMounted } from '../utils';
 
 type AppProps = {
   children: React.ReactNode;
@@ -31,9 +30,8 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
   const { mode, setMode } = useColorScheme();
   const { color, setColor } = useColorContext();
 
-  const { bannerPosition } = useAppContext();
+  const { bannerPosition, isMobile } = useAppContext();
   const mounted = useMounted();
-  const [screenWidth] = useWindowSize();
 
   useEffect(() => {
     if (!mounted) {
@@ -52,14 +50,13 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
     }
   }, [mode, mounted]);
 
-  const position =
-    screenWidth && screenWidth >= 900
-      ? {
-          top: 48,
-        }
-      : {
-          bottom: 16,
-        };
+  const position = isMobile
+    ? {
+        bottom: 16,
+      }
+    : {
+        top: 48,
+      };
 
   return (
     <>
@@ -107,7 +104,7 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
       <Box
         sx={{
           position: 'relative',
-          ml: bannerPosition === 'top' ? 0 : '400px',
+          ml: bannerPosition === 'left' ? '400px' : 0,
           transition: '0.3s all ease-in-out',
         }}
       >

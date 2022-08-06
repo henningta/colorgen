@@ -37,7 +37,7 @@ const ValueAdjust: React.FC<ValueAdjustProps> = ({
   };
 
   return (
-    <Box {...props} sx={[{ minWidth: 200 }, ...passSx(sx)]}>
+    <Box {...props} sx={[{ minWidth: 160 }, ...passSx(sx)]}>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Typography>{title}</Typography>
         <TextField

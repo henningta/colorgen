@@ -37,7 +37,7 @@ const PaletteShades: React.FC<PaletteShadesProps> = ({
   const size = 80;
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', overflowX: 'auto', p: 2 }}>
       {paletteTints.map((x) => (
         <ColorCard
           key={x.id}
@@ -68,7 +68,7 @@ const PaletteShades: React.FC<PaletteShadesProps> = ({
 
 const Palette: React.FC = () => {
   const { colorHex, setColor } = useColorContext();
-  const { setBannerPosition } = useAppContext();
+  const { setBannerPosition, setNav } = useAppContext();
 
   const [interpolationMode, setInterpolationMode] =
     useState<InterpolationMode>('rgb');
@@ -100,7 +100,8 @@ const Palette: React.FC = () => {
 
   useEffect(() => {
     setBannerPosition('left');
-  }, [setBannerPosition]);
+    setNav([]);
+  }, [setBannerPosition, setNav]);
 
   useEffect(() => {
     chroma.valid(whitePointInput) && setWhitePoint(whitePointInput);
@@ -111,7 +112,7 @@ const Palette: React.FC = () => {
   }, [blackPointInput]);
 
   return (
-    <Page sx={{ pt: 12 }}>
+    <Page sx={{ py: 16 }}>
       <PaletteShades
         colorHex={colorHex}
         tints={tints}
@@ -123,8 +124,10 @@ const Palette: React.FC = () => {
       <Card sx={{ mt: 12 }}>
         <Typography level="h4">Palette Mode</Typography>
         <Select
+          variant="soft"
           value={interpolationMode}
           onChange={(value) => setInterpolationMode(value as InterpolationMode)}
+          sx={{ mt: 2 }}
         >
           <Option value="rgb">RGB</Option>
           <Option value="hsl">HSL</Option>
@@ -136,8 +139,8 @@ const Palette: React.FC = () => {
           <Option value="lrgb">LRGB</Option>
         </Select>
       </Card>
-      <Box sx={{ my: 4, display: 'flex' }}>
-        <Card sx={{ flex: 1 }}>
+      <Box sx={{ mx: -2, mt: 2, display: 'flex', flexWrap: 'wrap' }}>
+        <Card sx={{ m: 2, flex: 1, minWidth: 300 }}>
           <Box>
             <Typography level="h4">Tints</Typography>
             <ColorPicker
@@ -155,7 +158,7 @@ const Palette: React.FC = () => {
             />
           </Box>
         </Card>
-        <Card sx={{ flex: 1, ml: 4 }}>
+        <Card sx={{ m: 2, flex: 1, minWidth: 300 }}>
           <Box>
             <Typography level="h4">Shades</Typography>
             <ColorPicker
@@ -174,36 +177,35 @@ const Palette: React.FC = () => {
           </Box>
         </Card>
       </Box>
-      <Card sx={{ display: 'flex' }}>
+      <Card sx={{ display: 'flex', mt: 2 }}>
         <Typography level="h4">RGB</Typography>
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', m: -2 }}>
           <ValueAdjust
             title="Red"
             value={rgbRed}
             onChange={(value) => setChannelValue('rgb.r', value)}
             max={255}
-            sx={{ flex: 1 }}
+            sx={{ flex: 1, m: 2 }}
           />
-
           <ValueAdjust
             title="Green"
             value={rgbGreen}
             onChange={(value) => setChannelValue('rgb.g', value)}
             max={255}
-            sx={{ flex: 1, ml: 4 }}
+            sx={{ flex: 1, m: 2 }}
           />
           <ValueAdjust
             title="Blue"
             value={rgbBlue}
             onChange={(value) => setChannelValue('rgb.b', value)}
             max={255}
-            sx={{ flex: 1, ml: 4 }}
+            sx={{ flex: 1, m: 2 }}
           />
         </Box>
       </Card>
       <Card sx={{ display: 'flex', mt: 4 }}>
         <Typography level="h4">HSL</Typography>
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', m: -2 }}>
           <ValueAdjust
             title="Hue"
             value={isNaN(hslHue) ? 0 : hslHue}
@@ -211,7 +213,7 @@ const Palette: React.FC = () => {
             onChange={(value) => setChannelValue('hsl.h', value)}
             step={1}
             max={359}
-            sx={{ flex: 1 }}
+            sx={{ flex: 1, m: 2 }}
             disabled={isNaN(hslHue)}
           />
           <ValueAdjust
@@ -220,7 +222,7 @@ const Palette: React.FC = () => {
             onChange={(value) => setChannelValue('hsl.s', value)}
             max={1}
             step={0.01}
-            sx={{ flex: 1, ml: 4 }}
+            sx={{ flex: 1, m: 2 }}
             disabled={hslSaturation === 0}
           />
           <ValueAdjust
@@ -229,13 +231,13 @@ const Palette: React.FC = () => {
             onChange={(value) => setChannelValue('hsl.l', value)}
             max={1}
             step={0.01}
-            sx={{ flex: 1, ml: 4 }}
+            sx={{ flex: 1, m: 2 }}
           />
         </Box>
       </Card>
       <Card sx={{ display: 'flex', mt: 4 }}>
         <Typography level="h4">HSV</Typography>
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', m: -2 }}>
           <ValueAdjust
             title="Hue"
             value={isNaN(hsvHue) ? 0 : hsvHue}
@@ -243,7 +245,7 @@ const Palette: React.FC = () => {
             onChange={(value) => setChannelValue('hsv.h', value)}
             step={1}
             max={359}
-            sx={{ flex: 1 }}
+            sx={{ flex: 1, m: 2 }}
             disabled={isNaN(hsvHue)}
           />
           <ValueAdjust
@@ -252,7 +254,7 @@ const Palette: React.FC = () => {
             onChange={(value) => setChannelValue('hsv.s', value)}
             max={1}
             step={0.01}
-            sx={{ flex: 1, ml: 4 }}
+            sx={{ flex: 1, m: 2 }}
             disabled={hsvSaturation === 0}
           />
           <ValueAdjust
@@ -261,7 +263,7 @@ const Palette: React.FC = () => {
             onChange={(value) => setChannelValue('hsv.v', value)}
             max={1}
             step={0.01}
-            sx={{ flex: 1, ml: 4 }}
+            sx={{ flex: 1, m: 2 }}
           />
         </Box>
       </Card>
