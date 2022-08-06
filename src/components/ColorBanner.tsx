@@ -48,7 +48,12 @@ const ColorBanner: React.FC = () => {
         </Typography>
         {bannerPosition === 'top' && nav.includes('palette') && (
           <Button
-            sx={{ color: contrastText, position: 'absolute', bottom: 24 }}
+            sx={{
+              color: contrastText,
+              borderColor: contrastText,
+              position: 'absolute',
+              bottom: 24,
+            }}
             variant="outlined"
             color="neutral"
             onClick={() => void navigate('/palette')}
