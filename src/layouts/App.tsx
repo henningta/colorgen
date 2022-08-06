@@ -1,16 +1,39 @@
 import React, { useEffect } from 'react';
-import { AppThemeProvider, ColorPicker, Seo } from '../components';
-import { Container, Sheet, Switch, Typography } from '@mui/joy';
-import { ColorContextProvider, useColorContext } from '../context';
-import { useClientColorScheme } from '../utils';
+import {
+  AppThemeProvider,
+  ClientOnly,
+  ColorBanner,
+  ColorPicker,
+  Seo,
+} from '../components';
+import {
+  Box,
+  Container,
+  Sheet,
+  Switch,
+  Typography,
+  useColorScheme,
+} from '@mui/joy';
+import {
+  AppContextProvider,
+  ColorContextProvider,
+  useAppContext,
+  useColorContext,
+} from '../context';
+import { useMounted, useWindowSize } from '../utils';
+import Card from '@mui/joy/Card';
 
 type AppProps = {
   children: React.ReactNode;
 };
 
 const AppContent: React.FC<AppProps> = ({ children }) => {
-  const { mode, setMode, mounted } = useClientColorScheme();
-  const { colorHex, colorName, contrastText } = useColorContext();
+  const { mode, setMode } = useColorScheme();
+  const { color, setColor } = useColorContext();
+
+  const { bannerPosition } = useAppContext();
+  const mounted = useMounted();
+  const [screenWidth] = useWindowSize();
 
   useEffect(() => {
     if (!mounted) {
@@ -29,23 +52,39 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
     }
   }, [mode, mounted]);
 
-  const headerBg = !mounted
-    ? undefined
-    : mode === 'dark'
-    ? 'common.black'
-    : 'common.white';
+  const position =
+    screenWidth && screenWidth >= 900
+      ? {
+          top: 48,
+        }
+      : {
+          bottom: 16,
+        };
 
   return (
     <>
       <Seo />
-      <ColorPicker />
-      <Sheet
-        sx={{
-          py: 2,
-          backgroundColor: headerBg,
-        }}
-      >
+      <ClientOnly>
         <Container
+          sx={{
+            ...position,
+            position: 'fixed',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 32,
+          }}
+          maxWidth="sm"
+        >
+          <ColorPicker
+            value={color}
+            onChange={setColor}
+            sx={{ width: '100%', height: 56, pr: 2, boxShadow: 'md' }}
+          />
+        </Container>
+      </ClientOnly>
+      <Sheet sx={{ py: 2, zIndex: 24 }}>
+        <Container
+          maxWidth={false}
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -53,7 +92,7 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
           }}
         >
           <Typography level="h3">colorgen.io</Typography>
-          {mounted && (
+          <ClientOnly>
             <Switch
               componentsProps={{ input: { 'aria-label': 'dark mode' } }}
               startDecorator="Light"
@@ -61,37 +100,30 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
               checked={mode === 'dark'}
               onChange={(e) => setMode(e.target.checked ? 'dark' : 'light')}
             />
-          )}
+          </ClientOnly>
         </Container>
       </Sheet>
-      <Sheet
+      <ColorBanner />
+      <Box
         sx={{
-          width: '100%',
-          height: 600,
-          backgroundColor: colorHex,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
+          position: 'relative',
+          ml: bannerPosition === 'top' ? 0 : '400px',
+          transition: '0.3s all ease-in-out',
         }}
       >
-        <Typography sx={{ color: contrastText, opacity: 0.75 }} level="h5">
-          {colorHex}
-        </Typography>
-        <Typography sx={{ color: contrastText }} level="h1">
-          {colorName}
-        </Typography>
-      </Sheet>
-      {children}
+        {children}
+      </Box>
     </>
   );
 };
 
 const App: React.FC<AppProps> = ({ children }) => (
   <AppThemeProvider>
-    <ColorContextProvider>
-      <AppContent>{children}</AppContent>
-    </ColorContextProvider>
+    <AppContextProvider>
+      <ColorContextProvider>
+        <AppContent>{children}</AppContent>
+      </ColorContextProvider>
+    </AppContextProvider>
   </AppThemeProvider>
 );
 

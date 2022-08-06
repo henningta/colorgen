@@ -1,97 +1,96 @@
-import { Box, Button, Container, Menu, MenuItem, TextField } from '@mui/joy';
-import Card from '@mui/joy/Card';
+import {
+  Box,
+  Button,
+  Menu,
+  MenuItem,
+  Sheet,
+  TextField,
+  useColorScheme,
+} from '@mui/joy';
+import Card, { CardProps } from '@mui/joy/Card';
 import React, { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
-import { useColorContext } from '../context';
-import { useClientColorScheme, useWindowSize } from '../utils';
+import { getColorHex, passSx } from '../utils';
 
-const ColorPicker: React.FC = () => {
-  const { mode, mounted } = useClientColorScheme();
-  const { color, colorHex, setColor } = useColorContext();
+export type ColorPickerProps = Omit<CardProps, 'onChange'> & {
+  value: string;
+  onChange: (color: string) => void;
+};
+
+const ColorPicker: React.FC<ColorPickerProps> = ({
+  value,
+  onChange,
+  sx,
+  ...props
+}) => {
+  const { mode } = useColorScheme();
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement>();
+
+  const colorHex = getColorHex(value);
 
   const toggleMenu: React.MouseEventHandler<HTMLAnchorElement> = (e) =>
     setAnchorEl((prev) => (prev ? undefined : e.currentTarget));
 
-  const [screenWidth] = useWindowSize();
-
-  const position =
-    !screenWidth || screenWidth >= 900
-      ? {
-          top: 48,
-        }
-      : {
-          bottom: 16,
-        };
-
   return (
     <>
-      <Container
-        sx={{
-          ...position,
-          position: 'fixed',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: 32,
-        }}
-        maxWidth="sm"
-      >
-        <Card
-          sx={{
+      <Card
+        variant="plain"
+        sx={[
+          {
             p: 0,
-            height: 56,
+            height: 40,
             width: '100%',
             flexDirection: 'row',
-            boxShadow: 'md',
+            alignItems: 'center',
+            boxShadow: 'none',
+          },
+          ...passSx(sx),
+        ]}
+        {...props}
+      >
+        <Button
+          id="color-picker-button"
+          variant="plain"
+          color="neutral"
+          sx={{
+            height: '100%',
+            minWidth: 80,
+            borderTopRightRadius: 0,
+            borderBottomRightRadius: 0,
           }}
+          onClick={toggleMenu}
         >
-          <Button
-            id="color-picker-button"
-            variant="plain"
-            color="neutral"
+          Select
+        </Button>
+        <Box
+          sx={{
+            width: '2px',
+            height: '100%',
+            backgroundColor: mode === 'dark' ? '#333' : '#ccc',
+          }}
+        />
+        <Box
+          sx={{ pl: 2, display: 'flex', alignItems: 'center', width: '100%' }}
+        >
+          <Sheet
+            variant="outlined"
             sx={{
-              mt: 'auto',
-              height: '100%',
-              minWidth: 80,
-              borderTopRightRadius: 0,
-              borderBottomRightRadius: 0,
-            }}
-            onClick={toggleMenu}
-          >
-            Hex
-          </Button>
-          <Box
-            sx={{
-              width: '2px',
-              height: '100%',
-              backgroundColor: mounted
-                ? mode === 'dark'
-                  ? '#333'
-                  : '#ccc'
-                : undefined,
+              width: 28,
+              height: 28,
+              backgroundColor: colorHex,
+              borderRadius: '50%',
+              // borderColor: 'black',
             }}
           />
-          <Box
-            sx={{ px: 2, display: 'flex', alignItems: 'center', width: '100%' }}
-          >
-            <Box
-              sx={{
-                width: 28,
-                height: 28,
-                backgroundColor: colorHex,
-                borderRadius: '50%',
-              }}
-            />
-            <TextField
-              variant="soft"
-              value={color}
-              onChange={(e) => setColor(e.currentTarget.value)}
-              sx={{ ml: 2, width: 0, flex: 1 }}
-            />
-          </Box>
-        </Card>
-      </Container>
+          <TextField
+            variant="soft"
+            value={value}
+            onChange={(e) => onChange(e.currentTarget.value)}
+            sx={{ ml: 2, width: 0, flex: 1 }}
+          />
+        </Box>
+      </Card>
       <Menu
         id="color-picker-menu"
         anchorEl={anchorEl}
@@ -99,11 +98,11 @@ const ColorPicker: React.FC = () => {
         onClose={() => setAnchorEl(undefined)}
         aria-labelledby="color-picker-button"
       >
-        <MenuItem>
+        <MenuItem sx={{ '&:hover': { backgroundColor: 'inherit' } }}>
           <HexColorPicker
             style={{ width: 200 }}
             color={colorHex}
-            onChange={setColor}
+            onChange={onChange}
           />
         </MenuItem>
       </Menu>

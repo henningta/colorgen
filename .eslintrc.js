@@ -21,6 +21,10 @@ module.exports = {
   rules: {
     'react-hooks/exhaustive-deps': 'warn',
     'react/prop-types': 'off',
+
+    // review
+    '@typescript-eslint/no-unsafe-assignment': 'off',
+    '@typescript-eslint/no-unsafe-return': 'off',
   },
   env: {
     browser: true,

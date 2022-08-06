@@ -1,4 +1,3 @@
-import chroma from 'chroma-js';
 import React, {
   createContext,
   useContext,
@@ -6,7 +5,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { getContrastColor, ntc } from '../utils';
+import { getColorHex, getContrastColor, ntc } from '../utils';
 
 export type ColorContextType = {
   color: string;
@@ -45,13 +44,7 @@ export const ColorContextProvider: React.FC<ColorContextProviderProps> = ({
   const [colorHex, setColorHex] = useState(defaultContext.colorHex);
 
   useLayoutEffect(() => {
-    // Get hex from NTC lookup table or chroma conversion, if valid
-    const ntcLookup = ntc.lookup(color);
-    const hex = ntcLookup
-      ? `#${ntcLookup}`
-      : chroma.valid(color)
-      ? chroma(color).hex()
-      : undefined;
+    const hex = getColorHex(color);
 
     if (hex) {
       setColorHex(hex);
@@ -60,7 +53,9 @@ export const ColorContextProvider: React.FC<ColorContextProviderProps> = ({
 
   const contrastText = colorHex ? getContrastColor(colorHex) : 'common.black';
 
-  const colorName = colorHex ? ntc.name(colorHex)[1] : 'Invalid Color';
+  const colorName = colorHex
+    ? (ntc.name(colorHex)[1] as string)
+    : 'Invalid Color';
 
   const value = useMemo(
     () => ({

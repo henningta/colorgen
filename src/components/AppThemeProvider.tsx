@@ -6,16 +6,16 @@ export type AppThemeProviderProps = {
 };
 
 const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
-  const shadowChannel = '40 40 40';
+  // const shadowChannel = '40 40 40';
 
   const theme = extendTheme({
     colorSchemes: {
-      dark: {
-        shadowChannel,
-      },
-      light: {
-        shadowChannel,
-      },
+      // dark: {
+      //   shadowChannel,
+      // },
+      // light: {
+      //   shadowChannel,
+      // },
     },
     fontFamily: {
       body: '"Noto Sans", var(--joy-fontFamily-fallback)',

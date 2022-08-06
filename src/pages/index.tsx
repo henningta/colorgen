@@ -1,11 +1,16 @@
 import { Box, Typography } from '@mui/joy';
 import chroma from 'chroma-js';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ColorCard, Page } from '../components';
-import { useColorContext } from '../context';
+import { useAppContext, useColorContext } from '../context';
 
 const HomePage: React.FC = () => {
   const { colorHex } = useColorContext();
+  const { setBannerPosition } = useAppContext();
+
+  useEffect(() => {
+    setBannerPosition('top');
+  }, [setBannerPosition]);
 
   return (
     <Page title="Color Harmonies (wip)">
