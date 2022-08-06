@@ -28,10 +28,10 @@ const ColorCard: React.FC<ColorCardProps> = ({
       sx={[
         {
           backgroundColor: colorHex,
-          width: width || 160,
-          height: height || 160,
-          minWidth: width || 160,
-          minHeight: height || 160,
+          width: width || 80,
+          height: height || 80,
+          minWidth: width || 80,
+          minHeight: height || 80,
         },
         ...passSx(sx),
       ]}
