@@ -13,6 +13,9 @@ export * from './ColorCard';
 export { default as ColorPicker } from './ColorPicker';
 export * from './ColorPicker';
 
+export { default as Fonts } from './Fonts';
+export * from './Fonts';
+
 export { default as Page } from './Page';
 export * from './Page';
 

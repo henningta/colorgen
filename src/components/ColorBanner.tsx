@@ -17,7 +17,7 @@ const ColorBanner: React.FC = () => {
         }
       : {
           width: '100%',
-          height: isMobile ? '300px' : '600px',
+          height: isMobile ? '360px' : '600px',
         };
 
   return (
@@ -27,6 +27,7 @@ const ColorBanner: React.FC = () => {
         zIndex: 12,
         backgroundColor: colorHex,
         transition: '0.3s all ease-in-out',
+        p: 3,
       }}
     >
       <Box
@@ -40,19 +41,32 @@ const ColorBanner: React.FC = () => {
           alignItems: 'center',
         }}
       >
-        <Typography sx={{ color: contrastText, opacity: 0.75 }} level="h5">
-          {colorHex}
-        </Typography>
-        <Typography sx={{ color: contrastText }} level="h1">
-          {colorName}
-        </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            flex: 1,
+          }}
+        >
+          <Typography
+            sx={{ textAlign: 'center', color: contrastText, opacity: 0.75 }}
+            level="h5"
+          >
+            {colorHex}
+          </Typography>
+          <Typography
+            sx={{ textAlign: 'center', color: contrastText }}
+            level="h1"
+          >
+            {colorName}
+          </Typography>
+        </Box>
         {bannerPosition === 'top' && nav.includes('palette') && (
           <Button
             sx={{
               color: contrastText,
               borderColor: contrastText,
-              position: 'absolute',
-              bottom: 24,
             }}
             variant="outlined"
             color="neutral"

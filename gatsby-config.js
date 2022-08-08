@@ -32,7 +32,7 @@ module.exports = {
         pages: path.join(__dirname, 'src/pages'),
       },
     },
-    'gatsby-plugin-react-helmet',
+    'gatsby-plugin-react-helmet-async',
     'gatsby-plugin-sitemap',
     // {
     //   resolve: 'gatsby-plugin-manifest',

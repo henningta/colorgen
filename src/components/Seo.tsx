@@ -1,5 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { useLocation } from '@reach/router';
 import { useStaticQuery, graphql } from 'gatsby';
 
@@ -71,27 +71,8 @@ const Seo: React.FC<SeoProps> = ({ title, description, image }) => {
     url: `${siteUrl}${pathname}`,
   };
 
-  const fontsUrl =
-    'https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&family=Noto+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap';
-
   return (
-    <Helmet title={seo.title} titleTemplate={titleTemplate}>
-      {/* Fonts */}
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossOrigin="anonymous"
-      />
-      <link rel="preload" as="style" href={fontsUrl} />
-      <link
-        rel="stylesheet"
-        href={fontsUrl}
-        media="print"
-        // @ts-ignore
-        onLoad="this.media='all'"
-      />
-
+    <Helmet title={seo.title} titleTemplate={titleTemplate} prioritizeSeoTags>
       {/* Global defaults */}
       <link rel="canonical" href={seo.url} />
       <meta name="theme-color" content="#000" />

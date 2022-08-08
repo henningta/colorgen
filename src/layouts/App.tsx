@@ -4,6 +4,7 @@ import {
   ClientOnly,
   ColorBanner,
   ColorPicker,
+  Fonts,
   Seo,
 } from '../components';
 import {
@@ -21,6 +22,8 @@ import {
   useColorContext,
 } from '../context';
 import { useMounted } from '../utils';
+import { Link } from 'gatsby';
+import { HelmetProvider } from 'react-helmet-async';
 
 type AppProps = {
   children: React.ReactNode;
@@ -60,6 +63,7 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
 
   return (
     <>
+      <Fonts />
       <Seo />
       <ClientOnly>
         <Container
@@ -88,7 +92,9 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
             alignItems: 'center',
           }}
         >
-          <Typography level="h3">colorgen.io</Typography>
+          <Link to="/" style={{ textDecoration: 'none' }}>
+            <Typography level="h3">colorgen.io</Typography>
+          </Link>
           <ClientOnly>
             <Switch
               componentsProps={{ input: { 'aria-label': 'dark mode' } }}
@@ -115,13 +121,15 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
 };
 
 const App: React.FC<AppProps> = ({ children }) => (
-  <AppThemeProvider>
-    <AppContextProvider>
-      <ColorContextProvider>
-        <AppContent>{children}</AppContent>
-      </ColorContextProvider>
-    </AppContextProvider>
-  </AppThemeProvider>
+  <HelmetProvider>
+    <AppThemeProvider>
+      <AppContextProvider>
+        <ColorContextProvider>
+          <AppContent>{children}</AppContent>
+        </ColorContextProvider>
+      </AppContextProvider>
+    </AppThemeProvider>
+  </HelmetProvider>
 );
 
 export default App;
