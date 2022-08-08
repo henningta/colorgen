@@ -5,6 +5,7 @@ import {
   ColorBanner,
   ColorPicker,
   Fonts,
+  Icon,
   Seo,
 } from '../components';
 import {
@@ -97,11 +98,23 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
           </Link>
           <ClientOnly>
             <Switch
-              componentsProps={{ input: { 'aria-label': 'dark mode' } }}
-              startDecorator="Light"
-              endDecorator="Dark"
+              variant="soft"
+              componentsProps={{
+                input: { 'aria-label': 'dark mode' },
+                thumb: {
+                  children:
+                    mode === 'dark' ? (
+                      <Icon style={{ fontSize: 18 }}>brightness_4</Icon>
+                    ) : (
+                      <Icon style={{ fontSize: 18 }}>brightness_7</Icon>
+                    ),
+                },
+              }}
               checked={mode === 'dark'}
               onChange={(e) => setMode(e.target.checked ? 'dark' : 'light')}
+              sx={{
+                '--Switch-thumb-size': '24px',
+              }}
             />
           </ClientOnly>
         </Container>
