@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   AppThemeProvider,
   ClientOnly,
@@ -22,7 +22,6 @@ import {
   useAppContext,
   useColorContext,
 } from '../context';
-import { useMounted } from '../utils';
 import { Link } from 'gatsby';
 import { HelmetProvider } from 'react-helmet-async';
 
@@ -35,13 +34,8 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
   const { color, setColor } = useColorContext();
 
   const { bannerPosition, isMobile } = useAppContext();
-  const mounted = useMounted();
 
   useEffect(() => {
-    if (!mounted) {
-      return;
-    }
-
     const rootCss = document.querySelector(':root') as HTMLElement;
     if (!rootCss) {
       return;
@@ -52,7 +46,7 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
     } else {
       rootCss.style.setProperty('--bg-color', 'var(--bg-color--light)');
     }
-  }, [mode, mounted]);
+  }, [mode]);
 
   const position = isMobile
     ? {
