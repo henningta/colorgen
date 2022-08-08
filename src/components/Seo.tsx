@@ -71,6 +71,9 @@ const Seo: React.FC<SeoProps> = ({ title, description, image }) => {
     url: `${siteUrl}${pathname}`,
   };
 
+  const fontsUrl =
+    'https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&family=Noto+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap';
+
   return (
     <Helmet title={seo.title} titleTemplate={titleTemplate}>
       {/* Fonts */}
@@ -80,9 +83,13 @@ const Seo: React.FC<SeoProps> = ({ title, description, image }) => {
         href="https://fonts.gstatic.com"
         crossOrigin="anonymous"
       />
+      <link rel="preload" as="style" href={fontsUrl} />
       <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&family=Noto+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap"
         rel="stylesheet"
+        href={fontsUrl}
+        media="print"
+        // @ts-ignore
+        onLoad="this.media='all'"
       />
 
       {/* Global defaults */}

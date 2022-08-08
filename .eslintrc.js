@@ -22,6 +22,9 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
     'react/prop-types': 'off',
 
+    // with great power comes great responsibility
+    '@typescript-eslint/ban-ts-comment': 'off',
+
     // review
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-unsafe-assignment': 'off',
