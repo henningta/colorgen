@@ -1,3 +1,4 @@
+import chroma from 'chroma-js';
 import React, {
   createContext,
   useContext,
@@ -5,7 +6,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { getColorHex, getContrastColor, ntc } from '../utils';
+import { getColorHex, getColorName, getContrastColor } from '../utils';
 
 export type ColorContextType = {
   color: string;
@@ -40,8 +41,10 @@ type ColorContextProviderProps = {
 export const ColorContextProvider: React.FC<ColorContextProviderProps> = ({
   children,
 }) => {
-  const [color, setColor] = useState(defaultContext.color);
-  const [colorHex, setColorHex] = useState(defaultContext.colorHex);
+  const randomHex = chroma.random().hex();
+
+  const [color, setColor] = useState(getColorName(randomHex));
+  const [colorHex, setColorHex] = useState(randomHex);
 
   useLayoutEffect(() => {
     const hex = getColorHex(color);
@@ -53,9 +56,7 @@ export const ColorContextProvider: React.FC<ColorContextProviderProps> = ({
 
   const contrastText = colorHex ? getContrastColor(colorHex) : 'common.black';
 
-  const colorName = colorHex
-    ? (ntc.name(colorHex)[1] as string)
-    : 'Invalid Color';
+  const colorName = getColorName(colorHex);
 
   const value = useMemo(
     () => ({

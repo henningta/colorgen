@@ -56,7 +56,11 @@ const ColorBanner: React.FC = () => {
             {colorHex}
           </Typography>
           <Typography
-            sx={{ textAlign: 'center', color: contrastText }}
+            sx={{
+              textAlign: 'center',
+              color: contrastText,
+              textTransform: 'capitalize',
+            }}
             level="h1"
           >
             {colorName}

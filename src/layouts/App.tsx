@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   AppThemeProvider,
   ClientOnly,
@@ -32,7 +32,6 @@ type AppProps = {
 const AppContent: React.FC<AppProps> = ({ children }) => {
   const { mode, setMode } = useColorScheme();
   const { color, setColor } = useColorContext();
-
   const { bannerPosition, isMobile } = useAppContext();
 
   useEffect(() => {

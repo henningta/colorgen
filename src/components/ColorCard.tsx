@@ -1,7 +1,7 @@
 import { Typography } from '@mui/joy';
 import Card, { CardProps } from '@mui/joy/Card';
 import React from 'react';
-import { getContrastColor, ntc } from '../utils';
+import { getColorName, getContrastColor } from '../utils';
 import { passSx } from '../utils/joy';
 
 export type ColorCardProps = CardProps & {
@@ -19,7 +19,7 @@ const ColorCard: React.FC<ColorCardProps> = ({
   sx,
   ...props
 }) => {
-  const colorName = ntc.name(colorHex)[1];
+  const colorName = getColorName(colorHex);
   const contrastText = getContrastColor(colorHex);
 
   return (
@@ -40,7 +40,9 @@ const ColorCard: React.FC<ColorCardProps> = ({
         <Typography sx={{ color: contrastText }}>{colorHex}</Typography>
       )}
       {displayInfo && colorName && (
-        <Typography sx={{ color: contrastText }}>{colorName}</Typography>
+        <Typography sx={{ color: contrastText, textTransform: 'capitalize' }}>
+          {colorName}
+        </Typography>
       )}
     </Card>
   );

@@ -1,5 +1,7 @@
 import chroma from 'chroma-js';
-import ntc from './ntc';
+import colorNameList from 'color-name-list';
+import nearestColor from 'nearest-color';
+import CaseInsensitiveMap from './CaseInsensitiveMap';
 
 export const getContrastColor = (
   bgColor: string
@@ -17,18 +19,30 @@ export const getContrastColor = (
   return contrastWhite >= contrastBlack ? 'common.white' : 'common.black';
 };
 
+export const colorMap = (() =>
+  colorNameList.reduce(
+    (acc, x) => acc.set(x.name, x.hex),
+    new CaseInsensitiveMap<string, string>()
+  ))();
+
 /**
- * Get hex from NTC lookup table or chroma conversion, if valid
- * @param color string which could be a chroma color or ntc color name
+ * Get hex from color-name-list or chroma conversion, if valid
+ * @param color string which could be a chroma color or color name
  * @returns the hex value for the given color, or undefined
  */
-export const getColorHex = (color: string) => {
-  const ntcLookup = ntc.lookup(color);
-  const hex = ntcLookup
-    ? `#${ntcLookup}`
-    : chroma.valid(color)
-    ? chroma(color).hex()
-    : undefined;
+export const getColorHex = (color: string) =>
+  (chroma.valid(color) ? chroma(color).hex() : colorMap.get(color)) ||
+  undefined;
 
-  return hex;
-};
+export const getColorName = (() => {
+  const colorMapObj = Object.fromEntries(colorMap);
+  const from = nearestColor.from(colorMapObj);
+
+  return (hex: string) => {
+    try {
+      return from(hex).name;
+    } catch (e) {
+      return 'RGBA not yet supported';
+    }
+  };
+})();
