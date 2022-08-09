@@ -1,13 +1,14 @@
-import { Box, Button, Sheet, Typography } from '@mui/joy';
+import { Box, Button, Sheet, Theme, Typography } from '@mui/joy';
+import { SxProps } from '@mui/system';
 import { navigate } from 'gatsby';
 import React from 'react';
 import { useAppContext, useColorContext } from '../context';
 
 const ColorBanner: React.FC = () => {
   const { colorHex, colorName, contrastText } = useColorContext();
-  const { bannerPosition, isMobile, nav } = useAppContext();
+  const { bannerPosition, bannerHidden, isMobile, nav } = useAppContext();
 
-  const styles =
+  const styles: SxProps<Theme> =
     bannerPosition === 'left'
       ? {
           position: 'fixed',
@@ -28,6 +29,7 @@ const ColorBanner: React.FC = () => {
         backgroundColor: colorHex,
         transition: '0.3s all ease-in-out',
         p: 3,
+        display: bannerHidden ? 'none' : undefined,
       }}
     >
       <Box

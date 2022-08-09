@@ -2,17 +2,32 @@
 :root {
   --bg-color--dark: #1c1b22;
   --bg-color--light: #eeeff0;
+}
 
-  --bg-color: var(--bg-color--light);
+html,
+body {
+  height: 100%;
 }
 
 html {
   box-sizing: border-box;
 }
 
+html[data-joy-color-scheme='light'] body {
+  background-color: var(--bg-color--light);
+}
+
+html[data-joy-color-scheme='dark'] body {
+  background-color: var(--bg-color--dark);
+}
+
 body {
-  background-color: var(--bg-color);
   margin: 0;
+}
+
+#___gatsby,
+#gatsby-focus-wrapper {
+  height: 100%;
 }
 
 *,

@@ -38,9 +38,16 @@ export const getColorName = (() => {
   const colorMapObj = Object.fromEntries(colorMap);
   const from = nearestColor.from(colorMapObj);
 
-  return (hex: string) => {
+  return (hex: string, capitalize = true) => {
     try {
-      return from(hex).name;
+      let name = from(hex).name;
+      if (capitalize) {
+        name = name
+          .split(' ')
+          .map((x) => `${x[0].toLocaleUpperCase()}${x.slice(1)}`)
+          .join(' ');
+      }
+      return name;
     } catch (e) {
       return 'RGBA not yet supported';
     }

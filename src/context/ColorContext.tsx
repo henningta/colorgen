@@ -41,10 +41,12 @@ type ColorContextProviderProps = {
 export const ColorContextProvider: React.FC<ColorContextProviderProps> = ({
   children,
 }) => {
-  const randomHex = chroma.random().hex();
+  const initialColor =
+    document.documentElement.getAttribute('initial-color') ||
+    chroma.random().hex();
 
-  const [color, setColor] = useState(getColorName(randomHex));
-  const [colorHex, setColorHex] = useState(randomHex);
+  const [color, setColor] = useState(getColorName(initialColor));
+  const [colorHex, setColorHex] = useState(initialColor);
 
   useLayoutEffect(() => {
     const hex = getColorHex(color);

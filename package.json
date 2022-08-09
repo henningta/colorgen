@@ -1,5 +1,5 @@
 {
-  "name": "colorgen",
+  "name": "colorgen.io",
   "version": "1.0.0",
   "description": "Color visualizer and palette generator tool",
   "main": "index.js",

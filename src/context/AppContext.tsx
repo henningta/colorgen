@@ -4,6 +4,8 @@ import { useWindowSize } from '../utils';
 export type AppContextType = {
   bannerPosition: 'top' | 'left';
   setBannerPosition: (position: 'top' | 'left') => void;
+  bannerHidden: boolean;
+  setBannerHidden: (hidden: boolean) => void;
   isMobile: boolean;
   nav: string[];
   setNav: (nav: string[]) => void;
@@ -12,6 +14,8 @@ export type AppContextType = {
 const defaultContext: AppContextType = {
   bannerPosition: 'top',
   setBannerPosition: () => undefined,
+  bannerHidden: false,
+  setBannerHidden: () => undefined,
   isMobile: false,
   nav: ['palette'],
   setNav: () => undefined,
@@ -39,6 +43,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   const [bannerPosition, setBannerPosition] = useState(
     defaultContext.bannerPosition
   );
+  const [bannerHidden, setBannerHidden] = useState(false);
   const [nav, setNav] = useState(defaultContext.nav);
 
   const isMobile = screenWidth !== undefined && screenWidth < 900;
@@ -49,11 +54,13 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
     () => ({
       bannerPosition: actualBannerPosition,
       setBannerPosition,
+      bannerHidden,
+      setBannerHidden,
       isMobile,
       nav,
       setNav,
     }),
-    [actualBannerPosition, isMobile, nav]
+    [actualBannerPosition, bannerHidden, isMobile, nav]
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

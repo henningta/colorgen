@@ -32,7 +32,7 @@ const ColorHarmony: React.FC<ColorHarmonyProps> = ({
 
 const HomePage: React.FC = () => {
   const { colorHex } = useColorContext();
-  const { setBannerPosition, setNav } = useAppContext();
+  const { setBannerPosition, setNav, isMobile } = useAppContext();
 
   useEffect(() => {
     setBannerPosition('top');
@@ -40,7 +40,7 @@ const HomePage: React.FC = () => {
   }, [setBannerPosition, setNav]);
 
   return (
-    <Page sx={{ pb: 16 }}>
+    <Page sx={{ pb: isMobile ? 8 : 16 }}>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', m: -2 }}>
         <ColorHarmony
           sx={{ flex: 1, m: 2 }}

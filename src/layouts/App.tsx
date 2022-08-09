@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   AppThemeProvider,
   ClientOnly,
   ColorBanner,
   ColorPicker,
   Fonts,
+  Footer,
   Icon,
   Seo,
 } from '../components';
@@ -13,6 +14,7 @@ import {
   Container,
   Sheet,
   Switch,
+  Theme,
   Typography,
   useColorScheme,
 } from '@mui/joy';
@@ -24,6 +26,7 @@ import {
 } from '../context';
 import { Link } from 'gatsby';
 import { HelmetProvider } from 'react-helmet-async';
+import { SxProps } from '@mui/system';
 
 type AppProps = {
   children: React.ReactNode;
@@ -32,22 +35,9 @@ type AppProps = {
 const AppContent: React.FC<AppProps> = ({ children }) => {
   const { mode, setMode } = useColorScheme();
   const { color, setColor } = useColorContext();
-  const { bannerPosition, isMobile } = useAppContext();
+  const { bannerPosition, isMobile, bannerHidden } = useAppContext();
 
-  useEffect(() => {
-    const rootCss = document.querySelector(':root') as HTMLElement;
-    if (!rootCss) {
-      return;
-    }
-
-    if (mode === 'dark') {
-      rootCss.style.setProperty('--bg-color', 'var(--bg-color--dark)');
-    } else {
-      rootCss.style.setProperty('--bg-color', 'var(--bg-color--light)');
-    }
-  }, [mode]);
-
-  const position = isMobile
+  const position: SxProps<Theme> = isMobile
     ? {
         bottom: 16,
       }
@@ -57,73 +47,83 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
 
   return (
     <>
-      <Fonts />
-      <Seo />
-      <ClientOnly>
-        <Container
-          sx={{
-            ...position,
-            position: 'fixed',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            zIndex: 32,
-          }}
-          maxWidth="sm"
-        >
-          <ColorPicker
-            value={color}
-            onChange={setColor}
-            sx={{ width: '100%', height: 56, pr: 2, boxShadow: 'md' }}
-          />
-        </Container>
-      </ClientOnly>
-      <Sheet sx={{ py: 2, zIndex: 24 }}>
-        <Container
-          maxWidth={false}
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <Link to="/" style={{ textDecoration: 'none' }}>
-            <Typography level="h3">colorgen.io</Typography>
-          </Link>
-          <ClientOnly>
-            <Switch
-              componentsProps={{
-                input: { 'aria-label': 'dark mode' },
-                thumb: {
-                  children: (
-                    <Icon sx={{ color: 'common.white' }}>
-                      {mode === 'dark' ? 'brightness_4' : 'brightness_7'}
-                    </Icon>
-                  ),
-                },
-              }}
-              checked={mode === 'dark'}
-              onChange={(e) => setMode(e.target.checked ? 'dark' : 'light')}
-              sx={{
-                '--Switch-thumb-background': 'transparent',
-
-                '&.Joy-checked': {
-                  '--Switch-thumb-background': 'transparent',
-                },
-              }}
+      <Box sx={{ minHeight: '100%', pb: '72px' }}>
+        <Fonts />
+        <Seo />
+        <ClientOnly>
+          <Container
+            sx={{
+              display: bannerHidden ? 'none' : undefined,
+              position: 'fixed',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              zIndex: 32,
+              ...position,
+            }}
+            maxWidth="sm"
+          >
+            <ColorPicker
+              value={color}
+              onChange={setColor}
+              sx={{ width: '100%', height: 56, pr: 2, boxShadow: 'md' }}
             />
-          </ClientOnly>
-        </Container>
-      </Sheet>
-      <ColorBanner />
-      <Box
-        sx={{
-          position: 'relative',
-          ml: bannerPosition === 'left' ? '400px' : 0,
-          transition: '0.3s all ease-in-out',
-        }}
-      >
-        {children}
+          </Container>
+        </ClientOnly>
+        <Sheet sx={{ zIndex: 24 }}>
+          <Container
+            maxWidth={false}
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              height: '64px',
+            }}
+          >
+            <Link to="/" style={{ textDecoration: 'none' }}>
+              <Typography level="h3">colorgen.io</Typography>
+            </Link>
+            <ClientOnly>
+              <Switch
+                componentsProps={{
+                  input: { 'aria-label': 'dark mode' },
+                  thumb: {
+                    children: (
+                      <Icon sx={{ color: 'common.white' }}>
+                        {mode === 'dark' ? 'brightness_4' : 'brightness_7'}
+                      </Icon>
+                    ),
+                  },
+                }}
+                checked={mode === 'dark'}
+                onChange={(e) => setMode(e.target.checked ? 'dark' : 'light')}
+                sx={{
+                  '--Switch-thumb-background': 'transparent',
+
+                  '&.Joy-checked': {
+                    '--Switch-thumb-background': 'transparent',
+                  },
+                }}
+              />
+            </ClientOnly>
+          </Container>
+        </Sheet>
+        <ColorBanner />
+        <Box
+          sx={{
+            position: 'relative',
+            ml: bannerPosition === 'left' ? '400px' : 0,
+            transition: '0.3s all ease-in-out',
+          }}
+        >
+          {children}
+        </Box>
       </Box>
+      <Footer
+        sx={{
+          ml: bannerPosition === 'top' ? 0 : '400px',
+          mb: isMobile && !bannerHidden ? '88px' : 0,
+        }}
+      />
     </>
   );
 };

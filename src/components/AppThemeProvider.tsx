@@ -10,12 +10,12 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
 
   const theme = extendTheme({
     colorSchemes: {
-      // dark: {
-      //   shadowChannel,
-      // },
-      // light: {
-      //   shadowChannel,
-      // },
+      dark: {
+        // shadowChannel,
+      },
+      light: {
+        // shadowChannel,
+      },
     },
     fontFamily: {
       body: '"Noto Sans", var(--joy-fontFamily-fallback)',
@@ -57,6 +57,22 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
             '@media (min-width: 600px)': {
               paddingLeft: '32px',
               paddingRight: '32px',
+            },
+          },
+        },
+      },
+      JoyLink: {
+        defaultProps: {
+          underline: 'none',
+        },
+        styleOverrides: {
+          root: {
+            color: 'var(--joy-palette-primary-solidBg)',
+            borderBottom: '1px dotted var(--joy-palette-primary-solidBg)',
+
+            '&:hover': {
+              color: 'var(--joy-palette-primary-softColor)',
+              borderBottom: '1px dotted var(--joy-palette-primary-softColor)',
             },
           },
         },

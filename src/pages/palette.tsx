@@ -68,7 +68,7 @@ const PaletteShades: React.FC<PaletteShadesProps> = ({
 
 const Palette: React.FC = () => {
   const { colorHex, setColor } = useColorContext();
-  const { setBannerPosition, setNav } = useAppContext();
+  const { setBannerPosition, setNav, isMobile } = useAppContext();
 
   const [interpolationMode, setInterpolationMode] =
     useState<InterpolationMode>('rgb');
@@ -112,7 +112,7 @@ const Palette: React.FC = () => {
   }, [blackPointInput]);
 
   return (
-    <Page sx={{ py: 16 }}>
+    <Page sx={{ py: isMobile ? 8 : 16 }}>
       <PaletteShades
         colorHex={colorHex}
         tints={tints}
