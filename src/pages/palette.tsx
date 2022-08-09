@@ -112,7 +112,11 @@ const Palette: React.FC = () => {
   }, [blackPointInput]);
 
   return (
-    <Page sx={{ py: isMobile ? 8 : 16 }}>
+    <Page
+      title="Palette Generator"
+      description="Generate a variety of tints and shades based on a primary color, a white and black point, and a selected color mode."
+      sx={{ py: isMobile ? 8 : 16 }}
+    >
       <PaletteShades
         colorHex={colorHex}
         tints={tints}

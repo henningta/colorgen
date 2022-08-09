@@ -72,7 +72,11 @@ const Seo: React.FC<SeoProps> = ({ title, description, image }) => {
   };
 
   return (
-    <Helmet title={seo.title} titleTemplate={titleTemplate} prioritizeSeoTags>
+    <Helmet
+      title={seo.title}
+      titleTemplate={title ? titleTemplate : undefined}
+      prioritizeSeoTags
+    >
       {/* Global defaults */}
       <link rel="canonical" href={seo.url} />
       <meta name="theme-color" content="#000" />

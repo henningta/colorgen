@@ -44,7 +44,12 @@ const About: React.FC = () => {
   }, [setBannerHidden]);
 
   return (
-    <Page sx={{ py: 4 }}>
+    <Page
+      title="About"
+      description="Our goal is to provide designers and developers with the options and
+    flexibility needed to create any color palette imaginable."
+      sx={{ py: 4 }}
+    >
       <Box>
         <Typography level={isMobile ? 'h4' : 'h3'}>Why colorgen.io?</Typography>
         <Box sx={{ mt: 4 }}>
