@@ -8,7 +8,7 @@ export type IconProps = BoxProps & {
 };
 
 const Icon: React.FC<IconProps> = ({ children, ...props }) => (
-  <Box component="span" className="material-icons" {...props}>
+  <Box component="span" className="Icon material-icons" {...props}>
     {children}
   </Box>
 );

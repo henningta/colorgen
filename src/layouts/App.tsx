@@ -91,22 +91,24 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
           </Link>
           <ClientOnly>
             <Switch
-              variant="soft"
               componentsProps={{
                 input: { 'aria-label': 'dark mode' },
                 thumb: {
-                  children:
-                    mode === 'dark' ? (
-                      <Icon style={{ fontSize: 18 }}>brightness_4</Icon>
-                    ) : (
-                      <Icon style={{ fontSize: 18 }}>brightness_7</Icon>
-                    ),
+                  children: (
+                    <Icon sx={{ color: 'common.white' }}>
+                      {mode === 'dark' ? 'brightness_4' : 'brightness_7'}
+                    </Icon>
+                  ),
                 },
               }}
               checked={mode === 'dark'}
               onChange={(e) => setMode(e.target.checked ? 'dark' : 'light')}
               sx={{
-                '--Switch-thumb-size': '24px',
+                '--Switch-thumb-background': 'transparent',
+
+                '&.Joy-checked': {
+                  '--Switch-thumb-background': 'transparent',
+                },
               }}
             />
           </ClientOnly>

@@ -8,10 +8,9 @@ import {
   useColorScheme,
 } from '@mui/joy';
 import Card, { CardProps } from '@mui/joy/Card';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
-import { useColorContext } from '../context';
-import { debounce, passSx } from '../utils';
+import { debounce, getColorHex, passSx } from '../utils';
 
 export type ColorPickerProps = Omit<CardProps, 'onChange'> & {
   value: string;
@@ -25,15 +24,23 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   ...props
 }) => {
   const { mode } = useColorScheme();
-  const { colorHex } = useColorContext();
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement>();
   const [input, setInput] = useState(value);
+  const [colorHex, setColorHex] = useState(getColorHex(value));
 
   const debounceOnChange = useMemo(
     () => debounce((value: string) => onChange(value), 100),
     [onChange]
   );
+
+  useLayoutEffect(() => {
+    const hex = getColorHex(value);
+
+    if (hex) {
+      setColorHex(hex);
+    }
+  }, [value]);
 
   useEffect(() => {
     debounceOnChange(input);

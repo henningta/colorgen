@@ -61,6 +61,15 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
           },
         },
       },
+      JoySwitch: {
+        styleOverrides: {
+          thumb: {
+            '.Icon': {
+              fontSize: 18,
+            },
+          },
+        },
+      },
       JoyTab: {
         styleOverrides: {
           root: {
