@@ -7,7 +7,6 @@ import {
   Fonts,
   Footer,
   Icon,
-  Seo,
 } from '../components';
 import {
   Box,
@@ -25,7 +24,6 @@ import {
   useColorContext,
 } from '../context';
 import { Link } from 'gatsby';
-import { HelmetProvider } from 'react-helmet-async';
 import { SxProps } from '@mui/system';
 
 type AppProps = {
@@ -48,8 +46,6 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
   return (
     <>
       <Box sx={{ minHeight: '100%', pb: '72px' }}>
-        <Fonts />
-        <Seo />
         <ClientOnly>
           <Container
             sx={{
@@ -129,7 +125,8 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
 };
 
 const App: React.FC<AppProps> = ({ children }) => (
-  <HelmetProvider>
+  <>
+    <Fonts />
     <AppThemeProvider>
       <AppContextProvider>
         <ColorContextProvider>
@@ -137,7 +134,7 @@ const App: React.FC<AppProps> = ({ children }) => (
         </ColorContextProvider>
       </AppContextProvider>
     </AppThemeProvider>
-  </HelmetProvider>
+  </>
 );
 
 export default App;

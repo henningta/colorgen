@@ -41,7 +41,9 @@ type ColorContextProviderProps = {
 export const ColorContextProvider: React.FC<ColorContextProviderProps> = ({
   children,
 }) => {
-  const initialColor = chroma.random().hex();
+  const initialColor =
+    document.documentElement.getAttribute('data-random-color') ||
+    chroma.random().hex();
 
   const [color, setColor] = useState(getColorName(initialColor));
   const [colorHex, setColorHex] = useState(initialColor);
