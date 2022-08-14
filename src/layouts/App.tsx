@@ -103,7 +103,10 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
             </ClientOnly>
           </Container>
         </Sheet>
-        <ColorBanner />
+        {/* Fixes hydration error, but revisit this to see if client-only is the correct solution */}
+        <ClientOnly>
+          <ColorBanner />
+        </ClientOnly>
         <Box
           sx={{
             position: 'relative',
