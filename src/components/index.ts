@@ -28,5 +28,11 @@ export * from './Page';
 export { default as Seo } from './Seo';
 export * from './Seo';
 
+export { default as Spinner } from './Spinner';
+export * from './Spinner';
+
+export { default as Splash } from './Splash';
+export * from './Splash';
+
 export { default as ValueAdjust } from './ValueAdjust';
 export * from './ValueAdjust';

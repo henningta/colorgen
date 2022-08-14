@@ -30,6 +30,7 @@ module.exports = {
       options: {
         src: path.join(__dirname, 'src'),
         pages: path.join(__dirname, 'src/pages'),
+        styles: path.join(__dirname, 'src/styles'),
       },
     },
     'gatsby-plugin-react-helmet-async',

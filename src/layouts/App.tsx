@@ -7,6 +7,7 @@ import {
   Fonts,
   Footer,
   Icon,
+  Splash,
 } from '../components';
 import {
   Box,
@@ -129,6 +130,7 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
 
 const App: React.FC<AppProps> = ({ children }) => (
   <>
+    <Splash />
     <Fonts />
     <AppThemeProvider>
       <AppContextProvider>
