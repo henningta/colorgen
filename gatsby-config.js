@@ -1,7 +1,3 @@
-require('dotenv').config({
-  path: `.env.${process.env.NODE_ENV}`,
-});
-
 const path = require('path');
 
 module.exports = {
@@ -9,8 +5,8 @@ module.exports = {
     siteName: 'colorgen.io',
     title: 'colorgen.io',
     titleTemplate: '%s · colorgen.io',
-    description: process.env.META_DESCRIPTION,
-    siteUrl: process.env.META_URL,
+    description: 'An advanced color visualizer and palette generator tool',
+    siteUrl: 'https://www.colorgen.io/',
     // image: {
     //   url: '/logo.png', // relative to 'static' folder
     //   alt: 'colorgen.io logo',
