@@ -1,4 +1,4 @@
-import chroma from 'chroma-js';
+import chroma, { InterpolationMode } from 'chroma-js';
 import colorNameList from 'color-name-list';
 import nearestColor from 'nearest-color';
 import CaseInsensitiveMap from './CaseInsensitiveMap';
@@ -38,9 +38,9 @@ export const getColorName = (() => {
   const colorMapObj = Object.fromEntries(colorMap);
   const from = nearestColor.from(colorMapObj);
 
-  return (hex: string, capitalize = true) => {
+  return (color: string, capitalize = true) => {
     try {
-      let name = from(hex).name;
+      let name = colorMap.has(color) ? color : from(color).name;
       if (capitalize) {
         name = name
           .split(' ')
@@ -53,3 +53,25 @@ export const getColorName = (() => {
     }
   };
 })();
+
+export const getTints = (
+  colorHex: string,
+  whitePoint = '#fff',
+  amount = 5,
+  mode: InterpolationMode = 'rgb'
+) =>
+  [...Array(amount).keys()].map((x) => ({
+    id: x,
+    color: chroma.mix(colorHex, whitePoint, (amount - x) / amount, mode),
+  }));
+
+export const getShades = (
+  colorHex: string,
+  blackPoint = '#000',
+  amount = 5,
+  mode: InterpolationMode = 'rgb'
+) =>
+  [...Array(amount).keys()].map((x) => ({
+    id: x,
+    color: chroma.mix(colorHex, blackPoint, (x + 1) / amount, mode),
+  }));

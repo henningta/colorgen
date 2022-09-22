@@ -8,9 +8,9 @@ import {
   useColorScheme,
 } from '@mui/joy';
 import Card, { CardProps } from '@mui/joy/Card';
-import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
-import { debounce, getColorHex, passSx } from '../utils';
+import { getColorHex, passSx } from '../utils';
 
 export type ColorPickerProps = Omit<CardProps, 'onChange'> & {
   value: string;
@@ -26,29 +26,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   const { mode } = useColorScheme();
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement>();
-  const [input, setInput] = useState(value);
-  const [colorHex, setColorHex] = useState(getColorHex(value));
 
-  const debounceOnChange = useMemo(
-    () => debounce((value: string) => onChange(value), 100),
-    [onChange]
-  );
-
-  useLayoutEffect(() => {
-    const hex = getColorHex(value);
-
-    if (hex) {
-      setColorHex(hex);
-    }
-  }, [value]);
-
-  useEffect(() => {
-    debounceOnChange(input);
-  }, [debounceOnChange, input]);
-
-  useEffect(() => {
-    setInput(value);
-  }, [value]);
+  const colorHex = getColorHex(value);
 
   const toggleMenu: React.MouseEventHandler<HTMLAnchorElement> = (e) =>
     setAnchorEl((prev) => (prev ? undefined : e.currentTarget));
@@ -65,6 +44,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
             flexDirection: 'row',
             alignItems: 'center',
             boxShadow: 'none',
+            border: `1px solid ${mode === 'dark' ? '#333' : '#ccc'}`,
           },
           ...passSx(sx),
         ]}
@@ -105,8 +85,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
           />
           <TextField
             variant="soft"
-            value={input}
-            onChange={(e) => setInput(e.currentTarget.value)}
+            value={value}
+            onChange={(e) => onChange(e.currentTarget.value)}
             sx={{ ml: 2, width: 0, flex: 1 }}
           />
         </Box>

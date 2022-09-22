@@ -3,6 +3,7 @@ class CaseInsensitiveMap<K, V> extends Map<K, V> {
     if (typeof key === 'string') {
       key = key.toLocaleLowerCase() as any as K;
     }
+
     return super.set(key, value);
   }
 

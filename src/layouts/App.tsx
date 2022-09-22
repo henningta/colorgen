@@ -2,7 +2,6 @@ import React from 'react';
 import {
   AppThemeProvider,
   ClientOnly,
-  ColorBanner,
   ColorPicker,
   Fonts,
   Footer,
@@ -46,7 +45,12 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
 
   return (
     <>
-      <Box sx={{ minHeight: '100%', pb: '72px' }}>
+      <Box
+        sx={{
+          minHeight: '100%',
+          pb: '72px',
+        }}
+      >
         <ClientOnly>
           <Container
             sx={{
@@ -77,7 +81,9 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
             }}
           >
             <Link to="/" style={{ textDecoration: 'none' }}>
-              <Typography level="h3">colorgen.io</Typography>
+              <Typography fontSize={30} fontWeight={300}>
+                colorgen.io
+              </Typography>
             </Link>
             <ClientOnly>
               <Switch
@@ -104,15 +110,12 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
             </ClientOnly>
           </Container>
         </Sheet>
-        {/* Fixes hydration error, but revisit this to see if client-only is the correct solution */}
-        <ClientOnly>
-          <ColorBanner />
-        </ClientOnly>
         <Box
           sx={{
             position: 'relative',
-            ml: bannerPosition === 'left' ? '400px' : 0,
-            transition: '0.3s all ease-in-out',
+            // ml: bannerPosition === 'left' ? '400px' : 0,
+            // transition: '0.3s all ease-in-out',
+            minHeight: '100%',
           }}
         >
           {children}

@@ -1,25 +1,24 @@
 import { Typography } from '@mui/joy';
 import Card, { CardProps } from '@mui/joy/Card';
 import React from 'react';
-import { getColorName, getContrastColor } from '../utils';
+import { getContrastColor } from '../utils';
 import { passSx } from '../utils/joy';
 
 export type ColorCardProps = CardProps & {
   colorHex: string;
   width?: number | string;
   height?: number | string;
-  displayInfo?: boolean;
+  displayHex?: boolean;
 };
 
 const ColorCard: React.FC<ColorCardProps> = ({
   colorHex,
   width,
   height,
-  displayInfo,
+  displayHex,
   sx,
   ...props
 }) => {
-  const colorName = getColorName(colorHex);
   const contrastText = getContrastColor(colorHex);
 
   return (
@@ -28,24 +27,30 @@ const ColorCard: React.FC<ColorCardProps> = ({
       sx={[
         {
           backgroundColor: colorHex,
-          width: width || 80,
-          height: height || 80,
-          minWidth: width || 80,
-          minHeight: height || 80,
+          width,
+          height,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: 0,
+          boxShadow: 'none',
         },
         ...passSx(sx),
       ]}
     >
-      {displayInfo && (
-        <Typography sx={{ color: contrastText }}>{colorHex}</Typography>
-      )}
-      {displayInfo && colorName && (
-        <Typography sx={{ color: contrastText, textTransform: 'capitalize' }}>
-          {colorName}
+      {displayHex && (
+        <Typography level="body2" sx={{ color: contrastText }}>
+          {colorHex}
         </Typography>
       )}
     </Card>
   );
+};
+
+ColorCard.defaultProps = {
+  width: '100%',
+  height: '100%',
+  displayHex: true,
 };
 
 export default ColorCard;
