@@ -36,7 +36,7 @@ const ColorInfo: React.FC<ColorInfoProps> = ({ colorHex, colorName }) => {
   const cmyk = chromaColor.cmyk();
 
   return (
-    <Box sx={{ height: '100%', backgroundColor: colorHex }}>
+    <Box style={{ height: '100%', backgroundColor: colorHex }}>
       <Stack
         sx={{
           minHeight: 'calc(100vh - 64px)',

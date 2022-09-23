@@ -11,6 +11,7 @@ import Card, { CardProps } from '@mui/joy/Card';
 import React, { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { getColorHex, passSx } from '../utils';
+import Icon from './Icon';
 
 export type ColorPickerProps = Omit<CardProps, 'onChange'> & {
   value: string;
@@ -61,8 +62,9 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
             borderBottomRightRadius: 0,
           }}
           onClick={toggleMenu}
+          endDecorator={<Icon>keyboard_arrow_down</Icon>}
         >
-          Select
+          Hex
         </Button>
         <Box
           sx={{
@@ -76,7 +78,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
         >
           <Sheet
             variant="outlined"
-            sx={{
+            style={{
               width: 28,
               height: 28,
               backgroundColor: colorHex,
@@ -97,8 +99,16 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
         open={!!anchorEl}
         onClose={() => setAnchorEl(undefined)}
         aria-labelledby="color-picker-button"
+        sx={{
+          p: 0,
+          overflow: 'visible',
+          backgroundColor: 'transparent',
+          border: 'none',
+        }}
       >
-        <MenuItem sx={{ '&:hover': { backgroundColor: 'inherit' } }}>
+        <MenuItem
+          sx={{ padding: 0, '&:hover': { backgroundColor: 'inherit' } }}
+        >
           <HexColorPicker
             style={{ width: 200 }}
             color={colorHex}

@@ -75,3 +75,28 @@ export const getShades = (
     id: x,
     color: chroma.mix(colorHex, blackPoint, (x + 1) / amount, mode),
   }));
+
+// export const generateHexImage = async (
+//   hex: string,
+//   width = 80,
+//   height = 80
+// ) => {
+//   if (!chroma.valid(hex)) {
+//     return undefined;
+//   }
+
+//   hex = chroma(hex).hex();
+
+//   // const canvas = createCanvas(width, height);
+//   const canvas = document.createElement('canvas');
+//   const context = canvas.getContext('2d');
+//   if (!context) {
+//     return undefined;
+//   }
+
+//   context.fillStyle = hex;
+//   context.fillRect(0, 0, width, height);
+
+//   // const buffer = canvas.toBuffer('image/png');
+//   // await fs.promises.writeFile(`./preview/${hex.substring(1)}.png`, buffer);
+// };

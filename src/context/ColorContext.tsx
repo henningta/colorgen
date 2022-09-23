@@ -7,10 +7,10 @@ import React, {
   useState,
 } from 'react';
 import {
-  debounce,
   getColorHex,
   getColorName,
   getContrastColor,
+  throttle,
 } from '../utils';
 
 export type ColorContextType = {
@@ -61,8 +61,8 @@ export const ColorContextProvider: React.FC<ColorContextProviderProps> = ({
   const [colorName, setColorName] = useState(initialColorName);
   const [contrastText, setContrastText] = useState(initialContrastText);
 
-  const debounceSetColorName = useMemo(
-    () => debounce((color: string) => setColorName(getColorName(color)), 100),
+  const throttleSetColorName = useMemo(
+    () => throttle((color: string) => setColorName(getColorName(color))),
     [setColorName]
   );
 
@@ -71,16 +71,20 @@ export const ColorContextProvider: React.FC<ColorContextProviderProps> = ({
 
     if (hex) {
       setColorHex(hex);
-      debounceSetColorName(color);
+      throttleSetColorName(color);
       setContrastText(getContrastColor(hex));
 
-      window.history.replaceState(
-        undefined,
-        'blah',
-        `/color/${hex.substring(1)}`
-      );
+      try {
+        window.history.replaceState(
+          undefined,
+          '',
+          `/color/${hex.substring(1)}`
+        );
+      } catch (e) {
+        /* ignore */
+      }
     }
-  }, [color, debounceSetColorName]);
+  }, [color, throttleSetColorName]);
 
   const value = useMemo<ColorContextType>(
     () => ({

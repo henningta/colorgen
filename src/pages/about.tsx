@@ -1,6 +1,6 @@
 import { Box, BoxProps, Link, Typography } from '@mui/joy';
 import React, { useEffect } from 'react';
-import { Page } from '../components';
+import { CombinedPageProps, Page } from '../components';
 import { useAppContext } from '../context';
 
 export type LibDetailsProps = BoxProps & {
@@ -32,7 +32,7 @@ const LibDetails: React.FC<LibDetailsProps> = ({ title, links }) => {
   );
 };
 
-const About: React.FC = () => {
+const About: React.FC<CombinedPageProps> = ({ ...props }) => {
   const { setBannerHidden, isMobile } = useAppContext();
 
   useEffect(() => {
@@ -45,6 +45,7 @@ const About: React.FC = () => {
 
   return (
     <Page
+      {...props}
       title="About"
       description="Our goal is to provide designers and developers with the options and
     flexibility needed to create any color palette imaginable."

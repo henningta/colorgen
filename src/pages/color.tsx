@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect } from 'react';
 import chroma from 'chroma-js';
 import { navigate } from 'gatsby';
 import {
@@ -9,7 +9,6 @@ import {
   TintsShades,
 } from '../components';
 import { useColorContext } from '../context';
-import { throttle } from '../utils';
 
 export type ColorProps = CombinedPageProps & {
   hex: string;
@@ -17,13 +16,6 @@ export type ColorProps = CombinedPageProps & {
 
 const Color: React.FC<ColorProps> = ({ hex, ...props }) => {
   const { colorName, colorHex, setColor } = useColorContext();
-
-  const [renderHex, setRenderHex] = useState(colorHex);
-
-  const throttleSetRenderHex = useMemo(
-    () => throttle((hex: string) => setRenderHex(hex), 100),
-    []
-  );
 
   useEffect(() => {
     if (!hex || !chroma.valid(hex)) {
@@ -35,10 +27,6 @@ const Color: React.FC<ColorProps> = ({ hex, ...props }) => {
     setColor(hex);
   }, [setColor, hex]);
 
-  useEffect(() => {
-    throttleSetRenderHex(colorHex);
-  }, [throttleSetRenderHex, colorHex]);
-
   return (
     <Page
       {...props}
@@ -48,8 +36,8 @@ const Color: React.FC<ColorProps> = ({ hex, ...props }) => {
       sx={{ p: '0 !important' }}
     >
       <ColorInfo colorHex={colorHex} colorName={colorName} />
-      <TintsShades colorHex={renderHex} colorName={colorName} />
-      <ColorHarmonies colorHex={renderHex} />
+      <TintsShades colorHex={colorHex} colorName={colorName} />
+      <ColorHarmonies colorHex={colorHex} />
     </Page>
   );
 };
