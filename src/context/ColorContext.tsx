@@ -67,6 +67,19 @@ export const ColorContextProvider: React.FC<ColorContextProviderProps> = ({
   );
 
   useEffect(() => {
+    // initial client load
+    // TODO: address this duplication and fix SSR/hydration stuff
+    const initialColor = chroma.random().hex();
+    const initialColorName = getColorName(initialColor);
+    const initialContrastText = getContrastColor(initialColor);
+
+    setColor(initialColorName);
+    setColorHex(initialColor);
+    setColorName(initialColorName);
+    setContrastText(initialContrastText);
+  }, []);
+
+  useEffect(() => {
     const hex = getColorHex(color);
 
     if (hex) {
