@@ -24,7 +24,7 @@ const Color: React.FC<ColorProps> = ({ hex, ...props }) => {
   }, [hex]);
 
   useEffect(() => {
-    setColor(hex);
+    setColor(`#${hex}`);
   }, [setColor, hex]);
 
   return (

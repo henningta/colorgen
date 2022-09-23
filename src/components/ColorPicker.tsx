@@ -40,7 +40,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
         sx={[
           {
             p: 0,
-            height: 40,
+            height: 56,
             width: '100%',
             flexDirection: 'row',
             alignItems: 'center',
@@ -60,9 +60,12 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
             minWidth: 80,
             borderTopRightRadius: 0,
             borderBottomRightRadius: 0,
+            pl: 3,
           }}
           onClick={toggleMenu}
-          endDecorator={<Icon>keyboard_arrow_down</Icon>}
+          endDecorator={
+            <Icon style={{ fontSize: 18 }}>keyboard_arrow_down</Icon>
+          }
         >
           Hex
         </Button>

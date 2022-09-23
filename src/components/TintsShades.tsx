@@ -1,4 +1,4 @@
-import { Box, Stack } from '@mui/joy';
+import { Stack } from '@mui/joy';
 import React from 'react';
 import { getShades, getTints } from '../utils';
 import ColorPalette from './ColorPalette';
@@ -17,11 +17,7 @@ const TintsShades: React.FC<TintsShadesProps> = ({ colorHex, colorName }) => {
     <PageSection
       fullPage
       title="Tints & Shades"
-      subtitle={
-        <Box>
-          Tints & Shades for {colorName} ({colorHex})
-        </Box>
-      }
+      subtitle={`Tints & Shades for ${colorName} (${colorHex})`}
       sx={{ display: 'flex', flexDirection: 'column', pb: 0 }}
     >
       <Stack sx={{ flex: 1 }}>

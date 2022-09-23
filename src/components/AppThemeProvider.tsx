@@ -107,6 +107,11 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
           },
         },
       },
+      JoyTypography: {
+        defaultProps: {
+          component: 'span',
+        },
+      },
     },
   });
 

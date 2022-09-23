@@ -40,7 +40,7 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
         bottom: 16,
       }
     : {
-        top: 48,
+        top: 36,
       };
 
   return (

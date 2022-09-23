@@ -28,7 +28,6 @@ export type ColorInfoProps = {
 const ColorInfo: React.FC<ColorInfoProps> = ({ colorHex, colorName }) => {
   const contrastText = getContrastColor(colorHex);
   const nearestPantone = pant.getClosestColor(colorHex);
-  // const nearestPantone = { name: '', pantone: '', hex: '' };
 
   const chromaColor = chroma(colorHex);
   const rgb = chromaColor.rgb();

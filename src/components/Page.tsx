@@ -27,6 +27,11 @@ const Page: React.FC<CombinedPageProps> = ({
   image,
   sx,
   showPageTitle,
+  datatype,
+  pageContext,
+  location,
+  serverData,
+  pageResources,
   ...props
 }) => {
   const mounted = useMounted();
