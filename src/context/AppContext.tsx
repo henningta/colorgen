@@ -17,7 +17,7 @@ const defaultContext: AppContextType = {
   bannerHidden: false,
   setBannerHidden: () => undefined,
   isMobile: false,
-  nav: ['palette'],
+  nav: ['home'],
   setNav: () => undefined,
 };
 

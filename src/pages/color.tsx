@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import chroma from 'chroma-js';
 import { navigate } from 'gatsby';
 import {
@@ -8,7 +8,8 @@ import {
   Page,
   TintsShades,
 } from '../components';
-import { useColorContext } from '../context';
+import { useAppContext, useColorContext } from '../context';
+import { debounce } from '../utils';
 
 export type ColorProps = CombinedPageProps & {
   hex: string;
@@ -16,6 +17,21 @@ export type ColorProps = CombinedPageProps & {
 
 const Color: React.FC<ColorProps> = ({ hex, ...props }) => {
   const { colorName, colorHex, setColor } = useColorContext();
+  const { setNav } = useAppContext();
+
+  const debounceSetUrl = useMemo(
+    () =>
+      debounce(
+        (hex: string) =>
+          window.history.replaceState(
+            undefined,
+            '',
+            `/color/${hex.substring(1)}`
+          ),
+        300
+      ),
+    []
+  );
 
   useEffect(() => {
     if (!hex || !chroma.valid(hex)) {
@@ -27,11 +43,23 @@ const Color: React.FC<ColorProps> = ({ hex, ...props }) => {
     setColor(`#${hex}`);
   }, [setColor, hex]);
 
+  useEffect(() => {
+    try {
+      debounceSetUrl(colorHex);
+    } catch (e) {
+      /* ignore */
+    }
+  }, [debounceSetUrl, colorHex]);
+
+  useEffect(() => {
+    setNav(['color']);
+  }, [setNav]);
+
   return (
     <Page
       {...props}
       title={colorHex}
-      // description={getColorDescription(colorHex)}
+      description={`Tints, shades, color harmonies, and more for hex code: ${colorHex}`}
       maxWidth={false}
       sx={{ p: '0 !important' }}
     >

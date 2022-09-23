@@ -40,11 +40,12 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
         sx={[
           {
             p: 0,
+            pr: 2,
             height: 56,
             width: '100%',
             flexDirection: 'row',
             alignItems: 'center',
-            boxShadow: 'none',
+            boxShadow: 'md',
             border: `1px solid ${mode === 'dark' ? '#333' : '#ccc'}`,
           },
           ...passSx(sx),

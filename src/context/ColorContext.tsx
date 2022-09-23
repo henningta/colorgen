@@ -73,16 +73,6 @@ export const ColorContextProvider: React.FC<ColorContextProviderProps> = ({
       setColorHex(hex);
       throttleSetColorName(color);
       setContrastText(getContrastColor(hex));
-
-      try {
-        window.history.replaceState(
-          undefined,
-          '',
-          `/color/${hex.substring(1)}`
-        );
-      } catch (e) {
-        /* ignore */
-      }
     }
   }, [color, throttleSetColorName]);
 
