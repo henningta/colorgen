@@ -2,7 +2,6 @@ import React from 'react';
 import {
   AppThemeProvider,
   ClientOnly,
-  ColorBanner,
   ColorPicker,
   Fonts,
   Footer,
@@ -34,23 +33,28 @@ type AppProps = {
 const AppContent: React.FC<AppProps> = ({ children }) => {
   const { mode, setMode } = useColorScheme();
   const { color, setColor } = useColorContext();
-  const { bannerPosition, isMobile, bannerHidden } = useAppContext();
+  const { nav, bannerPosition, isMobile, bannerHidden } = useAppContext();
 
   const position: SxProps<Theme> = isMobile
     ? {
         bottom: 16,
       }
     : {
-        top: 48,
+        top: 36,
       };
 
   return (
     <>
-      <Box sx={{ minHeight: '100%', pb: '72px' }}>
+      <Box
+        sx={{
+          minHeight: '100%',
+          pb: '72px',
+        }}
+      >
         <ClientOnly>
           <Container
             sx={{
-              display: bannerHidden ? 'none' : undefined,
+              display: nav.includes('home') ? 'none' : undefined,
               position: 'fixed',
               left: '50%',
               transform: 'translateX(-50%)',
@@ -59,11 +63,7 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
             }}
             maxWidth="sm"
           >
-            <ColorPicker
-              value={color}
-              onChange={setColor}
-              sx={{ width: '100%', height: 56, pr: 2, boxShadow: 'md' }}
-            />
+            <ColorPicker value={color} onChange={setColor} />
           </Container>
         </ClientOnly>
         <Sheet sx={{ zIndex: 24 }}>
@@ -77,7 +77,9 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
             }}
           >
             <Link to="/" style={{ textDecoration: 'none' }}>
-              <Typography level="h3">colorgen.io</Typography>
+              <Typography fontSize={30} fontWeight={300}>
+                colorgen.io
+              </Typography>
             </Link>
             <ClientOnly>
               <Switch
@@ -104,17 +106,22 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
             </ClientOnly>
           </Container>
         </Sheet>
-        {/* Fixes hydration error, but revisit this to see if client-only is the correct solution */}
-        <ClientOnly>
-          <ColorBanner />
-        </ClientOnly>
         <Box
           sx={{
             position: 'relative',
-            ml: bannerPosition === 'left' ? '400px' : 0,
-            transition: '0.3s all ease-in-out',
+            // ml: bannerPosition === 'left' ? '400px' : 0,
+            // transition: '0.3s all ease-in-out',
+            minHeight: '100%',
           }}
         >
+          {isMobile && (
+            <Container sx={{ py: 1, backgroundColor: 'common.white' }}>
+              <Typography level="body2">
+                The mobile version is currently a work-in-progress. Stay tuned
+                for a new mobile experience coming soon.
+              </Typography>
+            </Container>
+          )}
           {children}
         </Box>
       </Box>

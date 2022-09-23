@@ -8,9 +8,10 @@ import {
   useColorScheme,
 } from '@mui/joy';
 import Card, { CardProps } from '@mui/joy/Card';
-import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
-import { debounce, getColorHex, passSx } from '../utils';
+import { getColorHex, passSx } from '../utils';
+import Icon from './Icon';
 
 export type ColorPickerProps = Omit<CardProps, 'onChange'> & {
   value: string;
@@ -26,29 +27,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   const { mode } = useColorScheme();
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement>();
-  const [input, setInput] = useState(value);
-  const [colorHex, setColorHex] = useState(getColorHex(value));
 
-  const debounceOnChange = useMemo(
-    () => debounce((value: string) => onChange(value), 100),
-    [onChange]
-  );
-
-  useLayoutEffect(() => {
-    const hex = getColorHex(value);
-
-    if (hex) {
-      setColorHex(hex);
-    }
-  }, [value]);
-
-  useEffect(() => {
-    debounceOnChange(input);
-  }, [debounceOnChange, input]);
-
-  useEffect(() => {
-    setInput(value);
-  }, [value]);
+  const colorHex = getColorHex(value);
 
   const toggleMenu: React.MouseEventHandler<HTMLAnchorElement> = (e) =>
     setAnchorEl((prev) => (prev ? undefined : e.currentTarget));
@@ -60,11 +40,13 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
         sx={[
           {
             p: 0,
-            height: 40,
+            pr: 2,
+            height: 56,
             width: '100%',
             flexDirection: 'row',
             alignItems: 'center',
-            boxShadow: 'none',
+            boxShadow: 'md',
+            border: `1px solid ${mode === 'dark' ? '#333' : '#ccc'}`,
           },
           ...passSx(sx),
         ]}
@@ -79,10 +61,14 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
             minWidth: 80,
             borderTopRightRadius: 0,
             borderBottomRightRadius: 0,
+            pl: 3,
           }}
           onClick={toggleMenu}
+          endDecorator={
+            <Icon style={{ fontSize: 18 }}>keyboard_arrow_down</Icon>
+          }
         >
-          Select
+          Hex
         </Button>
         <Box
           sx={{
@@ -96,7 +82,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
         >
           <Sheet
             variant="outlined"
-            sx={{
+            style={{
               width: 28,
               height: 28,
               backgroundColor: colorHex,
@@ -105,8 +91,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
           />
           <TextField
             variant="soft"
-            value={input}
-            onChange={(e) => setInput(e.currentTarget.value)}
+            value={value}
+            onChange={(e) => onChange(e.currentTarget.value)}
             sx={{ ml: 2, width: 0, flex: 1 }}
           />
         </Box>
@@ -117,8 +103,16 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
         open={!!anchorEl}
         onClose={() => setAnchorEl(undefined)}
         aria-labelledby="color-picker-button"
+        sx={{
+          p: 0,
+          overflow: 'visible',
+          backgroundColor: 'transparent',
+          border: 'none',
+        }}
       >
-        <MenuItem sx={{ '&:hover': { backgroundColor: 'inherit' } }}>
+        <MenuItem
+          sx={{ padding: 0, '&:hover': { backgroundColor: 'inherit' } }}
+        >
           <HexColorPicker
             style={{ width: 200 }}
             color={colorHex}

@@ -6,24 +6,31 @@ export type AppThemeProviderProps = {
 };
 
 const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
-  // const shadowChannel = '40 40 40';
+  const shadowChannel = '60 60 60';
 
   const theme = extendTheme({
     colorSchemes: {
       dark: {
-        // shadowChannel,
+        shadowChannel,
       },
       light: {
-        // shadowChannel,
+        shadowChannel,
       },
     },
     fontFamily: {
-      body: '"Noto Sans", var(--joy-fontFamily-fallback)',
-      display: '"Noto Sans", var(--joy-fontFamily-fallback)',
-      code: '"Noto Sans Mono", monospace',
+      body: 'Manrope, var(--joy-fontFamily-fallback)',
+      display: 'Manrope, var(--joy-fontFamily-fallback)',
+      code: 'monospace',
       fallback: 'arial, sans-serif',
     },
     typography: {
+      display1: {
+        fontWeight: 300,
+        fontSize: 96,
+      },
+      display2: {
+        fontWeight: 300,
+      },
       h1: {
         fontWeight: 300,
       },
@@ -98,6 +105,11 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
           root: {
             backgroundColor: 'transparent',
           },
+        },
+      },
+      JoyTypography: {
+        defaultProps: {
+          component: 'span',
         },
       },
     },

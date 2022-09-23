@@ -1,96 +1,86 @@
-import { Box, Typography } from '@mui/joy';
-import Card, { CardProps } from '@mui/joy/Card';
-import chroma from 'chroma-js';
+import { Box, Button, Container, Stack, Typography } from '@mui/joy';
+import { navigate } from 'gatsby';
 import React, { useEffect } from 'react';
-import { ColorCard, Page } from '../components';
+import {
+  ClientOnly,
+  ColorPicker,
+  CombinedPageProps,
+  Icon,
+  Page,
+} from '../components';
 import { useAppContext, useColorContext } from '../context';
 
-type ColorHarmonyProps = CardProps & {
-  title: string;
-  colors: { id: number; color: string }[];
-};
+const HomePage: React.FC<CombinedPageProps> = ({ ...props }) => {
+  const { color, setColor, colorName, colorHex, contrastText } =
+    useColorContext();
 
-const ColorHarmony: React.FC<ColorHarmonyProps> = ({
-  title,
-  colors,
-  ...props
-}) => (
-  <Card {...props}>
-    <Typography
-      level="h4"
-      sx={{ mb: 1, textAlign: 'center', whiteSpace: 'nowrap' }}
-    >
-      {title}
-    </Typography>
-    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-      {colors.map((x) => (
-        <ColorCard key={x.id} colorHex={x.color} sx={{ m: 1 }} />
-      ))}
-    </Box>
-  </Card>
-);
-
-const HomePage: React.FC = () => {
-  const { colorHex } = useColorContext();
-  const { setBannerPosition, setNav, isMobile } = useAppContext();
+  const { setNav } = useAppContext();
 
   useEffect(() => {
-    setBannerPosition('top');
-    setNav(['palette']);
-  }, [setBannerPosition, setNav]);
+    setNav(['home']);
+  }, [setNav]);
 
   return (
-    <Page sx={{ pb: isMobile ? 8 : 16 }}>
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', m: -2 }}>
-        <ColorHarmony
-          sx={{ flex: 1, m: 2 }}
-          title="Complimentary"
-          colors={[
-            { id: 1, color: chroma(colorHex).set('hsl.h', '+180').hex() },
-          ]}
-        />
-        <ColorHarmony
-          sx={{ flex: 1, m: 2 }}
-          title="Split Complimentary"
-          colors={[
-            { id: 1, color: chroma(colorHex).set('hsl.h', '+150').hex() },
-            { id: 2, color: chroma(colorHex).set('hsl.h', '+210').hex() },
-          ]}
-        />
-        <ColorHarmony
-          sx={{ flex: 1, m: 2 }}
-          title="Analogous"
-          colors={[
-            { id: 1, color: chroma(colorHex).set('hsl.h', '-30').hex() },
-            { id: 2, color: chroma(colorHex).set('hsl.h', '+30').hex() },
-          ]}
-        />
-        <ColorHarmony
-          sx={{ flex: 1, m: 2 }}
-          title="Triadic"
-          colors={[
-            { id: 1, color: chroma(colorHex).set('hsl.h', '+120').hex() },
-            { id: 2, color: chroma(colorHex).set('hsl.h', '-120').hex() },
-          ]}
-        />
-        <ColorHarmony
-          sx={{ flex: 1, m: 2 }}
-          title="Tetradic Rectangular"
-          colors={[
-            { id: 1, color: chroma(colorHex).set('hsl.h', '+60').hex() },
-            { id: 2, color: chroma(colorHex).set('hsl.h', '+180').hex() },
-            { id: 3, color: chroma(colorHex).set('hsl.h', '-120').hex() },
-          ]}
-        />
-        <ColorHarmony
-          sx={{ flex: 1, m: 2 }}
-          title="Tetradic Square"
-          colors={[
-            { id: 1, color: chroma(colorHex).set('hsl.h', '+90').hex() },
-            { id: 2, color: chroma(colorHex).set('hsl.h', '+180').hex() },
-            { id: 3, color: chroma(colorHex).set('hsl.h', '-90').hex() },
-          ]}
-        />
+    <Page {...props} sx={{ p: '0 !important' }} maxWidth={false}>
+      <Box style={{ height: '100%', backgroundColor: colorHex }}>
+        <Stack
+          sx={{
+            minHeight: 'calc(100vh - 64px)',
+            py: 16,
+            px: 16,
+          }}
+        >
+          <Container maxWidth="sm" sx={{ m: 0, ml: -4 }}>
+            <Typography level="display1" sx={{ color: contrastText }}>
+              Welcome
+            </Typography>
+            <Box sx={{ mt: 4 }}>
+              <Typography
+                sx={{ color: contrastText }}
+                fontWeight={300}
+                // fontSize={18}
+              >
+                Welcome to colorgen.io. This tool was created to help designers
+                and developers find just the right color palette they need to
+                beautifully brand their next app.
+              </Typography>
+              <Typography
+                sx={{ color: contrastText, mt: 4 }}
+                fontWeight={300}
+                // fontSize={18}
+              >
+                This app is a work-in-progress, so stay tuned for more changes
+                and features coming soon.
+              </Typography>
+            </Box>
+          </Container>
+          <ClientOnly>
+            <Stack direction="row" sx={{ mt: 8 }}>
+              <Container maxWidth="sm" sx={{ m: 0, ml: -4 }}>
+                <ColorPicker value={color} onChange={setColor} />
+              </Container>
+              <Button
+                variant="plain"
+                sx={{
+                  whiteSpace: 'nowrap',
+                  color: contrastText,
+
+                  '&:hover': {
+                    color:
+                      contrastText === 'common.white'
+                        ? 'common.black'
+                        : 'common.white',
+                    backgroundColor: contrastText,
+                  },
+                }}
+                endDecorator={<Icon>arrow_forward</Icon>}
+                onClick={() => void navigate(`/color/${colorHex.substring(1)}`)}
+              >
+                See color info for &ldquo;{colorName}&rdquo;
+              </Button>
+            </Stack>
+          </ClientOnly>
+        </Stack>
       </Box>
     </Page>
   );

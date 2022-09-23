@@ -4,11 +4,17 @@ export * from './AppThemeProvider';
 export { default as ClientOnly } from './ClientOnly';
 export * from './ClientOnly';
 
-export { default as ColorBanner } from './ColorBanner';
-export * from './ColorBanner';
-
 export { default as ColorCard } from './ColorCard';
 export * from './ColorCard';
+
+export { default as ColorHarmonies } from './ColorHarmonies';
+export * from './ColorHarmonies';
+
+export { default as ColorInfo } from './ColorInfo';
+export * from './ColorInfo';
+
+export { default as ColorPalette } from './ColorPalette';
+export * from './ColorPalette';
 
 export { default as ColorPicker } from './ColorPicker';
 export * from './ColorPicker';
@@ -33,6 +39,9 @@ export * from './Spinner';
 
 export { default as Splash } from './Splash';
 export * from './Splash';
+
+export { default as TintsShades } from './TintsShades';
+export * from './TintsShades';
 
 export { default as ValueAdjust } from './ValueAdjust';
 export * from './ValueAdjust';

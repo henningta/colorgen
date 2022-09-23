@@ -1,20 +1,37 @@
 import { Container, ContainerProps, Typography } from '@mui/joy';
+import { PageProps } from 'gatsby';
 import React from 'react';
 import { useAppContext } from '../context';
 import { passSx, useMounted } from '../utils';
 import Seo, { SeoProps } from './Seo';
 
-export type PageProps = ContainerProps &
+export type CombinedPageProps<
+  DataType = object,
+  PageContextType = object,
+  LocationState = unknown,
+  ServerDataType = object
+> = Omit<
+  PageProps<DataType, PageContextType, LocationState, ServerDataType>,
+  'children'
+> &
+  ContainerProps &
   SeoProps & {
     children?: React.ReactNode;
+    showPageTitle?: boolean;
   };
 
-const Page: React.FC<PageProps> = ({
+const Page: React.FC<CombinedPageProps> = ({
   children,
   title,
   description,
   image,
   sx,
+  showPageTitle,
+  datatype,
+  pageContext,
+  location,
+  serverData,
+  pageResources,
   ...props
 }) => {
   const mounted = useMounted();
@@ -34,7 +51,7 @@ const Page: React.FC<PageProps> = ({
       ]}
     >
       <Seo title={title} description={description} image={image} />
-      {title && (
+      {title && showPageTitle && (
         <Typography level={isMobile ? 'h2' : 'h1'} mb={4}>
           {title}
         </Typography>
