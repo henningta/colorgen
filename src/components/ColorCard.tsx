@@ -34,7 +34,7 @@ const ColorCard: React.FC<ColorCardProps> = ({
       }}
     >
       {displayHex && (
-        <Typography level="body2" sx={{ color: contrastText }}>
+        <Typography level="body2" textColor={contrastText}>
           {colorHex}
         </Typography>
       )}

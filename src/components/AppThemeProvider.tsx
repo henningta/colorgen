@@ -1,5 +1,11 @@
-import { CssVarsProvider, extendTheme } from '@mui/joy';
 import React from 'react';
+import {
+  colors,
+  CssVarsProvider,
+  extendTheme as extendJoyTheme,
+} from '@mui/joy';
+import { experimental_extendTheme as extendMuiTheme } from '@mui/material';
+import { deepmerge } from '@mui/utils';
 
 export type AppThemeProviderProps = {
   children: React.ReactNode;
@@ -8,13 +14,83 @@ export type AppThemeProviderProps = {
 const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
   const shadowChannel = '60 60 60';
 
-  const theme = extendTheme({
+  const muiTheme = extendMuiTheme({
+    cssVarPrefix: 'joy',
+    colorSchemes: {
+      light: {
+        palette: {
+          primary: {
+            main: colors.blue[500],
+          },
+          grey: colors.grey,
+          error: {
+            main: colors.red[500],
+          },
+          info: {
+            main: colors.purple[500],
+          },
+          success: {
+            main: colors.green[500],
+          },
+          warning: {
+            main: colors.yellow[200],
+          },
+          common: {
+            white: '#fff',
+            black: '#09090d',
+          },
+          divider: colors.grey[200],
+          text: {
+            primary: colors.grey[800],
+            secondary: colors.grey[600],
+          },
+        },
+      },
+      dark: {
+        palette: {
+          primary: {
+            main: colors.blue[600],
+          },
+          grey: colors.grey,
+          error: {
+            main: colors.red[600],
+          },
+          info: {
+            main: colors.purple[600],
+          },
+          success: {
+            main: colors.green[600],
+          },
+          warning: {
+            main: colors.yellow[300],
+          },
+          common: {
+            white: '#fff',
+            black: '#09090d',
+          },
+          divider: colors.grey[800],
+          text: {
+            primary: colors.grey[100],
+            secondary: colors.grey[300],
+          },
+        },
+      },
+    },
+  });
+
+  const joyTheme = extendJoyTheme({
     colorSchemes: {
       dark: {
         shadowChannel,
+        palette: {
+          icon: 'rgb(154, 160, 166)',
+        },
       },
       light: {
         shadowChannel,
+        palette: {
+          icon: 'rgb(95, 99, 104)',
+        },
       },
     },
     fontFamily: {
@@ -68,6 +144,11 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
           },
         },
       },
+      JoyIconButton: {
+        defaultProps: {
+          color: 'neutral',
+        },
+      },
       JoyLink: {
         defaultProps: {
           underline: 'none',
@@ -114,6 +195,8 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
       },
     },
   });
+
+  const theme = deepmerge(muiTheme, joyTheme);
 
   return <CssVarsProvider theme={theme}>{children}</CssVarsProvider>;
 };

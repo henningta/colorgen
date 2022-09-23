@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  IconButton,
   Menu,
   MenuItem,
   Sheet,
@@ -40,7 +41,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
         sx={[
           {
             p: 0,
-            pr: 2,
+            pr: 1,
             height: 56,
             width: '100%',
             flexDirection: 'row',
@@ -95,6 +96,9 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
             onChange={(e) => onChange(e.currentTarget.value)}
             sx={{ ml: 2, width: 0, flex: 1 }}
           />
+          <IconButton variant="plain" sx={{ ml: 1 }}>
+            <Icon>casino</Icon>
+          </IconButton>
         </Box>
       </Card>
       <Menu

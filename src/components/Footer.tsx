@@ -44,7 +44,11 @@ const Footer: React.FC<FooterProps> = ({ sx, ...props }) => (
       >
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography>Made with</Typography>
-          <Icon sx={{ ml: '6px' }} style={{ fontSize: 18, color: '#c41e3a' }}>
+          <Icon
+            sx={{ ml: '6px' }}
+            style={{ fontSize: 18, color: '#c41e3a' }}
+            fill
+          >
             favorite
           </Icon>
         </Box>

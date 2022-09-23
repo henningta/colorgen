@@ -87,7 +87,7 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
                   input: { 'aria-label': 'dark mode' },
                   thumb: {
                     children: (
-                      <Icon sx={{ color: 'common.white' }}>
+                      <Icon style={{ color: 'white' }} fill>
                         {mode === 'dark' ? 'brightness_4' : 'brightness_7'}
                       </Icon>
                     ),

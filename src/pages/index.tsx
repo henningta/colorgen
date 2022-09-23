@@ -31,23 +31,19 @@ const HomePage: React.FC<CombinedPageProps> = ({ ...props }) => {
           }}
         >
           <Container maxWidth="sm" sx={{ m: 0, ml: -4 }}>
-            <Typography level="display1" sx={{ color: contrastText }}>
+            <Typography level="display1" textColor={contrastText}>
               Welcome
             </Typography>
             <Box sx={{ mt: 4 }}>
-              <Typography
-                sx={{ color: contrastText }}
-                fontWeight={300}
-                // fontSize={18}
-              >
+              <Typography fontWeight={300} textColor={contrastText}>
                 Welcome to colorgen.io. This tool was created to help designers
                 and developers find just the right color palette they need to
                 beautifully brand their next app.
               </Typography>
               <Typography
-                sx={{ color: contrastText, mt: 4 }}
+                sx={{ mt: 4 }}
                 fontWeight={300}
-                // fontSize={18}
+                textColor={contrastText}
               >
                 This app is a work-in-progress, so stay tuned for more changes
                 and features coming soon.

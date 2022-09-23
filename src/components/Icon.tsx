@@ -5,10 +5,20 @@ import React from 'react';
 
 export type IconProps = BoxProps & {
   children: React.ReactNode;
+  fill?: boolean;
 };
 
-const Icon: React.FC<IconProps> = ({ children, ...props }) => (
-  <Box component="span" className="Icon material-icons" {...props}>
+const Icon: React.FC<IconProps> = ({ children, fill, style, ...props }) => (
+  <Box
+    {...props}
+    component="span"
+    className="Icon material-symbols-outlined"
+    sx={{ color: 'icon' }}
+    style={{
+      fontVariationSettings: `"FILL" ${fill ? '1' : '0'}`,
+      ...style,
+    }}
+  >
     {children}
   </Box>
 );
