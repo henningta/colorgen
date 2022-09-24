@@ -17,12 +17,16 @@ const Footer: React.FC<FooterProps> = ({ sx, ...props }) => (
   <Sheet
     {...props}
     sx={[
-      {
+      (theme) => ({
         height: '72px',
         position: 'relative',
-        marginTop: '-72px',
+        mt: '-160px',
         clear: 'both',
-      },
+
+        [theme.breakpoints.up('md')]: {
+          mt: '-72px',
+        },
+      }),
       ...passSx(sx),
     ]}
   >

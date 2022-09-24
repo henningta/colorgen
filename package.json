@@ -45,6 +45,8 @@
     "gatsby-plugin-react-helmet-async": "^1.2.3",
     "gatsby-plugin-sitemap": "^5.23.1",
     "gatsby-source-filesystem": "^4.23.0",
+    "lodash.debounce": "^4.0.8",
+    "lodash.throttle": "^4.1.1",
     "nearest-color": "^0.4.4",
     "nearest-pantone": "^1.0.1",
     "react": "^18.2.0",
@@ -54,6 +56,8 @@
   },
   "devDependencies": {
     "@types/chroma-js": "^2.1.4",
+    "@types/lodash.debounce": "^4.0.7",
+    "@types/lodash.throttle": "^4.1.7",
     "@types/node": "^16.11.59",
     "@types/react": "^18.0.20",
     "@types/react-dom": "^18.0.5",

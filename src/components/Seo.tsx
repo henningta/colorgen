@@ -76,10 +76,14 @@ const Seo: React.FC<SeoProps> = ({ title, description, image }) => {
       title={seo.title}
       titleTemplate={title ? titleTemplate : undefined}
       prioritizeSeoTags
-      htmlAttributes={{
-        lang: 'en',
-      }}
+      htmlAttributes={{ lang: 'en' }}
     >
+      {/* Override */}
+      {/* <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=yes"
+      /> */}
+
       {/* Global defaults */}
       <link rel="canonical" href={seo.url} />
       <meta name="theme-color" content="#000" />

@@ -1,4 +1,4 @@
-import { Box, Stack, Typography, TypographyProps } from '@mui/joy';
+import { Box, BoxProps, Stack, Typography, TypographyProps } from '@mui/joy';
 import React from 'react';
 import { getContrastColor, passSx } from '../utils';
 import pant from 'nearest-pantone';
@@ -20,12 +20,17 @@ const ColorInfoPart: React.FC<ColorInfoPartProps> = ({
   </Typography>
 );
 
-export type ColorInfoProps = {
+export type ColorInfoProps = BoxProps & {
   colorHex: string;
   colorName: string;
 };
 
-const ColorInfo: React.FC<ColorInfoProps> = ({ colorHex, colorName }) => {
+const ColorInfo: React.FC<ColorInfoProps> = ({
+  colorHex,
+  colorName,
+  style,
+  ...props
+}) => {
   const contrastText = getContrastColor(colorHex);
   const nearestPantone = pant.getClosestColor(colorHex);
 
@@ -35,14 +40,27 @@ const ColorInfo: React.FC<ColorInfoProps> = ({ colorHex, colorName }) => {
   const cmyk = chromaColor.cmyk();
 
   return (
-    <Box style={{ height: '100%', backgroundColor: colorHex }}>
+    <Box
+      {...props}
+      style={{ height: '100%', backgroundColor: colorHex, ...style }}
+    >
       <Stack
-        sx={{
+        sx={(theme) => ({
           minHeight: 'calc(100vh - 64px)',
           justifyContent: 'space-between',
-          py: 16,
-          px: 16,
-        }}
+          py: 4,
+          px: 4,
+
+          [theme.breakpoints.up('sm')]: {
+            py: 12,
+            px: 12,
+          },
+
+          [theme.breakpoints.up('lg')]: {
+            py: 16,
+            px: 16,
+          },
+        })}
       >
         <Box>
           <Typography
@@ -56,7 +74,7 @@ const ColorInfo: React.FC<ColorInfoProps> = ({ colorHex, colorName }) => {
             {colorName}
           </Typography>
         </Box>
-        <Stack>
+        <Stack sx={(theme) => ({ [theme.breakpoints.down('md')]: { mb: 20 } })}>
           <ColorInfoPart label="Hex" textColor={contrastText}>
             {colorHex}
           </ColorInfoPart>

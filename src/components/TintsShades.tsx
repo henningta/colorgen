@@ -25,6 +25,7 @@ const TintsShades: React.FC<TintsShadesProps> = ({ colorHex, colorName }) => {
           title="Tints"
           subtitle={`Mixing ${colorName} with white`}
           colors={tints}
+          fullWidth
           reverse
           sx={{ pt: 6, flex: 1 }}
         />
@@ -32,6 +33,7 @@ const TintsShades: React.FC<TintsShadesProps> = ({ colorHex, colorName }) => {
           title="Shades"
           subtitle={`Mixing ${colorName} with black`}
           colors={shades}
+          fullWidth
           sx={{ pt: 6, flex: 1 }}
         />
       </Stack>

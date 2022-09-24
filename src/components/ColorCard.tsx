@@ -31,10 +31,16 @@ const ColorCard: React.FC<ColorCardProps> = ({
         alignItems: 'center',
         borderRadius: 0,
         boxShadow: 'none',
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
       }}
     >
       {displayHex && (
-        <Typography level="body2" textColor={contrastText}>
+        <Typography
+          level="body2"
+          textColor={contrastText}
+          sx={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
+        >
           {colorHex}
         </Typography>
       )}

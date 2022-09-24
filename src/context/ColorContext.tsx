@@ -6,12 +6,8 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import {
-  getColorHex,
-  getColorName,
-  getContrastColor,
-  throttle,
-} from '../utils';
+import { getColorHex, getColorName, getContrastColor } from '../utils';
+import throttle from 'lodash.throttle';
 
 export type ColorContextType = {
   color: string;
@@ -62,7 +58,7 @@ export const ColorContextProvider: React.FC<ColorContextProviderProps> = ({
   const [contrastText, setContrastText] = useState(initialContrastText);
 
   const throttleSetColorName = useMemo(
-    () => throttle((color: string) => setColorName(getColorName(color))),
+    () => throttle((color: string) => setColorName(getColorName(color)), 50),
     [setColorName]
   );
 

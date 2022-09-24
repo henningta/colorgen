@@ -4,4 +4,3 @@ export * from './CaseInsensitiveMap';
 export * from './color';
 export * from './hooks';
 export * from './joy';
-export * from './thread';

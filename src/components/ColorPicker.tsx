@@ -13,6 +13,8 @@ import React, { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { getColorHex, passSx } from '../utils';
 import Icon from './Icon';
+import { Tooltip } from '@mui/material';
+import chroma from 'chroma-js';
 
 export type ColorPickerProps = Omit<CardProps, 'onChange'> & {
   value: string;
@@ -96,9 +98,15 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
             onChange={(e) => onChange(e.currentTarget.value)}
             sx={{ ml: 2, width: 0, flex: 1 }}
           />
-          <IconButton variant="plain" sx={{ ml: 1 }}>
-            <Icon>casino</Icon>
-          </IconButton>
+          <Tooltip title="Random Hex">
+            <IconButton
+              variant="plain"
+              sx={{ ml: 1 }}
+              onClick={() => onChange(chroma.random().hex())}
+            >
+              <Icon>casino</Icon>
+            </IconButton>
+          </Tooltip>
         </Box>
       </Card>
       <Menu

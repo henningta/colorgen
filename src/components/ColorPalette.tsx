@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Stack, StackProps, Typography } from '@mui/joy';
+import { Unstable_Grid2 as Grid } from '@mui/material';
 import chroma from 'chroma-js';
 import ColorCard from './ColorCard';
 
@@ -10,6 +11,7 @@ type ColorPaletteProps = StackProps & {
   reverse?: boolean;
   width?: number | string;
   height?: number | string;
+  fullWidth?: boolean;
 };
 
 const ColorPalette: React.FC<ColorPaletteProps> = ({
@@ -19,10 +21,14 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({
   reverse,
   width,
   height,
+  fullWidth,
   ...props
 }) => (
   <Stack {...props}>
-    <Container maxWidth={false}>
+    <Container
+      maxWidth={false}
+      sx={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
+    >
       <Typography level="h3" fontWeight={500}>
         {title}
       </Typography>
@@ -30,16 +36,26 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({
         {subtitle}
       </Typography>
     </Container>
-    <Stack direction="row" sx={{ flex: 1, mt: 2 }}>
-      {(reverse ? colors.reverse() : colors).map((x) => (
-        <ColorCard
-          key={x.id}
-          colorHex={x.color.hex()}
-          width={width}
-          height={height}
-        />
-      ))}
-    </Stack>
+    {fullWidth ? (
+      <Grid container sx={{ flex: 1, mt: 2 }}>
+        {(reverse ? colors.reverse() : colors).map((x) => (
+          <Grid key={x.id} xs={3} sm={3} md>
+            <ColorCard colorHex={x.color.hex()} width={width} height={height} />
+          </Grid>
+        ))}
+      </Grid>
+    ) : (
+      <Stack direction="row" sx={{ flex: 1, mt: 2 }}>
+        {(reverse ? colors.reverse() : colors).map((x) => (
+          <ColorCard
+            key={x.id}
+            colorHex={x.color.hex()}
+            width={width}
+            height={height}
+          />
+        ))}
+      </Stack>
+    )}
   </Stack>
 );
 

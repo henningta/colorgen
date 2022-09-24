@@ -33,39 +33,30 @@ type AppProps = {
 const AppContent: React.FC<AppProps> = ({ children }) => {
   const { mode, setMode } = useColorScheme();
   const { color, setColor } = useColorContext();
-  const { nav, bannerPosition, isMobile, bannerHidden } = useAppContext();
+  const { nav, bannerPosition, isMobile } = useAppContext();
 
   const position: SxProps<Theme> = isMobile
     ? {
+        // position: 'absolute',
         bottom: 16,
       }
     : {
+        // position: 'fixed',
         top: 36,
       };
 
   return (
     <>
       <Box
-        sx={{
+        sx={(theme) => ({
           minHeight: '100%',
-          pb: '72px',
-        }}
+          pb: '160px',
+
+          [theme.breakpoints.up('md')]: {
+            pb: '72px',
+          },
+        })}
       >
-        <ClientOnly>
-          <Container
-            sx={{
-              display: nav.includes('home') ? 'none' : undefined,
-              position: 'fixed',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              zIndex: 32,
-              ...position,
-            }}
-            maxWidth="sm"
-          >
-            <ColorPicker value={color} onChange={setColor} />
-          </Container>
-        </ClientOnly>
         <Sheet sx={{ zIndex: 24 }}>
           <Container
             maxWidth={false}
@@ -112,23 +103,35 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
             // ml: bannerPosition === 'left' ? '400px' : 0,
             // transition: '0.3s all ease-in-out',
             minHeight: '100%',
+            // minHeight: 'calc((var(--vh, 1vh) * 100) - 64px)',
+            transition: '150ms height ease-in-out',
           }}
         >
-          {isMobile && (
-            <Container sx={{ py: 1, backgroundColor: 'common.white' }}>
-              <Typography level="body2">
-                The mobile version is currently a work-in-progress. Stay tuned
-                for a new mobile experience coming soon.
-              </Typography>
-            </Container>
-          )}
           {children}
+          <ClientOnly>
+            <Box
+              sx={{
+                width: '100%',
+                maxWidth: 600,
+                px: 2,
+                display: nav.includes('home') ? 'none' : undefined,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 32,
+                transition: 'all 150ms ease-in-out',
+                position: 'fixed',
+                ...position,
+              }}
+            >
+              <ColorPicker value={color} onChange={setColor} />
+            </Box>
+          </ClientOnly>
         </Box>
       </Box>
       <Footer
         sx={{
           ml: bannerPosition === 'top' ? 0 : '400px',
-          mb: isMobile && !bannerHidden ? '88px' : 0,
+          // mb: isMobile && !bannerHidden ? '88px' : 0,
         }}
       />
     </>

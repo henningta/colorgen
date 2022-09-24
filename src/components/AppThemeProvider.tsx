@@ -76,6 +76,16 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
         },
       },
     },
+    components: {
+      MuiTooltip: {
+        styleOverrides: {
+          tooltip: {
+            backgroundColor: '#fff',
+            color: '#09090d',
+          },
+        },
+      },
+    },
   });
 
   const joyTheme = extendJoyTheme({
@@ -102,7 +112,20 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
     typography: {
       display1: {
         fontWeight: 300,
-        fontSize: 96,
+        fontSize: '3rem',
+
+        // '@media (min-width:600px)': {
+        //   fontSize: '4rem',
+        // },
+        // '@media (min-width:900px)': {
+        //   fontSize: '4rem',
+        // },
+        '@media (min-width:1200px)': {
+          fontSize: '5rem',
+        },
+        '@media (min-width:1536px)': {
+          fontSize: '6rem',
+        },
       },
       display2: {
         fontWeight: 300,
@@ -115,6 +138,11 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
       },
       h3: {
         fontWeight: 300,
+        fontSize: '1.5rem',
+
+        '@media (min-width:1200px)': {
+          fontSize: '2rem',
+        },
       },
       h4: {
         fontWeight: 300,
@@ -198,7 +226,12 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
 
   const theme = deepmerge(muiTheme, joyTheme);
 
-  return <CssVarsProvider theme={theme}>{children}</CssVarsProvider>;
+  return (
+    <CssVarsProvider theme={theme}>
+      {/* <CssBaseline /> */}
+      {children}
+    </CssVarsProvider>
+  );
 };
 
 export default AppThemeProvider;

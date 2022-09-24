@@ -9,7 +9,7 @@ import {
   TintsShades,
 } from '../components';
 import { useAppContext, useColorContext } from '../context';
-import { debounce } from '../utils';
+import debounce from 'lodash.debounce';
 
 export type ColorProps = CombinedPageProps & {
   hex: string;
