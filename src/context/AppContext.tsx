@@ -10,7 +10,7 @@ import { useWindowSize } from '../utils';
 export type AppContextType = {
   isMobile: boolean;
   mobileColorMenuOpen: boolean;
-  onMobileColorMenuOpenChange: (open: boolean) => void;
+  onMobileColorMenuOpenChange: React.Dispatch<React.SetStateAction<boolean>>;
   scrollLock: boolean;
   setScrollLock: (locked: boolean) => void;
   nav: string[];

@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   IconButton,
@@ -14,7 +15,7 @@ import React, { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { copyToClipboard, getColorHex, passSx } from '../utils';
 import Icon from './Icon';
-import { Tooltip } from '@mui/material';
+import { Snackbar, Tooltip } from '@mui/material';
 import chroma from 'chroma-js';
 
 export type ColorPickerProps = Omit<CardProps, 'onChange'> & {
@@ -33,11 +34,25 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   const { mode } = useColorScheme();
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement>();
+  const [copySnackbarVisible, setCopySnackbarVisible] = useState(false);
 
   const colorHex = getColorHex(value);
 
   const toggleMenu: React.MouseEventHandler<HTMLElement> = (e) =>
     setAnchorEl((prev) => (prev ? undefined : e.currentTarget));
+
+  const copyColorHex = async () => {
+    if (!colorHex) {
+      return;
+    }
+
+    try {
+      await copyToClipboard(colorHex);
+      setCopySnackbarVisible(true);
+    } catch (e) {
+      console.error('Copy error: ', e);
+    }
+  };
 
   return (
     <>
@@ -105,24 +120,28 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
             value={value}
             onChange={(e) => onChange(e.currentTarget.value)}
             sx={{ ml: 2, width: 0, flex: 1 }}
+            endDecorator={
+              <>
+                <Tooltip title="Copy Hex" placement="top">
+                  <IconButton
+                    variant="plain"
+                    onClick={() => void copyColorHex()}
+                    sx={{ mr: 1 }}
+                  >
+                    <Icon>content_copy</Icon>
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Random" placement="top">
+                  <IconButton
+                    variant="plain"
+                    onClick={() => onChange(chroma.random().hex())}
+                  >
+                    <Icon>casino</Icon>
+                  </IconButton>
+                </Tooltip>
+              </>
+            }
           />
-          <Tooltip title="Copy Hex" placement="top">
-            <IconButton
-              variant="plain"
-              sx={{ ml: 1 }}
-              onClick={() => colorHex && void copyToClipboard(colorHex)}
-            >
-              <Icon>content_copy</Icon>
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Random" placement="top">
-            <IconButton
-              variant="plain"
-              onClick={() => onChange(chroma.random().hex())}
-            >
-              <Icon>casino</Icon>
-            </IconButton>
-          </Tooltip>
         </Stack>
       </Card>
       <Menu
@@ -148,6 +167,15 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
           />
         </MenuItem>
       </Menu>
+      <Snackbar
+        open={copySnackbarVisible}
+        onClose={() => setCopySnackbarVisible(false)}
+        autoHideDuration={4000}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        sx={{ top: 72 }}
+      >
+        <Alert color="neutral">&ldquo;{colorHex}&rdquo; copied</Alert>
+      </Snackbar>
     </>
   );
 };

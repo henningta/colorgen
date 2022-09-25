@@ -4,7 +4,10 @@ import {
   CssVarsProvider,
   extendTheme as extendJoyTheme,
 } from '@mui/joy';
-import { experimental_extendTheme as extendMuiTheme } from '@mui/material';
+import {
+  CssBaseline,
+  experimental_extendTheme as extendMuiTheme,
+} from '@mui/material';
 import { deepmerge } from '@mui/utils';
 
 export type AppThemeProviderProps = {
@@ -77,6 +80,13 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
       },
     },
     components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          '.react-colorful__pointer': {
+            transition: '150ms all cubic-bezier(0.4, 0, 0.2, 1)',
+          },
+        },
+      },
       MuiTooltip: {
         styleOverrides: {
           tooltip: {
@@ -236,7 +246,7 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
 
   return (
     <CssVarsProvider theme={theme}>
-      {/* <CssBaseline /> */}
+      <CssBaseline />
       {children}
     </CssVarsProvider>
   );

@@ -9,9 +9,9 @@ body {
   height: 100%;
 }
 
-html {
+/* html {
   box-sizing: border-box;
-}
+} */
 
 html[data-joy-color-scheme='light'] body {
   background-color: var(--bg-color--light);
@@ -21,17 +21,17 @@ html[data-joy-color-scheme='dark'] body {
   background-color: var(--bg-color--dark);
 }
 
-body {
+/* body {
   margin: 0;
-}
+} */
 
 #___gatsby,
 #gatsby-focus-wrapper {
   height: 100%;
 }
 
-*,
+/* *,
 *:before,
 *:after {
   box-sizing: inherit;
-}
+} */
