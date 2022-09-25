@@ -156,6 +156,9 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
     },
     components: {
       JoyButton: {
+        defaultProps: {
+          color: 'neutral',
+        },
         styleOverrides: {
           root: {
             fontWeight: 600,
@@ -191,6 +194,11 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
               borderBottom: '1px dotted var(--joy-palette-primary-softColor)',
             },
           },
+        },
+      },
+      JoySlider: {
+        defaultProps: {
+          color: 'neutral',
         },
       },
       JoySwitch: {

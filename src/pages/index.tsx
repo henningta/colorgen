@@ -111,6 +111,7 @@ const HomePage: React.FC<CombinedPageProps> = ({ ...props }) => {
                   <ColorPicker
                     value={color}
                     onChange={setColor}
+                    useHexPicker
                     sx={{ mt: 8 }}
                   />
                   <ColorButton
@@ -137,6 +138,7 @@ const HomePage: React.FC<CombinedPageProps> = ({ ...props }) => {
                 <ColorPicker
                   value={color}
                   onChange={setColor}
+                  useHexPicker
                   sx={{ maxWidth: 536, my: 2 }}
                 />
                 <ColorButton

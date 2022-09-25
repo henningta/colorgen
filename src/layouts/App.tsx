@@ -6,6 +6,7 @@ import {
   Fonts,
   Footer,
   Icon,
+  MobileColorMenu,
   Splash,
 } from '../components';
 import {
@@ -13,7 +14,6 @@ import {
   Container,
   Sheet,
   Switch,
-  Theme,
   Typography,
   useColorScheme,
 } from '@mui/joy';
@@ -24,7 +24,6 @@ import {
   useColorContext,
 } from '../context';
 import { Link } from 'gatsby';
-import { SxProps } from '@mui/system';
 
 type AppProps = {
   children: React.ReactNode;
@@ -33,17 +32,7 @@ type AppProps = {
 const AppContent: React.FC<AppProps> = ({ children }) => {
   const { mode, setMode } = useColorScheme();
   const { color, setColor } = useColorContext();
-  const { nav, bannerPosition, isMobile } = useAppContext();
-
-  const position: SxProps<Theme> = isMobile
-    ? {
-        // position: 'absolute',
-        bottom: 16,
-      }
-    : {
-        // position: 'fixed',
-        top: 36,
-      };
+  const { nav, isMobile } = useAppContext();
 
   return (
     <>
@@ -97,16 +86,7 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
             </ClientOnly>
           </Container>
         </Sheet>
-        <Box
-          sx={{
-            position: 'relative',
-            // ml: bannerPosition === 'left' ? '400px' : 0,
-            // transition: '0.3s all ease-in-out',
-            minHeight: '100%',
-            // minHeight: 'calc((var(--vh, 1vh) * 100) - 64px)',
-            transition: '150ms height ease-in-out',
-          }}
-        >
+        <Box sx={{ position: 'relative', minHeight: '100%' }}>
           {children}
           <ClientOnly>
             <Box
@@ -114,26 +94,28 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
                 width: '100%',
                 maxWidth: 600,
                 px: 2,
-                display: nav.includes('home') ? 'none' : undefined,
+                display: nav.includes('home') || isMobile ? 'none' : undefined,
+                position: 'fixed',
                 left: '50%',
                 transform: 'translateX(-50%)',
                 zIndex: 32,
                 transition: 'all 150ms ease-in-out',
-                position: 'fixed',
-                ...position,
+                top: 36,
               }}
             >
-              <ColorPicker value={color} onChange={setColor} />
+              <ColorPicker
+                value={color}
+                onChange={setColor}
+                useHexPicker={!isMobile}
+              />
             </Box>
           </ClientOnly>
         </Box>
       </Box>
-      <Footer
-        sx={{
-          ml: bannerPosition === 'top' ? 0 : '400px',
-          // mb: isMobile && !bannerHidden ? '88px' : 0,
-        }}
-      />
+      <Footer />
+      <ClientOnly>
+        ≈{isMobile && !nav.includes('home') && <MobileColorMenu />}
+      </ClientOnly>
     </>
   );
 };

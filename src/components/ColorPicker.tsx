@@ -5,13 +5,14 @@ import {
   Menu,
   MenuItem,
   Sheet,
+  Stack,
   TextField,
   useColorScheme,
 } from '@mui/joy';
 import Card, { CardProps } from '@mui/joy/Card';
 import React, { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
-import { getColorHex, passSx } from '../utils';
+import { copyToClipboard, getColorHex, passSx } from '../utils';
 import Icon from './Icon';
 import { Tooltip } from '@mui/material';
 import chroma from 'chroma-js';
@@ -19,11 +20,13 @@ import chroma from 'chroma-js';
 export type ColorPickerProps = Omit<CardProps, 'onChange'> & {
   value: string;
   onChange: (color: string) => void;
+  useHexPicker?: boolean;
 };
 
 const ColorPicker: React.FC<ColorPickerProps> = ({
   value,
   onChange,
+  useHexPicker,
   sx,
   ...props
 }) => {
@@ -33,7 +36,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
 
   const colorHex = getColorHex(value);
 
-  const toggleMenu: React.MouseEventHandler<HTMLAnchorElement> = (e) =>
+  const toggleMenu: React.MouseEventHandler<HTMLElement> = (e) =>
     setAnchorEl((prev) => (prev ? undefined : e.currentTarget));
 
   return (
@@ -55,35 +58,40 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
         ]}
         {...props}
       >
-        <Button
-          id="color-picker-button"
-          variant="plain"
-          color="neutral"
-          sx={{
-            height: '100%',
-            minWidth: 80,
-            borderTopRightRadius: 0,
-            borderBottomRightRadius: 0,
-            pl: 3,
-          }}
-          onClick={toggleMenu}
-          endDecorator={
-            <Icon style={{ fontSize: 18 }}>keyboard_arrow_down</Icon>
-          }
-        >
-          Hex
-        </Button>
-        <Box
-          sx={{
-            width: '2px',
-            height: '100%',
-            backgroundColor: mode === 'dark' ? '#333' : '#ccc',
-          }}
-        />
-        <Box
-          sx={{ pl: 2, display: 'flex', alignItems: 'center', width: '100%' }}
+        {useHexPicker && (
+          <>
+            <Button
+              id="color-picker-button"
+              variant="plain"
+              sx={{
+                height: '100%',
+                minWidth: 80,
+                borderTopRightRadius: 0,
+                borderBottomRightRadius: 0,
+                // pl: 3,
+              }}
+              onClick={toggleMenu}
+              endDecorator={
+                <Icon style={{ fontSize: 18 }}>keyboard_arrow_down</Icon>
+              }
+            >
+              Hex
+            </Button>
+            <Box
+              sx={{
+                width: '2px',
+                height: '100%',
+                backgroundColor: mode === 'dark' ? '#333' : '#ccc',
+              }}
+            />
+          </>
+        )}
+        <Stack
+          direction="row"
+          sx={{ pl: 2, alignItems: 'center', width: '100%' }}
         >
           <Sheet
+            id="color-picker-button"
             variant="outlined"
             style={{
               width: 28,
@@ -98,16 +106,24 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
             onChange={(e) => onChange(e.currentTarget.value)}
             sx={{ ml: 2, width: 0, flex: 1 }}
           />
-          <Tooltip title="Random Hex">
+          <Tooltip title="Copy Hex" placement="top">
             <IconButton
               variant="plain"
               sx={{ ml: 1 }}
+              onClick={() => colorHex && void copyToClipboard(colorHex)}
+            >
+              <Icon>content_copy</Icon>
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Random" placement="top">
+            <IconButton
+              variant="plain"
               onClick={() => onChange(chroma.random().hex())}
             >
               <Icon>casino</Icon>
             </IconButton>
           </Tooltip>
-        </Box>
+        </Stack>
       </Card>
       <Menu
         id="color-picker-menu"

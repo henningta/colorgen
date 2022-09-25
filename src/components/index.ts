@@ -28,6 +28,9 @@ export * from './Fonts';
 export { default as Footer } from './Footer';
 export * from './Footer';
 
+export { default as MobileColorMenu } from './MobileColorMenu';
+export * from './MobileColorMenu';
+
 export { default as Page } from './Page';
 export * from './Page';
 

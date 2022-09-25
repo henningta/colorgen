@@ -70,7 +70,11 @@ const ColorInfo: React.FC<ColorInfoProps> = ({
           >
             {colorHex}
           </Typography>
-          <Typography level="display1" textColor={contrastText}>
+          <Typography
+            level="display1"
+            textColor={contrastText}
+            sx={{ wordWrap: 'break-word', hyphens: 'auto' }}
+          >
             {colorName}
           </Typography>
         </Box>
