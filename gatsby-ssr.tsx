@@ -10,17 +10,16 @@ import { AppLayout } from './src/layouts';
 import { Fonts, Splash } from './src/components';
 
 const onRenderBody: GatsbySSR['onRenderBody'] = ({
-  pathname,
   setHeadComponents,
   setHtmlAttributes,
   setPreBodyComponents,
 }) => {
-  setHtmlAttributes({ lang: 'en' });
+  // setHtmlAttributes({ lang: 'en' });
 
-  setHeadComponents([
-    // <meta key="title" name="title" content={pathname} />,
-    // <meta key="description" name="description" content="Description" />,
-  ]);
+  // setHeadComponents([
+  //   <meta key="title" name="title" content={pathname} />,
+  //   <meta key="description" name="description" content="Description" />,
+  // ]);
 
   setPreBodyComponents([
     <React.Fragment key="joy">{getInitColorSchemeScript()}</React.Fragment>,
