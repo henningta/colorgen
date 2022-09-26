@@ -1,8 +1,5 @@
 export * from './seo';
 
-export { default as AppThemeProvider } from './AppThemeProvider';
-export * from './AppThemeProvider';
-
 export { default as ClientOnly } from './ClientOnly';
 export * from './ClientOnly';
 

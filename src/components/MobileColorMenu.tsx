@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { SwipeableDrawer, SwipeableDrawerProps, Tooltip } from '@mui/material';
-import {
-  SnackbarContextProvider,
-  useAppContext,
-  useColorContext,
-} from '../context';
+import { SnackbarProvider, useAppContext, useColorContext } from '../context';
 import {
   Box,
   Button,
@@ -18,7 +14,7 @@ import {
 import ColorPicker from './ColorPicker';
 import chroma from 'chroma-js';
 import { HexColorPicker } from 'react-colorful';
-import { getColorHex } from '../utils';
+import { getColorHex, useOnClickOutside } from '../utils';
 import Icon from './Icon';
 
 const drawerBleeding = 80;
@@ -53,6 +49,8 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
   const { mobileColorMenuOpen, onMobileColorMenuOpenChange } = useAppContext();
   const { color, setColor } = useColorContext();
 
+  const drawerRef = useRef<HTMLDivElement>(null);
+
   const [activePanel, setActivePanel] = useState<ColorPanelOption>('hex');
   const [chromaColor, setChromaColor] = useState<chroma.Color>();
 
@@ -64,9 +62,12 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
     }
   }, [colorHex]);
 
+  useOnClickOutside(drawerRef, () => onMobileColorMenuOpenChange(false));
+
   return (
     <SwipeableDrawer
       {...props}
+      ref={drawerRef}
       open={mobileColorMenuOpen}
       onOpen={() => onMobileColorMenuOpenChange(true)}
       onClose={() => onMobileColorMenuOpenChange(false)}
@@ -82,7 +83,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
       disableSwipeToOpen
       hideBackdrop
     >
-      <SnackbarContextProvider
+      <SnackbarProvider
         SnackbarProps={{
           anchorOrigin: { vertical: 'top', horizontal: 'right' },
           sx: {
@@ -139,7 +140,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
         </Sheet>
         <Sheet sx={{ py: 2 }}>
           <Stack direction="row">
-            <Stack sx={{ width: 80 }}>
+            <Stack sx={{ width: 72 }}>
               <ColorOptionButton
                 variant="plain"
                 onClick={() => setActivePanel('hex')}
@@ -201,7 +202,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                 CMYK
               </ColorOptionButton>
             </Stack>
-            <Box sx={{ flex: 1, px: 2 }}>
+            <Box sx={{ flex: 1, pl: 2 }}>
               {activePanel === 'hex' ? (
                 <HexColorPicker
                   color={colorHex}
@@ -461,9 +462,19 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                 <></>
               )}
             </Box>
+            <Stack sx={{ width: 56, alignItems: 'center' }}>
+              <Tooltip title="Random" placement="left">
+                <IconButton
+                  variant="plain"
+                  onClick={() => setColor(chroma.random().hex())}
+                >
+                  <Icon>casino</Icon>
+                </IconButton>
+              </Tooltip>
+            </Stack>
           </Stack>
         </Sheet>
-      </SnackbarContextProvider>
+      </SnackbarProvider>
     </SwipeableDrawer>
   );
 };

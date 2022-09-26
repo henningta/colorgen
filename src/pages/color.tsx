@@ -38,20 +38,21 @@ const Color: React.FC<ColorProps> = ({ hex, ...props }) => {
   useEffect(() => {
     if (!hex || !chroma.valid(hex)) {
       void navigate('/', { replace: true });
+    } else {
+      setColor(`#${hex}`);
+      console.log('gggg');
     }
-  }, [hex]);
-
-  useEffect(() => {
-    setColor(`#${hex}`);
   }, [setColor, hex]);
 
   useEffect(() => {
     try {
-      debounceSetUrl(colorHex);
+      if (hex && chroma.valid(hex)) {
+        debounceSetUrl(colorHex);
+      }
     } catch (e) {
       /* ignore */
     }
-  }, [debounceSetUrl, colorHex]);
+  }, [debounceSetUrl, hex, colorHex]);
 
   useEffect(() => {
     setNav(['color']);

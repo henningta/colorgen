@@ -49,7 +49,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
     try {
       await copyToClipboard(colorHex);
       setSnackbar({
-        message: <>&ldquo;{colorHex}&rdquo; copied</>,
+        icon: { name: 'content_copy' },
+        message: <>&ldquo;{colorHex}&rdquo; copied to clipboard.</>,
         dismissable: true,
       });
     } catch (e) {
@@ -79,7 +80,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
         {useHexPicker && (
           <>
             <Button
-              id="color-picker-button"
+              id="color-picker-menu--button"
               variant="plain"
               sx={{
                 height: '100%',
@@ -103,42 +104,37 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
             />
           </>
         )}
-        <Stack
-          direction="row"
-          sx={{ pl: 2, alignItems: 'center', width: '100%' }}
-        >
-          <Sheet
-            id="color-picker-button"
-            variant="outlined"
-            style={{
-              width: 28,
-              height: 28,
-              backgroundColor: colorHex,
-              borderRadius: '50%',
-            }}
-          />
+        <Stack direction="row" sx={{ alignItems: 'center', width: '100%' }}>
+          <Box sx={{ width: 72, display: 'flex', justifyContent: 'center' }}>
+            <Sheet
+              variant="outlined"
+              style={{
+                width: 28,
+                height: 28,
+                backgroundColor: colorHex,
+                borderRadius: '50%',
+              }}
+            />
+          </Box>
           <TextField
             variant="soft"
             value={value}
             onChange={(e) => onChange(e.currentTarget.value)}
-            sx={{ ml: 2, width: 0, flex: 1 }}
+            sx={(theme) => ({
+              width: 0,
+              flex: 1,
+              [theme.breakpoints.down('md')]: { ml: 2 },
+            })}
+            onFocus={(e) => e.target.select()}
+            startDecorator={<Icon>search</Icon>}
             endDecorator={
               <>
                 <Tooltip title="Copy Hex" placement="top">
                   <IconButton
                     variant="plain"
                     onClick={() => void copyColorHex()}
-                    sx={{ mr: '4px' }}
                   >
                     <Icon>content_copy</Icon>
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Random" placement="top">
-                  <IconButton
-                    variant="plain"
-                    onClick={() => onChange(chroma.random().hex())}
-                  >
-                    <Icon>casino</Icon>
                   </IconButton>
                 </Tooltip>
               </>
@@ -147,26 +143,43 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
         </Stack>
       </Card>
       <Menu
-        id="color-picker-menu"
+        id="color-picker--menu"
         anchorEl={anchorEl}
         open={!!anchorEl}
         onClose={() => setAnchorEl(undefined)}
-        aria-labelledby="color-picker-button"
+        aria-labelledby="color-picker-menu--button"
         sx={{
           p: 0,
           overflow: 'visible',
           backgroundColor: 'transparent',
+          boxShadow: 'none',
           border: 'none',
         }}
       >
         <MenuItem
           sx={{ padding: 0, '&:hover': { backgroundColor: 'inherit' } }}
         >
-          <HexColorPicker
-            style={{ width: 200 }}
-            color={colorHex}
-            onChange={onChange}
-          />
+          <Stack direction="row">
+            <Box sx={{ boxShadow: 'md' }}>
+              <HexColorPicker
+                style={{ width: 200 }}
+                color={colorHex}
+                onChange={onChange}
+              />
+            </Box>
+            <Stack sx={{ ml: 1, pt: 2 }}>
+              <Tooltip title="Random" placement="right">
+                <Card sx={{ p: 0, boxShadow: 'md' }}>
+                  <IconButton
+                    variant="plain"
+                    onClick={() => onChange(chroma.random().hex())}
+                  >
+                    <Icon>casino</Icon>
+                  </IconButton>
+                </Card>
+              </Tooltip>
+            </Stack>
+          </Stack>
         </MenuItem>
       </Menu>
     </>

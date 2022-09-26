@@ -1,13 +1,10 @@
 import React from 'react';
 import {
-  AppThemeProvider,
   ClientOnly,
   ColorPicker,
-  Fonts,
   Footer,
   Icon,
   MobileColorMenu,
-  Splash,
 } from '../components';
 import {
   Box,
@@ -17,20 +14,14 @@ import {
   Typography,
   useColorScheme,
 } from '@mui/joy';
-import {
-  AppContextProvider,
-  ColorContextProvider,
-  SnackbarContextProvider,
-  useAppContext,
-  useColorContext,
-} from '../context';
+import { useAppContext, useColorContext } from '../context';
 import { Link } from 'gatsby';
 
-type AppProps = {
+type AppLayoutProps = {
   children: React.ReactNode;
 };
 
-const AppContent: React.FC<AppProps> = ({ children }) => {
+const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const { mode, setMode } = useColorScheme();
   const { color, setColor } = useColorContext();
   const { nav, isMobile } = useAppContext();
@@ -121,20 +112,4 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
   );
 };
 
-const App: React.FC<AppProps> = ({ children }) => (
-  <>
-    <Splash />
-    <Fonts />
-    <AppThemeProvider>
-      <SnackbarContextProvider>
-        <AppContextProvider>
-          <ColorContextProvider>
-            <AppContent>{children}</AppContent>
-          </ColorContextProvider>
-        </AppContextProvider>
-      </SnackbarContextProvider>
-    </AppThemeProvider>
-  </>
-);
-
-export default App;
+export default AppLayout;

@@ -1,7 +1,15 @@
 import './src/styles/global.css';
 
-import debounce from 'lodash.debounce';
+import React from 'react';
 import { GatsbyBrowser } from 'gatsby';
+import debounce from 'lodash.debounce';
+import {
+  AppContextProvider,
+  ColorContextProvider,
+  SnackbarProvider,
+} from './src/context';
+import { AppLayout } from './src/layouts';
+import { Fonts, Splash } from './src/components';
 
 const onClientEntry: GatsbyBrowser['onClientEntry'] = () => {
   console.debug('GatsbyBrowser: onClientEntry');
@@ -30,4 +38,26 @@ const onInitialClientRender: GatsbyBrowser['onInitialClientRender'] = () => {
   window.dispatchEvent(new Event('resize'));
 };
 
-export { onClientEntry, onInitialClientRender };
+const wrapPageElement: GatsbyBrowser['wrapPageElement'] = ({
+  element,
+  props,
+}) => (
+  <SnackbarProvider>
+    <Splash />
+    <Fonts />
+    <AppLayout {...props}>{element}</AppLayout>
+  </SnackbarProvider>
+);
+
+const wrapRootElement: GatsbyBrowser['wrapRootElement'] = ({ element }) => (
+  <AppContextProvider>
+    <ColorContextProvider>{element}</ColorContextProvider>
+  </AppContextProvider>
+);
+
+export {
+  onClientEntry,
+  onInitialClientRender,
+  wrapPageElement,
+  wrapRootElement,
+};

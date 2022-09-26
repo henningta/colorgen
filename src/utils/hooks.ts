@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 // Hook
 export const useWindowSize = () => {
@@ -32,21 +32,26 @@ export const useMounted = () => {
   return mounted;
 };
 
-export const useScrollPosition = () => {
-  const [scrollPosition, setScrollPosition] = useState(0);
+export const useOnClickOutside = <T extends Element>(
+  ref: React.RefObject<T>,
+  callback: (e: MouseEvent | TouchEvent) => void
+) => {
+  const listener = useCallback(
+    (e: MouseEvent | TouchEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        callback(e);
+      }
+    },
+    [ref, callback]
+  );
 
   useEffect(() => {
-    const updatePosition = () => {
-      setScrollPosition(window.pageYOffset);
-    };
-
-    window.addEventListener('scroll', updatePosition);
-    updatePosition();
+    document.addEventListener('mousedown', listener);
+    document.addEventListener('touchstart', listener);
 
     return () => {
-      window.removeEventListener('scroll', updatePosition);
+      document.removeEventListener('mousedown', listener);
+      document.removeEventListener('touchstart', listener);
     };
-  }, []);
-
-  return scrollPosition;
+  }, [listener]);
 };

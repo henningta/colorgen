@@ -18,12 +18,8 @@ const config = {
     // },
   },
   plugins: [
-    {
-      resolve: `gatsby-plugin-layout`,
-      options: {
-        component: require.resolve('./src/layouts/App.tsx'),
-      },
-    },
+    'gatsby-plugin-no-sourcemaps',
+    'gatsby-plugin-joy-theme',
     {
       resolve: 'gatsby-plugin-root-import',
       options: {

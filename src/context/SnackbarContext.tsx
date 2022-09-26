@@ -11,6 +11,10 @@ import { Icon } from '../components';
 
 export type SnackbarMessage = {
   key: number;
+  icon?: {
+    name: string;
+    fill?: boolean;
+  };
   message: React.ReactNode;
   color?: AlertProps['color'];
   dismissable?: boolean;
@@ -36,14 +40,15 @@ export const useSnackbarContext = () => {
   return context;
 };
 
-export type SnackbarContextProviderProps = {
+export type SnackbarProviderProps = {
   children: React.ReactNode;
   SnackbarProps?: SnackbarProps;
 };
 
-export const SnackbarContextProvider: React.FC<
-  SnackbarContextProviderProps
-> = ({ children, SnackbarProps }) => {
+export const SnackbarProvider: React.FC<SnackbarProviderProps> = ({
+  children,
+  SnackbarProps,
+}) => {
   const [snackPack, setSnackPack] = useState<readonly SnackbarMessage[]>([]);
   const [open, setOpen] = useState(false);
   const [activeSnackbar, setActiveSnackbar] = useState<SnackbarMessage>();
@@ -100,10 +105,17 @@ export const SnackbarContextProvider: React.FC<
         <Alert
           color={activeSnackbar?.color}
           sx={{ boxShadow: 'lg' }}
+          startDecorator={
+            activeSnackbar?.icon && (
+              <Icon fill={activeSnackbar.icon.fill}>
+                {activeSnackbar.icon.name}
+              </Icon>
+            )
+          }
           endDecorator={
             activeSnackbar?.dismissable && (
-              <IconButton onClick={onClose}>
-                <Icon>close</Icon>
+              <IconButton onClick={onClose} sx={{ p: 0, ml: 1, mr: -1 }}>
+                <Icon style={{ fontSize: 20 }}>close</Icon>
               </IconButton>
             )
           }
