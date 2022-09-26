@@ -21,11 +21,11 @@ export type ColorProps = CombinedPageProps<
   object,
   unknown,
   ServerDataProps
-> & {
-  hex: string;
-};
+>;
 
-const Color: React.FC<ColorProps> = ({ hex, serverData, ...props }) => {
+const Color: React.FC<ColorProps> = ({ serverData, ...props }) => {
+  const { hex: serverHex } = serverData;
+
   const { colorName, colorHex, setColor } = useColorContext();
   const { setNav } = useAppContext();
   const { titleTemplate } = useSiteMetadata();
@@ -44,22 +44,22 @@ const Color: React.FC<ColorProps> = ({ hex, serverData, ...props }) => {
   );
 
   useEffect(() => {
-    if (!hex || !chroma.valid(hex)) {
+    if (!serverHex || !chroma.valid(serverHex)) {
       void navigate('/', { replace: true });
     } else {
-      setColor(`#${hex}`);
+      setColor(serverHex);
     }
-  }, [setColor, hex]);
+  }, [setColor, serverHex]);
 
   useEffect(() => {
     try {
-      if (hex && chroma.valid(hex)) {
+      if (serverHex && chroma.valid(serverHex)) {
         debounceSetUrl(colorHex);
       }
     } catch (e) {
       /* ignore */
     }
-  }, [debounceSetUrl, hex, colorHex]);
+  }, [debounceSetUrl, serverHex, colorHex]);
 
   useEffect(() => {
     setNav(['color']);
