@@ -3,7 +3,6 @@ import { PageProps } from 'gatsby';
 import React from 'react';
 import { useAppContext } from '../context';
 import { passSx, useMounted } from '../utils';
-import Seo, { SeoProps } from './Seo';
 
 export type CombinedPageProps<
   DataType = object,
@@ -14,8 +13,7 @@ export type CombinedPageProps<
   PageProps<DataType, PageContextType, LocationState, ServerDataType>,
   'children'
 > &
-  ContainerProps &
-  SeoProps & {
+  ContainerProps & {
     children?: React.ReactNode;
     showPageTitle?: boolean;
   };
@@ -23,8 +21,6 @@ export type CombinedPageProps<
 const Page: React.FC<CombinedPageProps> = ({
   children,
   title,
-  description,
-  image,
   sx,
   showPageTitle,
   datatype,
@@ -50,7 +46,6 @@ const Page: React.FC<CombinedPageProps> = ({
         ...passSx(sx),
       ]}
     >
-      <Seo title={title} description={description} image={image} />
       {title && showPageTitle && (
         <Typography level={isMobile ? 'h2' : 'h1'} mb={4}>
           {title}

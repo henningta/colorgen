@@ -1,3 +1,5 @@
+export * from './seo';
+
 export { default as AppThemeProvider } from './AppThemeProvider';
 export * from './AppThemeProvider';
 
@@ -22,9 +24,6 @@ export * from './ColorPicker';
 export { default as Icon } from './Icon';
 export * from './Icon';
 
-export { default as Fonts } from './Fonts';
-export * from './Fonts';
-
 export { default as Footer } from './Footer';
 export * from './Footer';
 
@@ -33,9 +32,6 @@ export * from './MobileColorMenu';
 
 export { default as Page } from './Page';
 export * from './Page';
-
-export { default as Seo } from './Seo';
-export * from './Seo';
 
 export { default as Spinner } from './Spinner';
 export * from './Spinner';

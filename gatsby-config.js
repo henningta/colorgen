@@ -1,9 +1,12 @@
 const path = require('path');
+const { GatsbyConfig } = require('gatsby');
 
-module.exports = {
+/**
+ * @type GatsbyConfig
+ */
+const config = {
   siteMetadata: {
     siteName: 'colorgen.io',
-    title: 'colorgen.io',
     titleTemplate: '%s · colorgen.io',
     description: 'An advanced color visualizer and palette generator tool',
     siteUrl: 'https://www.colorgen.io/',
@@ -29,7 +32,6 @@ module.exports = {
         styles: path.join(__dirname, 'src/styles'),
       },
     },
-    'gatsby-plugin-react-helmet-async',
     'gatsby-plugin-sitemap',
     // {
     //   resolve: 'gatsby-plugin-manifest',
@@ -47,3 +49,5 @@ module.exports = {
     },
   ],
 };
+
+module.exports = config;

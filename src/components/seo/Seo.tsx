@@ -1,63 +1,45 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useLocation } from '@reach/router';
-import { useStaticQuery, graphql } from 'gatsby';
+import { useMounted } from '../../utils';
+import useSiteMetadata from './useSiteMetadata';
 
-// const query = graphql`
-//   query SEO {
-//     site {
-//       siteMetadata {
-//         defaultTitle: title
-//         titleTemplate
-//         defaultDescription: description
-//         siteUrl
-//         defaultImage: image {
-//           url
-//           alt
-//           width
-//           height
-//         }
-//         siteName
-//       }
-//     }
-//   }
-// `;
-
-const query = graphql`
-  query SEO {
-    site {
-      siteMetadata {
-        defaultTitle: title
-        titleTemplate
-        defaultDescription: description
-        siteUrl
-        siteName
-      }
-    }
-  }
-`;
+const fontsUrl =
+  'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&family=Manrope:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap';
 
 export type SeoProps = {
+  children?: React.ReactNode;
   title?: string;
   description?: string;
   image?: any;
+  pathname?: string;
 };
 
-const Seo: React.FC<SeoProps> = ({ title, description, image }) => {
-  const { pathname } = useLocation();
-  const { site } = useStaticQuery(query);
+type SeoType = {
+  title?: string;
+  titleTemplate: string;
+  description: string;
+  url: string;
+  siteName: string;
+};
+
+const Seo: React.FC<SeoProps> = ({
+  children,
+  title,
+  description,
+  pathname,
+}) => {
+  const mounted = useMounted();
 
   const {
-    defaultTitle,
     titleTemplate,
-    defaultDescription,
+    description: defaultDescription,
+    // image,
     siteUrl,
-    // defaultImage,
     siteName,
-  } = site.siteMetadata;
+  } = useSiteMetadata();
 
-  const seo = {
-    title: title || defaultTitle,
+  const seo: SeoType = {
+    title,
+    titleTemplate,
     description: description || defaultDescription,
     // image: image
     //   ? {
@@ -68,21 +50,16 @@ const Seo: React.FC<SeoProps> = ({ title, description, image }) => {
     //       ...defaultImage,
     //       url: `${siteUrl}${defaultImage.url}`,
     //     },
-    url: `${siteUrl}${pathname}`,
+    url: `${siteUrl}${pathname || ''}`,
+    siteName,
   };
 
   return (
-    <Helmet
-      title={seo.title}
-      titleTemplate={title ? titleTemplate : undefined}
-      prioritizeSeoTags
-      htmlAttributes={{ lang: 'en' }}
-    >
-      {/* Override */}
-      {/* <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1, shrink-to-fit=yes"
-      /> */}
+    <>
+      {/* Page/tab title */}
+      <title>
+        {seo.title ? titleTemplate.replace('%s', seo.title) : seo.siteName}
+      </title>
 
       {/* Global defaults */}
       <link rel="canonical" href={seo.url} />
@@ -112,14 +89,25 @@ const Seo: React.FC<SeoProps> = ({ title, description, image }) => {
 
       {/* OG optional */}
       {siteName && <meta property="og:site_name" content={siteName} />}
-    </Helmet>
+
+      {/* Fonts */}
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossOrigin="anonymous"
+      />
+      <link rel="preload" as="style" href={fontsUrl} />
+      <link
+        rel="stylesheet"
+        href={fontsUrl}
+        media={mounted ? 'all' : 'print'}
+      />
+
+      {/* Dynamic options */}
+      {children}
+    </>
   );
 };
 
 export default Seo;
-
-Seo.defaultProps = {
-  title: undefined,
-  description: undefined,
-  image: undefined,
-};

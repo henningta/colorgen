@@ -1,5 +1,5 @@
-const { GatsbyNode } = require('gatsby');
 const path = require('path');
+const { GatsbyNode } = require('gatsby');
 
 /**
  * @type GatsbyNode['onCreatePage']

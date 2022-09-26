@@ -6,7 +6,7 @@ import {
   Stack,
   Typography,
 } from '@mui/joy';
-import { navigate } from 'gatsby';
+import { HeadProps, navigate } from 'gatsby';
 import React, { useEffect } from 'react';
 import {
   ClientOnly,
@@ -14,6 +14,7 @@ import {
   CombinedPageProps,
   Icon,
   Page,
+  Seo,
 } from '../components';
 import { useAppContext, useColorContext } from '../context';
 import { passSx } from '../utils';
@@ -155,5 +156,7 @@ const HomePage: React.FC<CombinedPageProps> = ({ ...props }) => {
     </Page>
   );
 };
+
+export const Head: React.FC<HeadProps> = () => <Seo />;
 
 export default HomePage;

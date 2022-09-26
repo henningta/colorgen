@@ -1,7 +1,13 @@
 import React from 'react';
 import { getInitColorSchemeScript } from '@mui/joy/styles';
+import { GatsbySSR } from 'gatsby';
 
-const onRenderBody = ({ setPreBodyComponents }) => {
+const onRenderBody: GatsbySSR['onRenderBody'] = ({
+  setHtmlAttributes,
+  setPreBodyComponents,
+}) => {
+  setHtmlAttributes({ lang: 'en' });
+
   setPreBodyComponents([
     <React.Fragment key="joy">{getInitColorSchemeScript()}</React.Fragment>,
     // <React.Fragment key="random-color">
