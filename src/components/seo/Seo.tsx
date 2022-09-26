@@ -63,7 +63,7 @@ const Seo: React.FC<SeoProps> = ({
 
       {/* Global defaults */}
       <link rel="canonical" href={seo.url} />
-      <meta name="theme-color" content="#000" />
+      {/* <meta name="theme-color" content="#000" /> */}
       <meta name="title" content={seo.title} />
       <meta name="description" content={seo.description} />
       {/* <meta name="image" content={seo.image.url} /> */}
