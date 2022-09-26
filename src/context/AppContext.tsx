@@ -1,18 +1,10 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { createContext, useContext, useMemo, useState } from 'react';
 import { useWindowSize } from '../utils';
 
 export type AppContextType = {
   isMobile: boolean;
   mobileColorMenuOpen: boolean;
   onMobileColorMenuOpenChange: React.Dispatch<React.SetStateAction<boolean>>;
-  scrollLock: boolean;
-  setScrollLock: (locked: boolean) => void;
   nav: string[];
   setNav: (nav: string[]) => void;
 };
@@ -21,8 +13,6 @@ const defaultContext: AppContextType = {
   isMobile: false,
   mobileColorMenuOpen: false,
   onMobileColorMenuOpenChange: () => undefined,
-  scrollLock: false,
-  setScrollLock: () => undefined,
   nav: ['home'],
   setNav: () => undefined,
 };
@@ -48,27 +38,18 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 
   const [mobileColorMenuOpen, setMobileColorMenuOpen] = useState(false);
   const [nav, setNav] = useState(defaultContext.nav);
-  const [scrollLock, setScrollLock] = useState(false);
 
   const isMobile = screenWidth !== undefined && screenWidth < 900;
-
-  useEffect(() => {
-    if (document) {
-      document.body.style.overflow = scrollLock ? 'hidden' : 'unset';
-    }
-  }, [scrollLock]);
 
   const value = useMemo<AppContextType>(
     () => ({
       isMobile,
       mobileColorMenuOpen,
       onMobileColorMenuOpenChange: setMobileColorMenuOpen,
-      scrollLock,
-      setScrollLock,
       nav,
       setNav,
     }),
-    [isMobile, mobileColorMenuOpen, scrollLock, nav]
+    [isMobile, mobileColorMenuOpen, nav]
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

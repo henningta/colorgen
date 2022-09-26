@@ -20,6 +20,7 @@ import {
 import {
   AppContextProvider,
   ColorContextProvider,
+  SnackbarContextProvider,
   useAppContext,
   useColorContext,
 } from '../context';
@@ -39,7 +40,7 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
       <Box
         sx={(theme) => ({
           minHeight: '100%',
-          pb: '160px',
+          pb: '152px',
 
           [theme.breakpoints.up('md')]: {
             pb: '72px',
@@ -114,7 +115,7 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
       </Box>
       <Footer />
       <ClientOnly>
-        ≈{isMobile && !nav.includes('home') && <MobileColorMenu />}
+        {isMobile && !nav.includes('home') && <MobileColorMenu />}
       </ClientOnly>
     </>
   );
@@ -125,11 +126,13 @@ const App: React.FC<AppProps> = ({ children }) => (
     <Splash />
     <Fonts />
     <AppThemeProvider>
-      <AppContextProvider>
-        <ColorContextProvider>
-          <AppContent>{children}</AppContent>
-        </ColorContextProvider>
-      </AppContextProvider>
+      <SnackbarContextProvider>
+        <AppContextProvider>
+          <ColorContextProvider>
+            <AppContent>{children}</AppContent>
+          </ColorContextProvider>
+        </AppContextProvider>
+      </SnackbarContextProvider>
     </AppThemeProvider>
   </>
 );

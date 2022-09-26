@@ -20,7 +20,7 @@ const Footer: React.FC<FooterProps> = ({ sx, ...props }) => (
       (theme) => ({
         height: '72px',
         position: 'relative',
-        mt: '-160px',
+        mt: '-152px',
         clear: 'both',
 
         [theme.breakpoints.up('md')]: {

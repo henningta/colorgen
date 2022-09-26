@@ -1,5 +1,4 @@
 import {
-  Alert,
   Box,
   Button,
   IconButton,
@@ -15,8 +14,9 @@ import React, { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { copyToClipboard, getColorHex, passSx } from '../utils';
 import Icon from './Icon';
-import { Snackbar, Tooltip } from '@mui/material';
+import { Tooltip } from '@mui/material';
 import chroma from 'chroma-js';
+import { useSnackbarContext } from '../context';
 
 export type ColorPickerProps = Omit<CardProps, 'onChange'> & {
   value: string;
@@ -32,9 +32,9 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   ...props
 }) => {
   const { mode } = useColorScheme();
+  const { setSnackbar } = useSnackbarContext();
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement>();
-  const [copySnackbarVisible, setCopySnackbarVisible] = useState(false);
 
   const colorHex = getColorHex(value);
 
@@ -48,7 +48,10 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
 
     try {
       await copyToClipboard(colorHex);
-      setCopySnackbarVisible(true);
+      setSnackbar({
+        message: <>&ldquo;{colorHex}&rdquo; copied</>,
+        dismissable: true,
+      });
     } catch (e) {
       console.error('Copy error: ', e);
     }
@@ -83,7 +86,6 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                 minWidth: 80,
                 borderTopRightRadius: 0,
                 borderBottomRightRadius: 0,
-                // pl: 3,
               }}
               onClick={toggleMenu}
               endDecorator={
@@ -126,7 +128,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                   <IconButton
                     variant="plain"
                     onClick={() => void copyColorHex()}
-                    sx={{ mr: 1 }}
+                    sx={{ mr: '4px' }}
                   >
                     <Icon>content_copy</Icon>
                   </IconButton>
@@ -167,15 +169,6 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
           />
         </MenuItem>
       </Menu>
-      <Snackbar
-        open={copySnackbarVisible}
-        onClose={() => setCopySnackbarVisible(false)}
-        autoHideDuration={4000}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        sx={{ top: 72 }}
-      >
-        <Alert color="neutral">&ldquo;{colorHex}&rdquo; copied</Alert>
-      </Snackbar>
     </>
   );
 };

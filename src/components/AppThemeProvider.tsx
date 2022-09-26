@@ -83,7 +83,7 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
       MuiCssBaseline: {
         styleOverrides: {
           '.react-colorful__pointer': {
-            transition: '150ms all cubic-bezier(0.4, 0, 0.2, 1)',
+            // transition: '150ms all cubic-bezier(0.4, 0, 0.2, 1)',
           },
         },
       },
@@ -165,6 +165,18 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
       },
     },
     components: {
+      JoyAlert: {
+        defaultProps: {
+          color: 'neutral',
+        },
+        styleOverrides: {
+          root: {
+            paddingTop: 0,
+            paddingBottom: 0,
+            height: 48,
+          },
+        },
+      },
       JoyButton: {
         defaultProps: {
           color: 'neutral',
