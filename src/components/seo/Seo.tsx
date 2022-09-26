@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import useSiteMetadata from './useSiteMetadata';
 
 export type SeoProps = {
@@ -49,11 +50,16 @@ const Seo: React.FC<SeoProps> = ({
   };
 
   return (
-    <>
+    <Helmet
+      title={seo.title || seo.siteName}
+      titleTemplate={seo.title ? seo.titleTemplate : undefined}
+      prioritizeSeoTags
+      htmlAttributes={{ lang: 'en' }}
+    >
       {/* Page/tab title */}
-      <title>
+      {/* <title>
         {seo.title ? titleTemplate.replace('%s', seo.title) : seo.siteName}
-      </title>
+      </title> */}
 
       {/* Global defaults */}
       <link rel="canonical" href={seo.url} />
@@ -86,7 +92,7 @@ const Seo: React.FC<SeoProps> = ({
 
       {/* Dynamic options */}
       {children}
-    </>
+    </Helmet>
   );
 };
 

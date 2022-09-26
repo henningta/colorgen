@@ -1,23 +1,31 @@
 import React, { useEffect, useMemo } from 'react';
 import chroma from 'chroma-js';
-import { HeadProps, navigate } from 'gatsby';
+import { GetServerData, navigate } from 'gatsby';
 import {
   ColorHarmonies,
   ColorInfo,
   CombinedPageProps,
   Page,
-  Seo,
   TintsShades,
   useSiteMetadata,
 } from '../components';
 import { useAppContext, useColorContext } from '../context';
 import debounce from 'lodash.debounce';
 
-export type ColorProps = CombinedPageProps & {
+type ServerDataProps = {
   hex: string;
 };
 
-const Color: React.FC<ColorProps> = ({ hex, ...props }) => {
+export type ColorProps = CombinedPageProps<
+  object,
+  object,
+  unknown,
+  ServerDataProps
+> & {
+  hex: string;
+};
+
+const Color: React.FC<ColorProps> = ({ hex, serverData, ...props }) => {
   const { colorName, colorHex, setColor } = useColorContext();
   const { setNav } = useAppContext();
   const { titleTemplate } = useSiteMetadata();
@@ -40,7 +48,6 @@ const Color: React.FC<ColorProps> = ({ hex, ...props }) => {
       void navigate('/', { replace: true });
     } else {
       setColor(`#${hex}`);
-      console.log('gggg');
     }
   }, [setColor, hex]);
 
@@ -59,7 +66,14 @@ const Color: React.FC<ColorProps> = ({ hex, ...props }) => {
   }, [setNav]);
 
   return (
-    <Page {...props} maxWidth={false} sx={{ p: '0 !important' }}>
+    <Page
+      {...props}
+      title={serverData.hex}
+      description={`Tints, shades, and color info for hex code: ${serverData.hex}`}
+      serverData={serverData}
+      maxWidth={false}
+      sx={{ p: '0 !important' }}
+    >
       <ColorInfo colorHex={colorHex} colorName={colorName} />
       <TintsShades colorHex={colorHex} colorName={colorName} />
       <ColorHarmonies colorHex={colorHex} />
@@ -67,11 +81,25 @@ const Color: React.FC<ColorProps> = ({ hex, ...props }) => {
   );
 };
 
-export const Head: React.FC<HeadProps> = ({ params }) => (
-  <Seo
-    title={`#${params.hex}`}
-    description={`Tints, shades, and color info for hex code: #${params.hex}`}
-  />
-);
+export const getServerData: GetServerData<ServerDataProps> = ({ params }) => {
+  const { hex } = params as { hex: string };
+
+  return Promise.resolve({
+    props: {
+      hex: `#${hex}`,
+    },
+  });
+};
+
+// export const Head: React.FC<HeadProps> = ({ params, data, pageContext }) => {
+//   console.log(data);
+//   console.log(pageContext);
+//   return (
+//     <Seo
+//       title={`#${params.hex}`}
+//       description={`Tints, shades, and color info for hex code: #${params.hex}`}
+//     />
+//   );
+// };
 
 export default Color;

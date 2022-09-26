@@ -3,6 +3,7 @@ import { PageProps } from 'gatsby';
 import React from 'react';
 import { useAppContext } from '../context';
 import { passSx, useMounted } from '../utils';
+import { Seo } from './seo';
 
 export type CombinedPageProps<
   DataType = object,
@@ -15,12 +16,14 @@ export type CombinedPageProps<
 > &
   ContainerProps & {
     children?: React.ReactNode;
+    description?: string;
     showPageTitle?: boolean;
   };
 
 const Page: React.FC<CombinedPageProps> = ({
   children,
   title,
+  description,
   sx,
   showPageTitle,
   datatype,
@@ -46,6 +49,7 @@ const Page: React.FC<CombinedPageProps> = ({
         ...passSx(sx),
       ]}
     >
+      <Seo title={title} description={description} />
       {title && showPageTitle && (
         <Typography level={isMobile ? 'h2' : 'h1'} mb={4}>
           {title}
