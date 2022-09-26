@@ -1,9 +1,5 @@
 import React from 'react';
-import { useMounted } from '../../utils';
 import useSiteMetadata from './useSiteMetadata';
-
-const fontsUrl =
-  'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&family=Manrope:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap';
 
 export type SeoProps = {
   children?: React.ReactNode;
@@ -27,8 +23,6 @@ const Seo: React.FC<SeoProps> = ({
   description,
   pathname,
 }) => {
-  const mounted = useMounted();
-
   const {
     titleTemplate,
     description: defaultDescription,
@@ -89,20 +83,6 @@ const Seo: React.FC<SeoProps> = ({
 
       {/* OG optional */}
       {siteName && <meta property="og:site_name" content={siteName} />}
-
-      {/* Fonts */}
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossOrigin="anonymous"
-      />
-      <link rel="preload" as="style" href={fontsUrl} />
-      <link
-        rel="stylesheet"
-        href={fontsUrl}
-        media={mounted ? 'all' : 'print'}
-      />
 
       {/* Dynamic options */}
       {children}

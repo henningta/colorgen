@@ -32,6 +32,7 @@ const config = {
         styles: path.join(__dirname, 'src/styles'),
       },
     },
+    'gatsby-plugin-react-helmet-async',
     'gatsby-plugin-sitemap',
     // {
     //   resolve: 'gatsby-plugin-manifest',

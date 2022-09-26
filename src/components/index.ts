@@ -21,11 +21,14 @@ export * from './ColorPalette';
 export { default as ColorPicker } from './ColorPicker';
 export * from './ColorPicker';
 
-export { default as Icon } from './Icon';
-export * from './Icon';
+export { default as Fonts } from './Fonts';
+export * from './Fonts';
 
 export { default as Footer } from './Footer';
 export * from './Footer';
+
+export { default as Icon } from './Icon';
+export * from './Icon';
 
 export { default as MobileColorMenu } from './MobileColorMenu';
 export * from './MobileColorMenu';

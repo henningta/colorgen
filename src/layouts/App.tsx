@@ -3,6 +3,7 @@ import {
   AppThemeProvider,
   ClientOnly,
   ColorPicker,
+  Fonts,
   Footer,
   Icon,
   MobileColorMenu,
@@ -123,6 +124,7 @@ const AppContent: React.FC<AppProps> = ({ children }) => {
 const App: React.FC<AppProps> = ({ children }) => (
   <>
     <Splash />
+    <Fonts />
     <AppThemeProvider>
       <SnackbarContextProvider>
         <AppContextProvider>
