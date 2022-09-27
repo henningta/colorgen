@@ -6,15 +6,10 @@ import {
   Stack,
   Typography,
 } from '@mui/joy';
-import { navigate } from 'gatsby';
+import chroma from 'chroma-js';
+import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import {
-  ClientOnly,
-  ColorPicker,
-  CombinedPageProps,
-  Icon,
-  Page,
-} from '../components';
+import { ClientOnly, ColorPicker, Icon, Page, PageProps } from '../components';
 import { useAppContext, useColorContext } from '../context';
 import { passSx } from '../utils';
 
@@ -30,34 +25,44 @@ const ColorButton: React.FC<ColorButtonProps> = ({
   textColor,
   sx,
   ...props
-}) => (
-  <Button
-    {...props}
-    variant="plain"
-    sx={[
-      (theme) => ({
-        whiteSpace: 'nowrap',
-        color: textColor,
+}) => {
+  const router = useRouter();
+  const { setColor } = useColorContext();
 
-        '&:hover': {
-          color: textColor === 'common.white' ? 'common.black' : 'common.white',
-          backgroundColor: textColor,
-        },
+  useEffect(() => {
+    setColor(chroma.random().hex());
+  }, [setColor]);
 
-        [theme.breakpoints.down('md')]: {
-          ml: 'auto',
-        },
-      }),
-      ...passSx(sx),
-    ]}
-    endDecorator={<Icon sx={{ color: 'inherit' }}>arrow_forward</Icon>}
-    onClick={() => void navigate(`/color/${colorHex.substring(1)}`)}
-  >
-    See color info for &ldquo;{colorName}&rdquo;
-  </Button>
-);
+  return (
+    <Button
+      {...props}
+      variant="plain"
+      sx={[
+        (theme) => ({
+          whiteSpace: 'nowrap',
+          color: textColor,
 
-const HomePage: React.FC<CombinedPageProps> = ({ ...props }) => {
+          '&:hover': {
+            color:
+              textColor === 'common.white' ? 'common.black' : 'common.white',
+            backgroundColor: textColor,
+          },
+
+          [theme.breakpoints.down('md')]: {
+            ml: 'auto',
+          },
+        }),
+        ...passSx(sx),
+      ]}
+      endDecorator={<Icon sx={{ color: 'inherit' }}>arrow_forward</Icon>}
+      onClick={() => void router.push(`/color/${colorHex.substring(1)}`)}
+    >
+      See color info for &ldquo;{colorName}&rdquo;
+    </Button>
+  );
+};
+
+const HomePage: React.FC<PageProps> = ({ ...props }) => {
   const { isMobile } = useAppContext();
   const { color, setColor, colorName, colorHex, contrastText } =
     useColorContext();
@@ -155,7 +160,5 @@ const HomePage: React.FC<CombinedPageProps> = ({ ...props }) => {
     </Page>
   );
 };
-
-// export const Head: React.FC<HeadProps> = () => <Seo />;
 
 export default HomePage;

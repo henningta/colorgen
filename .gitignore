@@ -2,11 +2,10 @@
 .vscode/
 
 # build
-.cache/
-public/
+.next/
 
 # node
-.jusky/_
+.husky/_
 node_modules/
 
 # etc.

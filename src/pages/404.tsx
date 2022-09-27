@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
-import { navigate } from 'gatsby';
+import { useRouter } from 'next/router';
 
 const ErrorPage: React.FC = () => {
+  const router = useRouter();
+
   useEffect(() => {
-    void navigate('/', { replace: true });
-  }, []);
+    void router.replace('/');
+  }, [router]);
 
   return null;
 };

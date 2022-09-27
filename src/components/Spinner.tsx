@@ -1,6 +1,6 @@
 import React from 'react';
 
-import 'styles/spinner.css';
+import '../styles/spinner.module.css';
 
 const Spinner: React.FC = () => (
   <div>

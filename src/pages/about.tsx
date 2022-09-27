@@ -1,6 +1,6 @@
 import { Box, BoxProps, Link, Stack, Typography } from '@mui/joy';
 import React from 'react';
-import { CombinedPageProps, Page } from '../components';
+import { Page, PageProps } from '../components';
 import { useAppContext } from '../context';
 
 export type LibDetailsProps = BoxProps & {
@@ -24,7 +24,7 @@ const LibDetails: React.FC<LibDetailsProps> = ({ title, links }) => {
             target="_blank"
             sx={{ whiteSpace: 'nowrap', overflow: 'hidden' }}
           >
-            {link.url}
+            <Typography component="a">{link.url}</Typography>
           </Link>
         </Typography>
       ))}
@@ -32,7 +32,7 @@ const LibDetails: React.FC<LibDetailsProps> = ({ title, links }) => {
   );
 };
 
-const About: React.FC<CombinedPageProps> = ({ ...props }) => (
+const About: React.FC<PageProps> = ({ ...props }) => (
   <Page
     {...props}
     title="About"
@@ -89,16 +89,6 @@ const About: React.FC<CombinedPageProps> = ({ ...props }) => (
         ]}
       />
       <LibDetails
-        title="Gatsby"
-        links={[
-          {
-            title: 'API Docs',
-            url: 'https://www.gatsbyjs.com',
-          },
-          { title: 'GitHub', url: 'https://github.com/gatsbyjs/gatsby' },
-        ]}
-      />
-      <LibDetails
         title="Joy UI"
         links={[
           {
@@ -106,6 +96,16 @@ const About: React.FC<CombinedPageProps> = ({ ...props }) => (
             url: 'https://mui.com/joy-ui/getting-started/overview',
           },
           { title: 'GitHub', url: 'https://github.com/mui/material-ui' },
+        ]}
+      />
+      <LibDetails
+        title="Next.js"
+        links={[
+          {
+            title: 'API Docs',
+            url: 'https://nextjs.org/docs/getting-started',
+          },
+          { title: 'GitHub', url: 'https://github.com/vercel/next.js' },
         ]}
       />
       <LibDetails

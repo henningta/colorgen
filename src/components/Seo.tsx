@@ -1,13 +1,13 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
-import useSiteMetadata from './useSiteMetadata';
+import Head from 'next/head';
+import config from '../config';
+import { useRouter } from 'next/router';
 
 export type SeoProps = {
   children?: React.ReactNode;
   title?: string;
   description?: string;
   image?: any;
-  pathname?: string;
 };
 
 type SeoType = {
@@ -18,48 +18,20 @@ type SeoType = {
   siteName: string;
 };
 
-const Seo: React.FC<SeoProps> = ({
-  children,
-  title,
-  description,
-  pathname,
-}) => {
-  const {
-    titleTemplate,
-    description: defaultDescription,
-    // image,
-    siteUrl,
-    siteName,
-  } = useSiteMetadata();
+const Seo: React.FC<SeoProps> = ({ children, title, description }) => {
+  const router = useRouter();
 
   const seo: SeoType = {
-    title,
-    titleTemplate,
-    description: description || defaultDescription,
-    // image: image
-    //   ? {
-    //       ...image,
-    //       url: `${siteUrl}${image.url}`,
-    //     }
-    //   : {
-    //       ...defaultImage,
-    //       url: `${siteUrl}${defaultImage.url}`,
-    //     },
-    url: `${siteUrl}${pathname || ''}`,
-    siteName,
+    ...config,
+    title: title ? config.titleTemplate.replace('%s', title) : config.siteName,
+    description: description || config.description,
+    url: `${config.siteUrl}${router.asPath.substring(1)}`,
   };
 
   return (
-    <Helmet
-      title={seo.title || seo.siteName}
-      titleTemplate={seo.title ? seo.titleTemplate : undefined}
-      prioritizeSeoTags
-      htmlAttributes={{ lang: 'en' }}
-    >
+    <Head>
       {/* Page/tab title */}
-      {/* <title>
-        {seo.title ? titleTemplate.replace('%s', seo.title) : seo.siteName}
-      </title> */}
+      <title>{seo.title}</title>
 
       {/* Global defaults */}
       <link rel="canonical" href={seo.url} />
@@ -88,11 +60,11 @@ const Seo: React.FC<SeoProps> = ({
       )} */}
 
       {/* OG optional */}
-      {siteName && <meta property="og:site_name" content={siteName} />}
+      {seo.siteName && <meta property="og:site_name" content={seo.siteName} />}
 
       {/* Dynamic options */}
       {children}
-    </Helmet>
+    </Head>
   );
 };
 

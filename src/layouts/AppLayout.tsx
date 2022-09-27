@@ -15,7 +15,7 @@ import {
   useColorScheme,
 } from '@mui/joy';
 import { useAppContext, useColorContext } from '../context';
-import { Link } from 'gatsby';
+import Link from 'next/link';
 
 type AppLayoutProps = {
   children: React.ReactNode;
@@ -48,8 +48,13 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
               height: '64px',
             }}
           >
-            <Link to="/" style={{ textDecoration: 'none' }}>
-              <Typography fontSize={30} fontWeight={300}>
+            <Link href="/" style={{ textDecoration: 'none' }}>
+              <Typography
+                component="a"
+                fontSize={30}
+                fontWeight={300}
+                sx={{ cursor: 'pointer' }}
+              >
                 colorgen.io
               </Typography>
             </Link>

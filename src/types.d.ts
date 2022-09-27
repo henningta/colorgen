@@ -1,9 +1,3 @@
-declare module '@mui/joy/styles' {
-  interface Palette {
-    icon: string;
-  }
-}
-
 declare module 'color-name-list' {
   type ColorName = { name: string; hex: string };
   type ColorNameList = ColorName[];
