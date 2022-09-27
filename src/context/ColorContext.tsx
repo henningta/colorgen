@@ -1,4 +1,3 @@
-import chroma from 'chroma-js';
 import React, {
   createContext,
   useContext,
@@ -44,15 +43,11 @@ type ColorContextProviderProps = {
 export const ColorContextProvider: React.FC<ColorContextProviderProps> = ({
   children,
 }) => {
-  // const initialColor =
-  //   document.documentElement.getAttribute('data-random-color') ||
-  //   chroma.random().hex();
-
-  const initialColor = chroma.random().hex();
+  const initialColor = '#ffffff';
   const initialColorName = getColorName(initialColor);
   const initialContrastText = getContrastColor(initialColor);
 
-  const [color, setColor] = useState(initialColorName);
+  const [color, setColor] = useState(initialColor);
   const [colorHex, setColorHex] = useState(initialColor);
   const [colorName, setColorName] = useState(initialColorName);
   const [contrastText, setContrastText] = useState(initialContrastText);

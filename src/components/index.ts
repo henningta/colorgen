@@ -1,5 +1,3 @@
-export * from './seo';
-
 export { default as ClientOnly } from './ClientOnly';
 export * from './ClientOnly';
 
@@ -32,6 +30,9 @@ export * from './MobileColorMenu';
 
 export { default as Page } from './Page';
 export * from './Page';
+
+export { default as Seo } from './Seo';
+export * from './Seo';
 
 export { default as Spinner } from './Spinner';
 export * from './Spinner';

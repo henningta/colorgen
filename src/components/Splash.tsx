@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useMounted } from '../utils';
 import Spinner from './Spinner';
 
-import 'styles/splash.css';
+import '../styles/splash.module.css';
 
 const Splash: React.FC = () => {
   const mounted = useMounted();
