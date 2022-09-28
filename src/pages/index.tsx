@@ -1,15 +1,14 @@
-import {
-  Box,
-  Button,
-  ButtonProps,
-  Container,
-  Stack,
-  Typography,
-} from '@mui/joy';
+import { Box, ButtonProps, Container, Stack, Typography } from '@mui/joy';
 import chroma from 'chroma-js';
-import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import { ClientOnly, ColorPicker, Icon, Page, PageProps } from '../components';
+import {
+  ClientOnly,
+  ColorPicker,
+  Icon,
+  Page,
+  PageProps,
+  RouterButton,
+} from '../components';
 import { useAppContext, useColorContext } from '../context';
 import { passSx } from '../utils';
 
@@ -26,7 +25,6 @@ const ColorButton: React.FC<ColorButtonProps> = ({
   sx,
   ...props
 }) => {
-  const router = useRouter();
   const { setColor } = useColorContext();
 
   useEffect(() => {
@@ -34,8 +32,9 @@ const ColorButton: React.FC<ColorButtonProps> = ({
   }, [setColor]);
 
   return (
-    <Button
+    <RouterButton
       {...props}
+      href={`/color/${colorHex.substring(1)}`}
       variant="plain"
       sx={[
         (theme) => ({
@@ -55,10 +54,9 @@ const ColorButton: React.FC<ColorButtonProps> = ({
         ...passSx(sx),
       ]}
       endDecorator={<Icon sx={{ color: 'inherit' }}>arrow_forward</Icon>}
-      onClick={() => void router.push(`/color/${colorHex.substring(1)}`)}
     >
       See color info for &ldquo;{colorName}&rdquo;
-    </Button>
+    </RouterButton>
   );
 };
 

@@ -28,6 +28,9 @@ export * from './Icon';
 export { default as MobileColorMenu } from './MobileColorMenu';
 export * from './MobileColorMenu';
 
+export { default as RouterLink } from './RouterLink';
+export * from './RouterLink';
+
 export { default as Page } from './Page';
 export * from './Page';
 
