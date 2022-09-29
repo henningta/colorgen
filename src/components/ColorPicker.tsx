@@ -12,17 +12,16 @@ import {
 import Card, { CardProps } from '@mui/joy/Card';
 import React, { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
-import { copyToClipboard, getColorHex, passSx } from '../utils';
+import { getColorHex, passSx } from '../utils';
 import Icon from './Icon';
 import { Tooltip } from '@mui/material';
 import chroma from 'chroma-js';
-import { useSnackbarContext } from '../context';
+import ColorInput, { ColorInputProps } from './ColorInput';
 
-export type ColorPickerProps = Omit<CardProps, 'onChange'> & {
-  value: string;
-  onChange: (color: string) => void;
-  useHexPicker?: boolean;
-};
+export type ColorPickerProps = Omit<CardProps, 'onChange'> &
+  Pick<ColorInputProps, 'value' | 'onChange'> & {
+    useHexPicker?: boolean;
+  };
 
 const ColorPicker: React.FC<ColorPickerProps> = ({
   value,
@@ -32,7 +31,6 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   ...props
 }) => {
   const { mode } = useColorScheme();
-  const { setSnackbar } = useSnackbarContext();
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement>();
 
@@ -40,23 +38,6 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
 
   const toggleMenu: React.MouseEventHandler<HTMLElement> = (e) =>
     setAnchorEl((prev) => (prev ? undefined : e.currentTarget));
-
-  const copyColorHex = async () => {
-    if (!colorHex) {
-      return;
-    }
-
-    try {
-      await copyToClipboard(colorHex);
-      setSnackbar({
-        icon: { name: 'content_copy' },
-        message: <>&ldquo;{colorHex}&rdquo; copied to clipboard.</>,
-        dismissable: true,
-      });
-    } catch (e) {
-      console.error('Copy error: ', e);
-    }
-  };
 
   return (
     <>
@@ -106,40 +87,21 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
         )}
         <Stack direction="row" sx={{ alignItems: 'center', width: '100%' }}>
           <Box sx={{ width: 72, display: 'flex', justifyContent: 'center' }}>
-            <Sheet
-              variant="outlined"
-              style={{
-                width: 28,
-                height: 28,
-                backgroundColor: colorHex,
-                borderRadius: '50%',
-              }}
-            />
+            {colorHex ? (
+              <Sheet
+                variant="outlined"
+                style={{
+                  width: 28,
+                  height: 28,
+                  backgroundColor: colorHex,
+                  borderRadius: '50%',
+                }}
+              />
+            ) : (
+              <Icon style={{ fontSize: 28 }}>pending</Icon>
+            )}
           </Box>
-          <TextField
-            variant="soft"
-            value={value}
-            onChange={(e) => onChange(e.currentTarget.value)}
-            sx={(theme) => ({
-              width: 0,
-              flex: 1,
-              [theme.breakpoints.down('md')]: { ml: 2 },
-            })}
-            onFocus={(e) => e.target.select()}
-            startDecorator={<Icon>search</Icon>}
-            endDecorator={
-              <>
-                <Tooltip title="Copy Hex" placement="top">
-                  <IconButton
-                    variant="plain"
-                    onClick={() => void copyColorHex()}
-                  >
-                    <Icon>content_copy</Icon>
-                  </IconButton>
-                </Tooltip>
-              </>
-            }
-          />
+          <ColorInput value={value} onChange={onChange} />
         </Stack>
       </Card>
       <Menu

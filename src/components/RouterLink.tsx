@@ -10,7 +10,7 @@ import {
 export type RouterLinkProps = Omit<JoyLinkProps, 'href' | 'classes'> &
   Pick<LinkProps, 'href' | 'as' | 'prefetch'>;
 
-export const RouterLink = React.forwardRef<HTMLAnchorElement, RouterLinkProps>(
+const RouterLink = React.forwardRef<HTMLAnchorElement, RouterLinkProps>(
   ({ href, as, prefetch, ...props }, ref) => (
     <Link href={href} as={as} prefetch={prefetch} passHref>
       <JoyLink ref={ref} {...props} />

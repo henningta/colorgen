@@ -62,7 +62,11 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
     }
   }, [colorHex]);
 
-  useOnClickOutside(drawerRef, () => onMobileColorMenuOpenChange(false));
+  useOnClickOutside(drawerRef, (e) => {
+    // TODO: scope this just to the ColorPicker autocomplete
+    if (!(e.target as HTMLElement).className.includes('MuiAutocomplete'))
+      onMobileColorMenuOpenChange(false);
+  });
 
   return (
     <SwipeableDrawer

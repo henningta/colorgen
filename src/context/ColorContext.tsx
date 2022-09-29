@@ -58,6 +58,20 @@ export const ColorContextProvider: React.FC<ColorContextProviderProps> = ({
   );
 
   useEffect(() => {
+    // if (!color) {
+    //   return;
+    // }
+
+    // const secret = secretColors.find(
+    //   (x) => x.name.toLocaleLowerCase() === color.toLocaleLowerCase()
+    // );
+    // if (secret) {
+    //   setColorHex(secret.hex);
+    //   throttleSetColorName(secret.name);
+    //   setContrastText(getContrastColor(secret.hex));
+    //   return;
+    // }
+
     const hex = getColorHex(color);
 
     if (hex) {

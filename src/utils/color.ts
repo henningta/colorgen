@@ -3,6 +3,11 @@ import colorNameList from 'color-name-list';
 import nearestColor from 'nearest-color';
 import CaseInsensitiveMap from './CaseInsensitiveMap';
 
+const secretColors = [
+  { name: 'Amanda', hex: '#b76e79' },
+  { name: 'Susan', hex: '#7b6660' },
+];
+
 export const getContrastColor = (
   bgColor: string
 ): 'common.white' | 'common.black' => {
@@ -30,15 +35,34 @@ export const colorMap = (() =>
  * @param color string which could be a chroma color or color name
  * @returns the hex value for the given color, or undefined
  */
-export const getColorHex = (color: string) =>
-  (chroma.valid(color) ? chroma(color).hex() : colorMap.get(color)) ||
-  undefined;
+export const getColorHex = (color: string) => {
+  const secret = secretColors.find(
+    (x) => x.name.toLocaleLowerCase() === color.toLocaleLowerCase()
+  );
+
+  if (secret) {
+    return secret.hex;
+  }
+
+  return (
+    (chroma.valid(color) ? chroma(color).hex() : colorMap.get(color)) ||
+    undefined
+  );
+};
 
 export const getColorName = (() => {
   const colorMapObj = Object.fromEntries(colorMap);
   const from = nearestColor.from(colorMapObj);
 
   return (color: string, capitalize = true) => {
+    const secret = secretColors.find(
+      (x) => x.name.toLocaleLowerCase() === color.toLocaleLowerCase()
+    );
+
+    if (secret) {
+      return secret.name;
+    }
+
     try {
       let name = colorMap.has(color) ? color : from(color).name;
       if (capitalize) {
@@ -75,6 +99,14 @@ export const getShades = (
     id: x,
     color: chroma.mix(colorHex, blackPoint, (x + 1) / amount, mode),
   }));
+
+export const stripColorName = (color: string, toLower = true) => {
+  if (!color?.length) {
+    return undefined;
+  }
+  const stripped = color.replace(/\W/g, '');
+  return toLower ? stripped.toLocaleLowerCase() : stripped;
+};
 
 // export const generateHexImage = async (
 //   hex: string,

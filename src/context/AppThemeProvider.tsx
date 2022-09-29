@@ -80,6 +80,13 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
       },
     },
     components: {
+      MuiAutocomplete: {
+        styleOverrides: {
+          option: {
+            // minHeight: 40,
+          },
+        },
+      },
       MuiCssBaseline: {
         styleOverrides: {
           '.react-colorful__pointer': {

@@ -48,3 +48,6 @@ export * from './TintsShades';
 
 export { default as ValueAdjust } from './ValueAdjust';
 export * from './ValueAdjust';
+
+export { default as VirtualListAdapter } from './VirtualListAdapter';
+export * from './VirtualListAdapter';
