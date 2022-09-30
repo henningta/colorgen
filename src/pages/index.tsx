@@ -11,6 +11,7 @@ import {
 } from '../components';
 import { useAppContext, useColorContext } from '../context';
 import { passSx } from '../utils';
+import nprogress from 'nprogress';
 
 type ColorButtonProps = ButtonProps & {
   colorHex: string;
@@ -35,6 +36,7 @@ const ColorButton: React.FC<ColorButtonProps> = ({
     <RouterButton
       {...props}
       href={`/color/${colorHex.substring(1)}`}
+      onClick={() => nprogress.start()}
       variant="plain"
       sx={[
         (theme) => ({

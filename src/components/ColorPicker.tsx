@@ -6,17 +6,17 @@ import {
   MenuItem,
   Sheet,
   Stack,
-  TextField,
   useColorScheme,
 } from '@mui/joy';
 import Card, { CardProps } from '@mui/joy/Card';
 import React, { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
-import { getColorHex, passSx } from '../utils';
+import { copyToClipboard, getColorHex, passSx } from '../utils';
 import Icon from './Icon';
 import { Tooltip } from '@mui/material';
 import chroma from 'chroma-js';
 import ColorInput, { ColorInputProps } from './ColorInput';
+import { useSnackbarContext } from '../context';
 
 export type ColorPickerProps = Omit<CardProps, 'onChange'> &
   Pick<ColorInputProps, 'value' | 'onChange'> & {
@@ -31,6 +31,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   ...props
 }) => {
   const { mode } = useColorScheme();
+  const { setSnackbar } = useSnackbarContext();
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement>();
 
@@ -38,6 +39,23 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
 
   const toggleMenu: React.MouseEventHandler<HTMLElement> = (e) =>
     setAnchorEl((prev) => (prev ? undefined : e.currentTarget));
+
+  const copyColorHex = async () => {
+    if (!colorHex) {
+      return;
+    }
+
+    try {
+      await copyToClipboard(colorHex);
+      setSnackbar({
+        icon: { name: 'content_copy' },
+        message: <>&ldquo;{colorHex}&rdquo; copied to clipboard.</>,
+        dismissable: true,
+      });
+    } catch (e) {
+      console.error('Copy error: ', e);
+    }
+  };
 
   return (
     <>
@@ -102,6 +120,15 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
             )}
           </Box>
           <ColorInput value={value} onChange={onChange} />
+          <Tooltip title="Copy Hex" placement="top">
+            <IconButton
+              sx={{ ml: 1 }}
+              variant="plain"
+              onClick={() => void copyColorHex()}
+            >
+              <Icon>content_copy</Icon>
+            </IconButton>
+          </Tooltip>
         </Stack>
       </Card>
       <Menu
@@ -136,7 +163,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                     variant="plain"
                     onClick={() => onChange(chroma.random().hex())}
                   >
-                    <Icon>casino</Icon>
+                    <Icon>refresh</Icon>
                   </IconButton>
                 </Card>
               </Tooltip>

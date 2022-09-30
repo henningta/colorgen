@@ -51,9 +51,11 @@
   },
   "devDependencies": {
     "@types/chroma-js": "^2.1.4",
+    "@types/eslint": "^8.4.6",
     "@types/lodash.debounce": "^4.0.7",
     "@types/lodash.throttle": "^4.1.7",
     "@types/node": "^16.11.62",
+    "@types/nprogress": "^0.2.0",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.5",
     "@types/react-window": "^1.8.5",

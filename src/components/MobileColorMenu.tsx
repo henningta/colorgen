@@ -1,5 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { SwipeableDrawer, SwipeableDrawerProps, Tooltip } from '@mui/material';
+import {
+  Fab,
+  SwipeableDrawer,
+  SwipeableDrawerProps,
+  Tooltip,
+} from '@mui/material';
 import { SnackbarProvider, useAppContext, useColorContext } from '../context';
 import {
   Box,
@@ -10,6 +15,7 @@ import {
   Stack,
   styled,
   Typography,
+  useColorScheme,
 } from '@mui/joy';
 import ColorPicker from './ColorPicker';
 import chroma from 'chroma-js';
@@ -46,6 +52,8 @@ export type MobileColorMenuProps = Omit<
 >;
 
 const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
+  const { mode } = useColorScheme();
+
   const { mobileColorMenuOpen, onMobileColorMenuOpenChange } = useAppContext();
   const { color, setColor } = useColorContext();
 
@@ -87,9 +95,26 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
       disableSwipeToOpen
       hideBackdrop
     >
+      <Fab
+        sx={(theme) => ({
+          position: 'absolute',
+          right: 16,
+          top: -drawerBleeding - 20,
+          visibility: 'visible',
+          backgroundColor: `${
+            mode === 'dark' ? theme.palette.grey[100] : theme.palette.grey[800]
+          } !important`,
+        })}
+        size="small"
+        onClick={() => onMobileColorMenuOpenChange((prev) => !prev)}
+      >
+        <Icon style={{ color: mode === 'dark' ? '#09090d' : '#fff' }}>
+          {mobileColorMenuOpen ? 'close' : 'keyboard_arrow_up'}
+        </Icon>
+      </Fab>
       <SnackbarProvider
         SnackbarProps={{
-          anchorOrigin: { vertical: 'top', horizontal: 'right' },
+          anchorOrigin: { vertical: 'top', horizontal: 'left' },
           sx: {
             position: 'absolute',
             top: -drawerBleeding - 64,
@@ -125,21 +150,6 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                 backgroundColor: 'transparent',
               }}
             />
-            <Tooltip
-              title={`${mobileColorMenuOpen ? 'Close' : 'Open'} Color Menu`}
-              placement="top"
-            >
-              <IconButton
-                sx={{
-                  m: 'auto',
-                  mr: 1,
-                  backgroundColor: 'transparent !important',
-                }}
-                onClick={() => onMobileColorMenuOpenChange((prev) => !prev)}
-              >
-                <Icon>{mobileColorMenuOpen ? 'close' : 'menu'}</Icon>
-              </IconButton>
-            </Tooltip>
           </Stack>
         </Sheet>
         <Sheet sx={{ py: 2 }}>
@@ -472,7 +482,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                   variant="plain"
                   onClick={() => setColor(chroma.random().hex())}
                 >
-                  <Icon>casino</Icon>
+                  <Icon>refresh</Icon>
                 </IconButton>
               </Tooltip>
             </Stack>

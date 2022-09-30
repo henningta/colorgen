@@ -12,6 +12,7 @@ import debounce from 'lodash.debounce';
 import config from '../../config';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
+import nprogress from 'nprogress';
 
 type ServerDataProps = {
   serverHex: string;
@@ -68,6 +69,7 @@ const Color: React.FC<PageProps & ServerDataProps> = ({
 
   useEffect(() => {
     setNav(['color']);
+    nprogress.done();
   }, [setNav]);
 
   return (

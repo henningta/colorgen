@@ -1,11 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { IconButton, TextField } from '@mui/joy';
-import { Autocomplete, Tooltip } from '@mui/material';
+import { Autocomplete } from '@mui/material';
 import debounce from 'lodash.debounce';
 import Icon from './Icon';
 import colorNameList from 'color-name-list';
-import { copyToClipboard, getColorHex, stripColorName } from '../utils';
-import { useSnackbarContext } from '../context';
+import { stripColorName } from '../utils';
 import ListboxComponent, { StyledPopper } from './VirtualListAdapter';
 
 export type ColorInputProps = {
@@ -14,13 +13,9 @@ export type ColorInputProps = {
 };
 
 const ColorInput: React.FC<ColorInputProps> = ({ value, onChange }) => {
-  const { setSnackbar } = useSnackbarContext();
-
   const [selected, setSelected] = useState<string | null>(null);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-
-  const colorHex = getColorHex(value);
 
   const debounceSuggestions = useMemo(
     () =>
@@ -49,26 +44,9 @@ const ColorInput: React.FC<ColorInputProps> = ({ value, onChange }) => {
     debounceSuggestions(value);
   }, [debounceSuggestions, value]);
 
-  const copyColorHex = async () => {
-    if (!colorHex) {
-      return;
-    }
-
-    try {
-      await copyToClipboard(colorHex);
-      setSnackbar({
-        icon: { name: 'content_copy' },
-        message: <>&ldquo;{colorHex}&rdquo; copied to clipboard.</>,
-        dismissable: true,
-      });
-    } catch (e) {
-      console.error('Copy error: ', e);
-    }
-  };
-
   useEffect(() => {
     selected && onChange(selected);
-    setShowSuggestions(false);
+    // setShowSuggestions(false);
   }, [selected, onChange]);
 
   return (
@@ -83,8 +61,8 @@ const ColorInput: React.FC<ColorInputProps> = ({ value, onChange }) => {
       freeSolo
       options={suggestions}
       open={!!suggestions.length && showSuggestions}
-      onFocus={() => setShowSuggestions(true)}
-      onBlur={() => setShowSuggestions(false)}
+      // disableCloseOnSelect
+      // onClose={() => setShowSuggestions(false)}
       blurOnSelect
       ListboxComponent={ListboxComponent}
       PopperComponent={(popperProps) => (
@@ -99,16 +77,19 @@ const ColorInput: React.FC<ColorInputProps> = ({ value, onChange }) => {
           componentsProps={{ input: params.inputProps }}
           size="md"
           variant="soft"
+          placeholder="Search by color, hex, rgb…"
           value={value}
           onChange={(e) => onChange(e.currentTarget.value)}
+          onFocus={() => setShowSuggestions(true)}
+          onBlur={() => setShowSuggestions(false)}
           // onFocus={(e) => e.target.select()}
           startDecorator={<Icon>search</Icon>}
           endDecorator={
-            <Tooltip title="Copy Hex" placement="top">
-              <IconButton variant="plain" onClick={() => void copyColorHex()}>
-                <Icon>content_copy</Icon>
+            !!value?.length && (
+              <IconButton onClick={() => onChange('')}>
+                <Icon style={{ fontSize: 20 }}>close</Icon>
               </IconButton>
-            </Tooltip>
+            )
           }
         />
       )}

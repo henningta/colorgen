@@ -1,4 +1,7 @@
+import 'nprogress/nprogress.css';
+
 import '../styles/global.css';
+import '../styles/nprogress.css';
 
 import React from 'react';
 import type { AppProps } from 'next/app';
@@ -10,6 +13,16 @@ import {
 } from '../context';
 import { Splash } from '../components';
 import { AppLayout } from '../layouts';
+import Router from 'next/router';
+import nprogress from 'nprogress';
+
+nprogress.configure({
+  showSpinner: false,
+});
+
+// Router.events.on('routeChangeStart', () => nprogress.start());
+// Router.events.on('routeChangeComplete', () => nprogress.done());
+Router.events.on('routeChangeError', () => nprogress.done());
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => (
   <AppThemeProvider>

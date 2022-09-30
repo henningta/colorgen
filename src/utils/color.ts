@@ -6,6 +6,7 @@ import CaseInsensitiveMap from './CaseInsensitiveMap';
 const secretColors = [
   { name: 'Amanda', hex: '#b76e79' },
   { name: 'Susan', hex: '#7b6660' },
+  { name: 'Xinyi', hex: '#623ca0' },
 ];
 
 export const getContrastColor = (
