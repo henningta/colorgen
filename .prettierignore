@@ -1,5 +1,6 @@
 .cache/
 .husky/_
+.next/
 node_modules/
 public/
 

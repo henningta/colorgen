@@ -12,8 +12,9 @@ import {
   Sheet,
   Switch,
   Typography,
-  useColorScheme,
+  useColorScheme as useJoyColorScheme,
 } from '@mui/joy';
+import { useColorScheme as useMuiColorScheme } from '@mui/material';
 import { useAppContext, useColorContext } from '../context';
 import Link from 'next/link';
 
@@ -22,7 +23,8 @@ type AppLayoutProps = {
 };
 
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
-  const { mode, setMode } = useColorScheme();
+  const { mode, setMode: setJoyMode } = useJoyColorScheme();
+  const { setMode: setMuiMode } = useMuiColorScheme();
   const { color, setColor } = useColorContext();
   const { nav, isMobile } = useAppContext();
 
@@ -60,7 +62,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
             </Link>
             <ClientOnly>
               <Switch
-                componentsProps={{
+                slotProps={{
                   input: { 'aria-label': 'dark mode' },
                   thumb: {
                     children: (
@@ -71,7 +73,10 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                   },
                 }}
                 checked={mode === 'dark'}
-                onChange={(e) => setMode(e.target.checked ? 'dark' : 'light')}
+                onChange={(e) => {
+                  setJoyMode(e.target.checked ? 'dark' : 'light');
+                  setMuiMode(e.target.checked ? 'dark' : 'light');
+                }}
                 sx={{
                   '--Switch-thumb-background': 'transparent',
 
@@ -87,7 +92,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
           {children}
           <ClientOnly>
             <Box
-              sx={{
+              sx={(theme) => ({
                 width: '100%',
                 maxWidth: 600,
                 px: 2,
@@ -95,10 +100,10 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                 position: 'fixed',
                 left: '50%',
                 transform: 'translateX(-50%)',
-                zIndex: 32,
+                zIndex: theme.zIndex.popup,
                 transition: 'all 150ms ease-in-out',
                 top: 36,
-              }}
+              })}
             >
               <ColorPicker
                 value={color}

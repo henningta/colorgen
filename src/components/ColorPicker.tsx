@@ -6,6 +6,7 @@ import {
   MenuItem,
   Sheet,
   Stack,
+  Tooltip,
   useColorScheme,
 } from '@mui/joy';
 import Card, { CardProps } from '@mui/joy/Card';
@@ -13,7 +14,6 @@ import React, { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { copyToClipboard, getColorHex, passSx } from '../utils';
 import Icon from './Icon';
-import { Tooltip } from '@mui/material';
 import chroma from 'chroma-js';
 import ColorInput, { ColorInputProps } from './ColorInput';
 import { useSnackbarContext } from '../context';

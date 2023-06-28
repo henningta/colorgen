@@ -1,10 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  Fab,
-  SwipeableDrawer,
-  SwipeableDrawerProps,
-  Tooltip,
-} from '@mui/material';
+import { Fab, SwipeableDrawer, SwipeableDrawerProps } from '@mui/material';
 import { SnackbarProvider, useAppContext, useColorContext } from '../context';
 import {
   Box,
@@ -14,6 +9,7 @@ import {
   Slider,
   Stack,
   styled,
+  Tooltip,
   Typography,
   useColorScheme,
 } from '@mui/joy';
@@ -244,10 +240,10 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                       valueLabelDisplay="auto"
                       sx={{
                         py: 1,
-                        '--Slider-track-background': 'red',
+                        '--Slider-trackBackground': 'red',
 
                         ':hover': {
-                          '--Slider-track-background': 'red',
+                          '--Slider-trackBackground': 'red',
                         },
                       }}
                     />
@@ -265,10 +261,10 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                       valueLabelDisplay="auto"
                       sx={{
                         py: 1,
-                        '--Slider-track-background': 'green',
+                        '--Slider-trackBackground': 'green',
 
                         ':hover': {
-                          '--Slider-track-background': 'green',
+                          '--Slider-trackBackground': 'green',
                         },
                       }}
                     />
@@ -286,10 +282,10 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                       valueLabelDisplay="auto"
                       sx={{
                         py: 1,
-                        '--Slider-track-background': 'blue',
+                        '--Slider-trackBackground': 'blue',
 
                         ':hover': {
-                          '--Slider-track-background': 'blue',
+                          '--Slider-trackBackground': 'blue',
                         },
                       }}
                     />
@@ -405,10 +401,10 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                       valueLabelDisplay="auto"
                       sx={{
                         py: 1,
-                        '--Slider-track-background': 'cyan',
+                        '--Slider-trackBackground': 'cyan',
 
                         ':hover': {
-                          '--Slider-track-background': 'cyan',
+                          '--Slider-trackBackground': 'cyan',
                         },
                       }}
                     />
@@ -427,10 +423,10 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                       valueLabelDisplay="auto"
                       sx={{
                         py: 1,
-                        '--Slider-track-background': 'magenta',
+                        '--Slider-trackBackground': 'magenta',
 
                         ':hover': {
-                          '--Slider-track-background': 'magenta',
+                          '--Slider-trackBackground': 'magenta',
                         },
                       }}
                     />
@@ -449,10 +445,10 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                       valueLabelDisplay="auto"
                       sx={{
                         py: 1,
-                        '--Slider-track-background': 'yellow',
+                        '--Slider-trackBackground': 'yellow',
 
                         ':hover': {
-                          '--Slider-track-background': 'yellow',
+                          '--Slider-trackBackground': 'yellow',
                         },
                       }}
                     />

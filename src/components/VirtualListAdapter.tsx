@@ -1,114 +1,106 @@
-import {
-  createContext,
-  forwardRef,
-  useContext,
-  useEffect,
-  useRef,
-} from 'react';
-import { styled, Typography, useTheme } from '@mui/joy';
+import React from 'react';
+import Popper from '@mui/base/Popper';
+import { AutocompleteListbox, AutocompleteOption } from '@mui/joy';
 import ListSubheader from '@mui/joy/ListSubheader';
-import { autocompleteClasses, Popper, useMediaQuery } from '@mui/material';
-import { VariableSizeList, ListChildComponentProps } from 'react-window';
+import { ListChildComponentProps, FixedSizeList } from 'react-window';
 
-const LISTBOX_PADDING = 8; // px
+const LISTBOX_PADDING = 6; // px
 
-const renderRow = ({ data, index, style }: ListChildComponentProps) => {
+function renderRow(props: ListChildComponentProps) {
+  const { data, index, style } = props;
   const dataSet = data[index];
   const inlineStyle = {
     ...style,
     top: (style.top as number) + LISTBOX_PADDING,
   };
 
-  return dataSet.hasOwnProperty('group') ? (
-    <ListSubheader key={dataSet.key} component="div" style={inlineStyle}>
-      {dataSet.group}
-    </ListSubheader>
-  ) : (
-    <Typography component="li" {...dataSet[0]} noWrap style={inlineStyle}>
+  if (dataSet.hasOwnProperty('group')) {
+    return (
+      <ListSubheader key={dataSet.key} component="li" style={inlineStyle}>
+        {dataSet.group}
+      </ListSubheader>
+    );
+  }
+
+  return (
+    <AutocompleteOption {...dataSet[0]} style={inlineStyle}>
       {dataSet[1]}
-    </Typography>
+    </AutocompleteOption>
   );
-};
+}
 
-const OuterElementContext = createContext({});
+const OuterElementContext = React.createContext({});
 
-const OuterElementType = forwardRef<HTMLDivElement>((props, ref) => {
-  const outerProps = useContext(OuterElementContext);
-  return <div ref={ref} {...props} {...outerProps} />;
+const OuterElementType = React.forwardRef<HTMLDivElement>((props, ref) => {
+  const outerProps = React.useContext(OuterElementContext);
+  return (
+    <AutocompleteListbox
+      {...props}
+      {...outerProps}
+      component="div"
+      ref={ref}
+      sx={{
+        '& ul': {
+          padding: 0,
+          margin: 0,
+          flexShrink: 0,
+        },
+      }}
+    />
+  );
 });
 
 OuterElementType.displayName = 'OuterElementType';
 
-const useResetCache = (data: any) => {
-  const ref = useRef<VariableSizeList>(null);
-  useEffect(() => {
-    if (ref.current != null) {
-      ref.current.resetAfterIndex(0, true);
-    }
-  }, [data]);
-  return ref;
-};
-
 // Adapter for react-window
-const ListboxComponent = forwardRef<
+const ListboxComponent = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLElement>
+  {
+    anchorEl: any;
+    open: boolean;
+    modifiers: any[];
+  } & React.HTMLAttributes<HTMLElement>
 >(function ListboxComponent(props, ref) {
-  const { children, ...other } = props;
-  const itemData: React.ReactChild[] = [];
-  (children as React.ReactChild[]).forEach(
-    (item: React.ReactChild & { children?: React.ReactChild[] }) => {
+  const { children, anchorEl, open, modifiers, ...other } = props;
+  const itemData: Array<any> = [];
+  (
+    children as [Array<{ children: Array<React.ReactElement> | undefined }>]
+  )[0].forEach((item) => {
+    if (item) {
       itemData.push(item);
       itemData.push(...(item.children || []));
     }
-  );
-
-  const theme = useTheme();
-  const smUp = useMediaQuery(theme.breakpoints.up('sm'), {
-    noSsr: true,
   });
+
   const itemCount = itemData.length;
-  const itemSize = smUp ? 36 : 48;
-
-  const getChildSize = (child: React.ReactChild) =>
-    child.hasOwnProperty('group') ? 48 : itemSize;
-
-  const getHeight = () =>
-    itemCount > 8
-      ? 8 * itemSize
-      : itemData.map(getChildSize).reduce((a, b) => a + b, 0);
-
-  const gridRef = useResetCache(itemCount);
+  const itemSize = 40;
 
   return (
-    <div ref={ref}>
+    <Popper
+      ref={ref}
+      anchorEl={anchorEl}
+      open={open}
+      modifiers={modifiers}
+      disablePortal
+      style={{ display: itemCount === 0 ? 'none' : undefined }}
+    >
       <OuterElementContext.Provider value={other}>
-        <VariableSizeList
+        <FixedSizeList
           itemData={itemData}
-          height={getHeight() + 2 * LISTBOX_PADDING}
+          height={itemSize * 8}
           width="100%"
-          ref={gridRef}
+          // @ts-expect-error something weird about react element types, but it works
           outerElementType={OuterElementType}
           innerElementType="ul"
-          itemSize={(index) => getChildSize(itemData[index])}
+          itemSize={itemSize}
           overscanCount={5}
           itemCount={itemCount}
         >
           {renderRow}
-        </VariableSizeList>
+        </FixedSizeList>
       </OuterElementContext.Provider>
-    </div>
+    </Popper>
   );
-});
-
-export const StyledPopper = styled(Popper)({
-  [`& .${autocompleteClasses.listbox}`]: {
-    boxSizing: 'border-box',
-    '& ul': {
-      padding: 0,
-      margin: 0,
-    },
-  },
 });
 
 export default ListboxComponent;
