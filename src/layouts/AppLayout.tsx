@@ -96,7 +96,10 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                 width: '100%',
                 maxWidth: 600,
                 px: 2,
-                display: nav.includes('home') || isMobile ? 'none' : undefined,
+                display:
+                  nav.includes('home') || nav.includes('about') || isMobile
+                    ? 'none'
+                    : undefined,
                 position: 'fixed',
                 left: '50%',
                 transform: 'translateX(-50%)',
@@ -116,7 +119,9 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
       </Box>
       <Footer />
       <ClientOnly>
-        {isMobile && !nav.includes('home') && <MobileColorMenu />}
+        {isMobile && !nav.includes('home') && !nav.includes('about') && (
+          <MobileColorMenu />
+        )}
       </ClientOnly>
     </>
   );

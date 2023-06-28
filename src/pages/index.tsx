@@ -12,6 +12,7 @@ import {
 import { useAppContext, useColorContext } from '../context';
 import { passSx } from '../utils';
 import nprogress from 'nprogress';
+import { useRouter } from 'next/router';
 
 type ColorButtonProps = ButtonProps & {
   colorHex: string;

@@ -1,5 +1,5 @@
 import React from 'react';
-import Link, { LinkProps } from 'next/link';
+import NextLink, { LinkProps as NextLinkProps } from 'next/link';
 import {
   Button,
   ButtonProps,
@@ -7,29 +7,40 @@ import {
   LinkProps as JoyLinkProps,
 } from '@mui/joy';
 
-export type RouterLinkProps = Omit<JoyLinkProps, 'href' | 'classes'> &
-  Pick<LinkProps, 'href' | 'as' | 'prefetch'>;
+// https://reacthustle.com/blog/extend-next-13-link-with-mui-link-with-typescript
+// Defining the CustomNextLink
+export type CustomNextLinkProps = Omit<NextLinkProps, 'href'> & {
+  _href: NextLinkProps['href'];
+};
 
-const RouterLink = React.forwardRef<HTMLAnchorElement, RouterLinkProps>(
-  ({ href, as, prefetch, ...props }, ref) => (
-    <Link href={href} as={as} prefetch={prefetch} passHref>
-      <JoyLink ref={ref} {...props} />
-    </Link>
-  )
+export const CustomNextLink = ({ _href, ...props }: CustomNextLinkProps) => {
+  return <NextLink href={_href} {...props} />;
+};
+
+// combine MUI LinkProps with NextLinkProps
+type CombinedLinkProps = JoyLinkProps<typeof NextLink>;
+
+// we remove both href properties
+// and define a new href property using NextLinkProps
+export type RouterLinkProps = Omit<CombinedLinkProps, 'href'> & {
+  href: NextLinkProps['href'];
+};
+
+// use _href props of CustomNextLink to set the href
+const RouterLink = ({ href, ...props }: RouterLinkProps) => (
+  <JoyLink {...props} component={CustomNextLink} _href={href} />
 );
 
-RouterLink.displayName = 'RouterLink';
-
 export type RouterButtonProps = Omit<ButtonProps, 'href'> &
-  Pick<LinkProps, 'href' | 'as' | 'prefetch' | 'locale'>;
+  Pick<NextLinkProps, 'href' | 'as' | 'prefetch' | 'locale'>;
 
 export const RouterButton = React.forwardRef<
   HTMLButtonElement,
   RouterButtonProps
 >(({ href, as, prefetch, locale, ...props }, ref) => (
-  <Link href={href} as={as} prefetch={prefetch} locale={locale} passHref>
+  <NextLink href={href} as={as} prefetch={prefetch} locale={locale} passHref>
     <Button ref={ref} {...props} />
-  </Link>
+  </NextLink>
 ));
 
 RouterButton.displayName = 'RouterButton';

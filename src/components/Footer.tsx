@@ -2,7 +2,7 @@ import { Box, Container, Sheet, SheetProps, Typography } from '@mui/joy';
 import React from 'react';
 import { passSx } from '../utils';
 import Icon from './Icon';
-import { RouterButton } from '../components';
+import { RouterButton } from './RouterLink';
 
 export type FooterProps = SheetProps;
 
