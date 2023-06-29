@@ -40,9 +40,9 @@ const Seo: React.FC<SeoProps> = ({
     description: description || config.description,
     image: {
       url: `${config.siteUrl}${imgUrl}`,
-      alt: '',
-      width: '80px',
-      height: '80px',
+      // alt: '',
+      width: '80',
+      height: '80',
     },
     url: `${config.siteUrl}${router.asPath.substring(1)}`,
   };
@@ -69,7 +69,10 @@ const Seo: React.FC<SeoProps> = ({
       )}
 
       {seo.image?.url && (
-        <meta property="og:image:secure_url" content={seo.image.url} />
+        <>
+          <meta property="og:image" content={seo.image.url} />
+          <meta property="og:image:secure_url" content={seo.image.url} />
+        </>
       )}
       {seo.image?.alt && (
         <meta property="og:image:alt" content={seo.image.alt} />
