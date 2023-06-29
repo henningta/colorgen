@@ -13,21 +13,7 @@ import config from '../../config';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import nprogress from 'nprogress';
-import { getColorHex, getColorName } from '../../utils';
-import fs from 'fs';
-import asyncFs from 'fs/promises';
-import { PNG } from 'pngjs';
-
-const fileExists = async (path: string) => {
-  try {
-    await asyncFs.access(path);
-    return true;
-  } catch {
-    return false;
-  }
-};
-
-const SEO_IMG_SIZE = 80;
+import { getColorName } from '../../utils';
 
 const getTitle = (hex: string) => `${hex} · ${getColorName(hex)}`;
 
@@ -93,7 +79,7 @@ const Color: React.FC<PageProps & ServerDataProps> = ({
       {...props}
       title={getTitle(colorHex)}
       description={`Tints, shades, and color info for hex code: ${colorHex}`}
-      image={`${colorHex.substring(1)}.png`}
+      image={`api/${colorHex.substring(1)}.png`}
       maxWidth={false}
       sx={{ p: '0 !important' }}
     >
@@ -123,51 +109,6 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   const serverHex =
     typeof params?.hex === 'string' ? `#${params?.hex}` : undefined;
-
-  if (serverHex && chroma.valid(serverHex)) {
-    // const canvas = createCanvas(SEO_IMG_SIZE, SEO_IMG_SIZE);
-    // const canvasContext = canvas.getContext('2d');
-    // canvasContext.fillStyle = serverHex;
-    // canvasContext.fillRect(0, 0, SEO_IMG_SIZE, SEO_IMG_SIZE);
-
-    // const buffer = canvas.toBuffer('image/png');
-    const cleanHex = getColorHex(serverHex);
-
-    if (cleanHex) {
-      const [r, g, b] = chroma(cleanHex).rgb();
-
-      const filename = `./public/${cleanHex.substring(1)}.png`;
-      const exists = await fileExists(filename);
-
-      if (!exists) {
-        // console.log('not exists');
-        // await asyncFs.writeFile(filename, buffer);
-        try {
-          const png = new PNG({
-            width: SEO_IMG_SIZE,
-            height: SEO_IMG_SIZE,
-            filterType: -1,
-          });
-
-          for (let y = 0; y < png.height; y++) {
-            for (let x = 0; x < png.width; x++) {
-              const idx = (png.width * y + x) << 2;
-              png.data[idx] = r; // red
-              png.data[idx + 1] = g; // green
-              png.data[idx + 2] = b; // blue
-              png.data[idx + 3] = 255; // alpha (0 is transparent)
-            }
-          }
-
-          png.pack().pipe(fs.createWriteStream(filename));
-        } catch (e) {
-          console.error('Failed to write png file: ', e);
-        }
-      } else {
-        // console.log('exists');
-      }
-    }
-  }
 
   return Promise.resolve({ props: { serverHex } });
 };
