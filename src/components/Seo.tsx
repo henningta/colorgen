@@ -30,7 +30,7 @@ const Seo: React.FC<SeoProps> = ({
   children,
   title,
   description,
-  image: url,
+  image: imgUrl,
 }) => {
   const router = useRouter();
 
@@ -39,7 +39,7 @@ const Seo: React.FC<SeoProps> = ({
     title: title ? config.titleTemplate.replace('%s', title) : config.siteName,
     description: description || config.description,
     image: {
-      url,
+      url: `${config.siteUrl}${imgUrl}`,
       alt: '',
       width: '80px',
       height: '80px',
