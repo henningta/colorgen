@@ -5,6 +5,7 @@ import {
   Footer,
   Icon,
   MobileColorMenu,
+  RouterLink,
 } from '../components';
 import {
   Box,
@@ -16,7 +17,6 @@ import {
 } from '@mui/joy';
 import { useColorScheme as useMuiColorScheme } from '@mui/material';
 import { useAppContext, useColorContext } from '../context';
-import Link from 'next/link';
 
 type AppLayoutProps = {
   children: React.ReactNode;
@@ -50,16 +50,22 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
               height: '64px',
             }}
           >
-            <Link href="/" style={{ textDecoration: 'none' }}>
-              <Typography
-                component="a"
-                fontSize={30}
-                fontWeight={300}
-                sx={{ cursor: 'pointer' }}
-              >
+            <RouterLink
+              href="/"
+              sx={{
+                color: 'inherit',
+                borderBottom: 'none',
+
+                '&:hover': {
+                  color: 'inherit',
+                  borderBottom: 'none',
+                },
+              }}
+            >
+              <Typography fontSize={30} fontWeight={300}>
                 colorgen.io
               </Typography>
-            </Link>
+            </RouterLink>
             <ClientOnly>
               <Switch
                 slotProps={{

@@ -12,9 +12,8 @@ import {
 import { useAppContext, useColorContext } from '../context';
 import { passSx } from '../utils';
 import nprogress from 'nprogress';
-import { useRouter } from 'next/router';
 
-type ColorButtonProps = ButtonProps & {
+type ColorButtonProps = Pick<ButtonProps, 'sx'> & {
   colorHex: string;
   colorName: string;
   textColor: string;
@@ -25,43 +24,32 @@ const ColorButton: React.FC<ColorButtonProps> = ({
   colorName,
   textColor,
   sx,
-  ...props
-}) => {
-  const { setColor } = useColorContext();
+}) => (
+  <RouterButton
+    href={`/color/${colorHex.substring(1)}`}
+    onClick={() => nprogress.start()}
+    variant="plain"
+    sx={[
+      (theme) => ({
+        whiteSpace: 'nowrap',
+        color: textColor,
 
-  useEffect(() => {
-    setColor(chroma.random().hex());
-  }, [setColor]);
+        '&:hover': {
+          color: textColor === 'common.white' ? 'common.black' : 'common.white',
+          backgroundColor: textColor,
+        },
 
-  return (
-    <RouterButton
-      {...props}
-      href={`/color/${colorHex.substring(1)}`}
-      onClick={() => nprogress.start()}
-      variant="plain"
-      sx={[
-        (theme) => ({
-          whiteSpace: 'nowrap',
-          color: textColor,
-
-          '&:hover': {
-            color:
-              textColor === 'common.white' ? 'common.black' : 'common.white',
-            backgroundColor: textColor,
-          },
-
-          [theme.breakpoints.down('md')]: {
-            ml: 'auto',
-          },
-        }),
-        ...passSx(sx),
-      ]}
-      endDecorator={<Icon sx={{ color: 'inherit' }}>arrow_forward</Icon>}
-    >
-      See color info for &ldquo;{colorName}&rdquo;
-    </RouterButton>
-  );
-};
+        [theme.breakpoints.down('md')]: {
+          ml: 'auto',
+        },
+      }),
+      ...passSx(sx),
+    ]}
+    endDecorator={<Icon sx={{ color: 'inherit' }}>arrow_forward</Icon>}
+  >
+    See color info for &ldquo;{colorName}&rdquo;
+  </RouterButton>
+);
 
 const HomePage: React.FC<PageProps> = ({ ...props }) => {
   const { isMobile } = useAppContext();
@@ -73,6 +61,10 @@ const HomePage: React.FC<PageProps> = ({ ...props }) => {
   useEffect(() => {
     setNav(['home']);
   }, [setNav]);
+
+  useEffect(() => {
+    setColor(chroma.random().hex());
+  }, [setColor]);
 
   return (
     <Page {...props} sx={{ p: '0 !important' }} maxWidth={false}>
@@ -130,32 +122,30 @@ const HomePage: React.FC<PageProps> = ({ ...props }) => {
               )}
             </Stack>
           </Container>
-          <ClientOnly>
-            {!isMobile && (
-              <Container
-                maxWidth={false}
-                sx={{
-                  m: 0,
-                  mt: 6,
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                <ColorPicker
-                  value={color}
-                  onChange={setColor}
-                  useHexPicker
-                  sx={{ maxWidth: 536, my: 2 }}
-                />
-                <ColorButton
-                  colorHex={colorHex}
-                  colorName={colorName}
-                  textColor={contrastText}
-                  sx={{ ml: 2 }}
-                />
-              </Container>
-            )}
-          </ClientOnly>
+          {!isMobile && (
+            <Container
+              maxWidth={false}
+              sx={{
+                m: 0,
+                mt: 6,
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <ColorPicker
+                value={color}
+                onChange={setColor}
+                useHexPicker
+                sx={{ maxWidth: 536, my: 2 }}
+              />
+              <ColorButton
+                colorHex={colorHex}
+                colorName={colorName}
+                textColor={contrastText}
+                sx={{ ml: 2 }}
+              />
+            </Container>
+          )}
         </Stack>
       </Box>
     </Page>
