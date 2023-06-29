@@ -13,7 +13,7 @@ import config from '../../config';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import nprogress from 'nprogress';
-import { getColorName } from '../../utils';
+import { getColorHex, getColorName } from '../../utils';
 
 const getTitle = (hex: string) => `${hex} · ${getColorName(hex)}`;
 
@@ -74,12 +74,14 @@ const Color: React.FC<PageProps & ServerDataProps> = ({
     nprogress.done();
   }, [setNav]);
 
+  const seoHex = getColorHex(serverHex) ?? '#010';
+
   return (
     <Page
       {...props}
-      title={getTitle(colorHex)}
-      description={`Tints, shades, and color info for hex code: ${colorHex}`}
-      image={`api/${colorHex.substring(1)}.png`}
+      title={getTitle(seoHex)}
+      description={`Tints, shades, and color info for hex code: ${seoHex}`}
+      image={`api/${seoHex.substring(1)}.png`}
       maxWidth={false}
       sx={{ p: '0 !important' }}
     >
