@@ -13,6 +13,9 @@ import config from '../../config';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import nprogress from 'nprogress';
+import { getColorName } from '../../utils';
+
+const getTitle = (hex: string) => `${hex} · ${getColorName(hex)}`;
 
 type ServerDataProps = {
   serverHex: string;
@@ -45,10 +48,9 @@ const Color: React.FC<PageProps & ServerDataProps> = ({
 
   useEffect(() => {
     const split = router.asPath.split('/');
-    document.title = config.titleTemplate.replace(
-      '%s',
-      `#${split[split.length - 1]}`
-    );
+    const hex = `#${split[split.length - 1]}`;
+
+    document.title = config.titleTemplate.replace('%s', getTitle(hex));
   }, [router]);
 
   useEffect(() => {
@@ -75,7 +77,7 @@ const Color: React.FC<PageProps & ServerDataProps> = ({
   return (
     <Page
       {...props}
-      title={serverHex}
+      title={getTitle(serverHex)}
       description={`Tints, shades, and color info for hex code: ${serverHex}`}
       maxWidth={false}
       sx={{ p: '0 !important' }}

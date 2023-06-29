@@ -2,7 +2,6 @@ import { Box, ButtonProps, Container, Stack, Typography } from '@mui/joy';
 import chroma from 'chroma-js';
 import React, { useEffect } from 'react';
 import {
-  ClientOnly,
   ColorPicker,
   Icon,
   Page,

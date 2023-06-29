@@ -1,7 +1,7 @@
 class CaseInsensitiveMap<K, V> extends Map<K, V> {
   set(key: K, value: V) {
     if (typeof key === 'string') {
-      key = key.toLocaleLowerCase() as any as K;
+      key = key.toLocaleLowerCase() as K;
     }
 
     return super.set(key, value);
@@ -9,7 +9,7 @@ class CaseInsensitiveMap<K, V> extends Map<K, V> {
 
   get(key: K) {
     if (typeof key === 'string') {
-      key = key.toLocaleLowerCase() as any as K;
+      key = key.toLocaleLowerCase() as K;
     }
 
     return super.get(key);
@@ -17,7 +17,7 @@ class CaseInsensitiveMap<K, V> extends Map<K, V> {
 
   has(key: K) {
     if (typeof key === 'string') {
-      key = key.toLocaleLowerCase() as any as K;
+      key = key.toLocaleLowerCase() as K;
     }
 
     return super.has(key);
@@ -25,7 +25,7 @@ class CaseInsensitiveMap<K, V> extends Map<K, V> {
 
   delete(key: K) {
     if (typeof key === 'string') {
-      key = key.toLocaleLowerCase() as any as K;
+      key = key.toLocaleLowerCase() as K;
     }
 
     return super.delete(key);

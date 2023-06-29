@@ -56,12 +56,16 @@ OuterElementType.displayName = 'OuterElementType';
 const ListboxComponent = React.forwardRef<
   HTMLDivElement,
   {
+    // eslint-disable-next-line
     anchorEl: any;
     open: boolean;
+    // eslint-disable-next-line
     modifiers: any[];
   } & React.HTMLAttributes<HTMLElement>
 >(function ListboxComponent(props, ref) {
   const { children, anchorEl, open, modifiers, ...other } = props;
+
+  // eslint-disable-next-line
   const itemData: Array<any> = [];
   (
     children as [Array<{ children: Array<React.ReactElement> | undefined }>]

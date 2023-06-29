@@ -7,7 +7,7 @@ export type SeoProps = {
   children?: React.ReactNode;
   title?: string;
   description?: string;
-  image?: any;
+  // image?: any;
 };
 
 type SeoType = {
