@@ -14,12 +14,13 @@ import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import nprogress from 'nprogress';
 import { getColorHex, getColorName } from '../../utils';
-import { createCanvas } from 'canvas';
-import fs from 'fs/promises';
+import fs from 'fs';
+import asyncFs from 'fs/promises';
+import { PNG } from 'pngjs';
 
 const fileExists = async (path: string) => {
   try {
-    await fs.access(path);
+    await asyncFs.access(path);
     return true;
   } catch {
     return false;
@@ -124,21 +125,40 @@ export const getServerSideProps: GetServerSideProps = async ({
     typeof params?.hex === 'string' ? `#${params?.hex}` : undefined;
 
   if (serverHex && chroma.valid(serverHex)) {
-    const canvas = createCanvas(SEO_IMG_SIZE, SEO_IMG_SIZE);
-    const canvasContext = canvas.getContext('2d');
-    canvasContext.fillStyle = serverHex;
-    canvasContext.fillRect(0, 0, SEO_IMG_SIZE, SEO_IMG_SIZE);
+    // const canvas = createCanvas(SEO_IMG_SIZE, SEO_IMG_SIZE);
+    // const canvasContext = canvas.getContext('2d');
+    // canvasContext.fillStyle = serverHex;
+    // canvasContext.fillRect(0, 0, SEO_IMG_SIZE, SEO_IMG_SIZE);
 
-    const buffer = canvas.toBuffer('image/png');
+    // const buffer = canvas.toBuffer('image/png');
     const cleanHex = getColorHex(serverHex);
 
     if (cleanHex) {
+      const [r, g, b] = chroma(cleanHex).rgb();
+
       const filename = `./${cleanHex.substring(1)}.png`;
       const exists = await fileExists(filename);
 
       if (!exists) {
         // console.log('not exists');
-        await fs.writeFile(filename, buffer);
+        // await asyncFs.writeFile(filename, buffer);
+        const png = new PNG({
+          width: SEO_IMG_SIZE,
+          height: SEO_IMG_SIZE,
+          filterType: -1,
+        });
+
+        for (let y = 0; y < png.height; y++) {
+          for (let x = 0; x < png.width; x++) {
+            const idx = (png.width * y + x) << 2;
+            png.data[idx] = r; // red
+            png.data[idx + 1] = g; // green
+            png.data[idx + 2] = b; // blue
+            png.data[idx + 3] = 255; // alpha (0 is transparent)
+          }
+        }
+
+        png.pack().pipe(fs.createWriteStream(filename));
       } else {
         // console.log('exists');
       }
