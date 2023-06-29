@@ -93,10 +93,7 @@ const Color: React.FC<PageProps & ServerDataProps> = ({
 };
 
 // https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props
-export const getServerSideProps: GetServerSideProps = async ({
-  res,
-  params,
-}) => {
+export const getServerSideProps: GetServerSideProps = ({ res, params }) => {
   // This value is considered fresh for ten seconds (s-maxage=10).
   // If a request is repeated within the next 10 seconds, the previously
   // cached value will still be fresh. If the request is repeated before 59 seconds,
