@@ -13,7 +13,20 @@ import config from '../../config';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import nprogress from 'nprogress';
-import { getColorName } from '../../utils';
+import { getColorHex, getColorName } from '../../utils';
+import { createCanvas } from 'canvas';
+import fs from 'fs/promises';
+
+const fileExists = async (path: string) => {
+  try {
+    await fs.access(path);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+const SEO_IMG_SIZE = 80;
 
 const getTitle = (hex: string) => `${hex} · ${getColorName(hex)}`;
 
@@ -77,8 +90,9 @@ const Color: React.FC<PageProps & ServerDataProps> = ({
   return (
     <Page
       {...props}
-      title={getTitle(serverHex)}
-      description={`Tints, shades, and color info for hex code: ${serverHex}`}
+      title={getTitle(colorHex)}
+      description={`Tints, shades, and color info for hex code: ${colorHex}`}
+      image={`/${colorHex.substring(1)}.png`}
       maxWidth={false}
       sx={{ p: '0 !important' }}
     >
@@ -90,7 +104,10 @@ const Color: React.FC<PageProps & ServerDataProps> = ({
 };
 
 // https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props
-export const getServerSideProps: GetServerSideProps = ({ res, params }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  res,
+  params,
+}) => {
   // This value is considered fresh for ten seconds (s-maxage=10).
   // If a request is repeated within the next 10 seconds, the previously
   // cached value will still be fresh. If the request is repeated before 59 seconds,
@@ -105,6 +122,28 @@ export const getServerSideProps: GetServerSideProps = ({ res, params }) => {
 
   const serverHex =
     typeof params?.hex === 'string' ? `#${params?.hex}` : undefined;
+
+  if (serverHex && chroma.valid(serverHex)) {
+    const canvas = createCanvas(SEO_IMG_SIZE, SEO_IMG_SIZE);
+    const canvasContext = canvas.getContext('2d');
+    canvasContext.fillStyle = serverHex;
+    canvasContext.fillRect(0, 0, SEO_IMG_SIZE, SEO_IMG_SIZE);
+
+    const buffer = canvas.toBuffer('image/png');
+    const cleanHex = getColorHex(serverHex);
+
+    if (cleanHex) {
+      const filename = `./${cleanHex.substring(1)}.png`;
+      const exists = await fileExists(filename);
+
+      if (!exists) {
+        // console.log('not exists');
+        await fs.writeFile(filename, buffer);
+      } else {
+        // console.log('exists');
+      }
+    }
+  }
 
   return Promise.resolve({ props: { serverHex } });
 };

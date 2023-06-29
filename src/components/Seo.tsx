@@ -3,11 +3,18 @@ import Head from 'next/head';
 import config from '../config';
 import { useRouter } from 'next/router';
 
+export type SeoImage = {
+  url?: string;
+  alt?: string;
+  width?: string;
+  height?: string;
+};
+
 export type SeoProps = {
   children?: React.ReactNode;
   title?: string;
   description?: string;
-  // image?: any;
+  image?: string;
 };
 
 type SeoType = {
@@ -16,17 +23,31 @@ type SeoType = {
   description: string;
   url: string;
   siteName: string;
+  image?: SeoImage;
 };
 
-const Seo: React.FC<SeoProps> = ({ children, title, description }) => {
+const Seo: React.FC<SeoProps> = ({
+  children,
+  title,
+  description,
+  image: url,
+}) => {
   const router = useRouter();
 
   const seo: SeoType = {
     ...config,
     title: title ? config.titleTemplate.replace('%s', title) : config.siteName,
     description: description || config.description,
+    image: {
+      url,
+      alt: '',
+      width: '80px',
+      height: '80px',
+    },
     url: `${config.siteUrl}${router.asPath.substring(1)}`,
   };
+
+  // console.log(seo.image);
 
   return (
     <Head>
@@ -46,18 +67,19 @@ const Seo: React.FC<SeoProps> = ({ children, title, description }) => {
       {seo.description && (
         <meta property="og:description" content={seo.description} />
       )}
-      {/* {seo.image.url && (
+
+      {seo.image?.url && (
         <meta property="og:image:secure_url" content={seo.image.url} />
       )}
-      {seo.image.alt && (
+      {seo.image?.alt && (
         <meta property="og:image:alt" content={seo.image.alt} />
       )}
-      {seo.image.width && (
+      {seo.image?.width && (
         <meta property="og:image:width" content={seo.image.width} />
       )}
-      {seo.image.height && (
+      {seo.image?.height && (
         <meta property="og:image:height" content={seo.image.height} />
-      )} */}
+      )}
 
       {/* OG optional */}
       {seo.siteName && <meta property="og:site_name" content={seo.siteName} />}
