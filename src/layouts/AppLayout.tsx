@@ -27,17 +27,21 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const { color, setColor } = useColorContext();
   const { nav, isMobile } = useAppContext();
 
+  const hasColorMenu =
+    isMobile && !nav.includes('home') && !nav.includes('about');
+
   return (
     <>
       <Box
-        sx={(theme) => ({
+        className={hasColorMenu ? 'has-color-menu' : undefined}
+        sx={{
           minHeight: '100%',
-          pb: '152px',
+          pb: '72px',
 
-          [theme.breakpoints.up('md')]: {
-            pb: '72px',
+          '&.has-color-menu': {
+            pb: '152px',
           },
-        })}
+        }}
       >
         <Sheet sx={{ zIndex: 24 }}>
           <Container

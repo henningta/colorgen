@@ -15,11 +15,17 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
     colorSchemes: {
       dark: {
         palette: {
+          background: {
+            body: '#1c1b22',
+          },
           icon: 'rgb(154, 160, 166)',
         },
       },
       light: {
         palette: {
+          background: {
+            body: '#eeeff0',
+          },
           icon: 'rgb(95, 99, 104)',
         },
       },
