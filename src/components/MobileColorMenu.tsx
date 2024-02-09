@@ -113,7 +113,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
           anchorOrigin: { vertical: 'top', horizontal: 'left' },
           sx: {
             position: 'absolute',
-            top: -drawerBleeding - 64,
+            top: -drawerBleeding - 60,
             visibility: 'visible',
             pointerEvents: 'all',
           },
@@ -228,12 +228,12 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
               ) : activePanel === 'rgb' ? (
                 <Stack sx={{ height: '100%', justifyContent: 'space-around' }}>
                   <Stack>
-                    <Typography level="body3">Red</Typography>
+                    <Typography level="body-sm">Red</Typography>
                     <Slider
                       value={chromaColor.get('rgb.r')}
                       onChange={(_, value) =>
                         setColor(
-                          chromaColor.set('rgb.r', value as number).hex()
+                          chromaColor.set('rgb.r', value as number).hex(),
                         )
                       }
                       max={255}
@@ -249,12 +249,12 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     />
                   </Stack>
                   <Stack>
-                    <Typography level="body3">Green</Typography>
+                    <Typography level="body-sm">Green</Typography>
                     <Slider
                       value={chromaColor.get('rgb.g')}
                       onChange={(_, value) =>
                         setColor(
-                          chromaColor.set('rgb.g', value as number).hex()
+                          chromaColor.set('rgb.g', value as number).hex(),
                         )
                       }
                       max={255}
@@ -270,12 +270,12 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     />
                   </Stack>
                   <Stack>
-                    <Typography level="body3">Blue</Typography>
+                    <Typography level="body-sm">Blue</Typography>
                     <Slider
                       value={chromaColor.get('rgb.b')}
                       onChange={(_, value) =>
                         setColor(
-                          chromaColor.set('rgb.b', value as number).hex()
+                          chromaColor.set('rgb.b', value as number).hex(),
                         )
                       }
                       max={255}
@@ -294,12 +294,12 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
               ) : activePanel === 'hsl' ? (
                 <Stack sx={{ height: '100%', justifyContent: 'space-around' }}>
                   <Stack>
-                    <Typography level="body3">Hue</Typography>
+                    <Typography level="body-sm">Hue</Typography>
                     <Slider
                       value={chromaColor.get('hsl.h')}
                       onChange={(_, value) =>
                         setColor(
-                          chromaColor.set('hsl.h', value as number).hex()
+                          chromaColor.set('hsl.h', value as number).hex(),
                         )
                       }
                       max={360}
@@ -308,12 +308,12 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     />
                   </Stack>
                   <Stack>
-                    <Typography level="body3">HSL Saturation</Typography>
+                    <Typography level="body-sm">HSL Saturation</Typography>
                     <Slider
                       value={chromaColor.get('hsl.s')}
                       onChange={(_, value) =>
                         setColor(
-                          chromaColor.set('hsl.s', value as number).hex()
+                          chromaColor.set('hsl.s', value as number).hex(),
                         )
                       }
                       max={1}
@@ -323,12 +323,12 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     />
                   </Stack>
                   <Stack>
-                    <Typography level="body3">Lightness</Typography>
+                    <Typography level="body-sm">Lightness</Typography>
                     <Slider
                       value={chromaColor.get('hsl.l')}
                       onChange={(_, value) =>
                         setColor(
-                          chromaColor.set('hsl.l', value as number).hex()
+                          chromaColor.set('hsl.l', value as number).hex(),
                         )
                       }
                       max={1}
@@ -341,12 +341,12 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
               ) : activePanel === 'hsv' ? (
                 <Stack sx={{ height: '100%', justifyContent: 'space-around' }}>
                   <Stack>
-                    <Typography level="body3">Hue</Typography>
+                    <Typography level="body-sm">Hue</Typography>
                     <Slider
                       value={chromaColor.get('hsv.h')}
                       onChange={(_, value) =>
                         setColor(
-                          chromaColor.set('hsv.h', value as number).hex()
+                          chromaColor.set('hsv.h', value as number).hex(),
                         )
                       }
                       max={360}
@@ -355,12 +355,12 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     />
                   </Stack>
                   <Stack>
-                    <Typography level="body3">HSV Saturation</Typography>
+                    <Typography level="body-sm">HSV Saturation</Typography>
                     <Slider
                       value={chromaColor.get('hsv.s')}
                       onChange={(_, value) =>
                         setColor(
-                          chromaColor.set('hsv.s', value as number).hex()
+                          chromaColor.set('hsv.s', value as number).hex(),
                         )
                       }
                       max={1}
@@ -370,12 +370,12 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     />
                   </Stack>
                   <Stack>
-                    <Typography level="body3">Value</Typography>
+                    <Typography level="body-sm">Value</Typography>
                     <Slider
                       value={chromaColor.get('hsv.v')}
                       onChange={(_, value) =>
                         setColor(
-                          chromaColor.set('hsv.v', value as number).hex()
+                          chromaColor.set('hsv.v', value as number).hex(),
                         )
                       }
                       max={1}
@@ -388,12 +388,12 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
               ) : activePanel === 'cmyk' ? (
                 <Stack sx={{ height: '100%', justifyContent: 'space-around' }}>
                   <Stack>
-                    <Typography level="body3">Cyan</Typography>
+                    <Typography level="body-sm">Cyan</Typography>
                     <Slider
                       value={chromaColor.get('cmyk.c')}
                       onChange={(_, value) =>
                         setColor(
-                          chromaColor.set('cmyk.c', value as number).hex()
+                          chromaColor.set('cmyk.c', value as number).hex(),
                         )
                       }
                       max={1}
@@ -410,12 +410,12 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     />
                   </Stack>
                   <Stack>
-                    <Typography level="body3">Magenta</Typography>
+                    <Typography level="body-sm">Magenta</Typography>
                     <Slider
                       value={chromaColor.get('cmyk.m')}
                       onChange={(_, value) =>
                         setColor(
-                          chromaColor.set('cmyk.m', value as number).hex()
+                          chromaColor.set('cmyk.m', value as number).hex(),
                         )
                       }
                       max={1}
@@ -432,12 +432,12 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     />
                   </Stack>
                   <Stack>
-                    <Typography level="body3">Yellow</Typography>
+                    <Typography level="body-sm">Yellow</Typography>
                     <Slider
                       value={chromaColor.get('cmyk.y')}
                       onChange={(_, value) =>
                         setColor(
-                          chromaColor.set('cmyk.y', value as number).hex()
+                          chromaColor.set('cmyk.y', value as number).hex(),
                         )
                       }
                       max={1}
@@ -454,12 +454,12 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     />
                   </Stack>
                   <Stack>
-                    <Typography level="body3">Key</Typography>
+                    <Typography level="body-sm">Key</Typography>
                     <Slider
                       value={chromaColor.get('cmyk.k')}
                       onChange={(_, value) =>
                         setColor(
-                          chromaColor.set('cmyk.k', value as number).hex()
+                          chromaColor.set('cmyk.k', value as number).hex(),
                         )
                       }
                       max={1}

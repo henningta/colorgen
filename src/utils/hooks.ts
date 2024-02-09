@@ -34,7 +34,7 @@ export const useMounted = () => {
 
 export const useOnClickOutside = <T extends Element>(
   ref: React.RefObject<T>,
-  callback: (e: MouseEvent | TouchEvent) => void
+  callback: (e: MouseEvent | TouchEvent) => void,
 ) => {
   const listener = useCallback(
     (e: MouseEvent | TouchEvent) => {
@@ -42,7 +42,7 @@ export const useOnClickOutside = <T extends Element>(
         callback(e);
       }
     },
-    [ref, callback]
+    [ref, callback],
   );
 
   useEffect(() => {

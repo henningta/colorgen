@@ -1,6 +1,6 @@
 import React from 'react';
-import Popper from '@mui/base/Popper';
-import { AutocompleteListbox, AutocompleteOption } from '@mui/joy';
+import { Popper } from '@mui/base/Popper';
+import { AutocompleteListbox, AutocompleteOption, useTheme } from '@mui/joy';
 import ListSubheader from '@mui/joy/ListSubheader';
 import { ListChildComponentProps, FixedSizeList } from 'react-window';
 
@@ -65,6 +65,8 @@ const ListboxComponent = React.forwardRef<
 >(function ListboxComponent(props, ref) {
   const { children, anchorEl, open, modifiers, ...other } = props;
 
+  const theme = useTheme();
+
   // eslint-disable-next-line
   const itemData: Array<any> = [];
   (
@@ -86,14 +88,16 @@ const ListboxComponent = React.forwardRef<
       open={open}
       modifiers={modifiers}
       disablePortal
-      style={{ display: itemCount === 0 ? 'none' : undefined }}
+      style={{
+        display: itemCount === 0 ? 'none' : undefined,
+        zIndex: theme.zIndex.popup,
+      }}
     >
       <OuterElementContext.Provider value={other}>
         <FixedSizeList
           itemData={itemData}
           height={itemSize * 8}
           width="100%"
-          // @ts-expect-error something weird about react element types, but it works
           outerElementType={OuterElementType}
           innerElementType="ul"
           itemSize={itemSize}

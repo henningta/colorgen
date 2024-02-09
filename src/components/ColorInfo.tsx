@@ -64,6 +64,7 @@ const ColorInfo: React.FC<ColorInfoProps> = ({
       >
         <Box>
           <Typography
+            level="body-lg"
             fontWeight={600}
             sx={{ opacity: 0.75 }}
             textColor={contrastText}

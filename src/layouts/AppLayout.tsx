@@ -13,6 +13,7 @@ import {
   Sheet,
   Switch,
   Typography,
+  switchClasses,
   useColorScheme as useJoyColorScheme,
 } from '@mui/joy';
 import { useColorScheme as useMuiColorScheme } from '@mui/material';
@@ -68,12 +69,13 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
             </RouterLink>
             <ClientOnly>
               <Switch
+                size="lg"
                 slotProps={{
                   input: { 'aria-label': 'dark mode' },
                   thumb: {
                     children: (
-                      <Icon style={{ color: 'white' }} fill>
-                        {mode === 'dark' ? 'brightness_4' : 'brightness_7'}
+                      <Icon style={{ color: 'white' }}>
+                        {mode === 'dark' ? 'dark_mode' : 'light_mode'}
                       </Icon>
                     ),
                   },
@@ -84,10 +86,10 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                   setMuiMode(e.target.checked ? 'dark' : 'light');
                 }}
                 sx={{
-                  '--Switch-thumb-background': 'transparent',
+                  '--Switch-thumbBackground': 'transparent',
 
-                  '&.Joy-checked': {
-                    '--Switch-thumb-background': 'transparent',
+                  [`&.${switchClasses.checked}`]: {
+                    '--Switch-thumbBackground': 'transparent',
                   },
                 }}
               />

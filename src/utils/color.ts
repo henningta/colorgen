@@ -10,7 +10,7 @@ const secretColors = [
 ];
 
 export const getContrastColor = (
-  bgColor: string
+  bgColor: string,
 ): 'common.white' | 'common.black' => {
   if (!chroma.valid(bgColor)) {
     return 'common.black';
@@ -28,7 +28,7 @@ export const getContrastColor = (
 export const colorMap = (() =>
   colorNameList.reduce(
     (acc, x) => acc.set(x.name, x.hex),
-    new CaseInsensitiveMap<string, string>()
+    new CaseInsensitiveMap<string, string>(),
   ))();
 
 /**
@@ -38,7 +38,7 @@ export const colorMap = (() =>
  */
 export const getColorHex = (color: string) => {
   const secret = secretColors.find(
-    (x) => x.name.toLocaleLowerCase() === color.toLocaleLowerCase()
+    (x) => x.name.toLocaleLowerCase() === color.toLocaleLowerCase(),
   );
 
   if (secret) {
@@ -57,7 +57,7 @@ export const getColorName = (() => {
 
   return (color: string, capitalize = true) => {
     const secret = secretColors.find(
-      (x) => x.name.toLocaleLowerCase() === color.toLocaleLowerCase()
+      (x) => x.name.toLocaleLowerCase() === color.toLocaleLowerCase(),
     );
 
     if (secret) {
@@ -83,7 +83,7 @@ export const getTints = (
   colorHex: string,
   whitePoint = '#fff',
   amount = 5,
-  mode: InterpolationMode = 'rgb'
+  mode: InterpolationMode = 'rgb',
 ) =>
   [...Array(amount).keys()].map((x) => ({
     id: x,
@@ -94,7 +94,7 @@ export const getShades = (
   colorHex: string,
   blackPoint = '#000',
   amount = 5,
-  mode: InterpolationMode = 'rgb'
+  mode: InterpolationMode = 'rgb',
 ) =>
   [...Array(amount).keys()].map((x) => ({
     id: x,

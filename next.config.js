@@ -9,7 +9,7 @@ const nextConfig = (phase, { defaultConfig }) => {
   if (phase === PHASE_DEVELOPMENT_SERVER) {
     console.log(
       'info  - Local network:',
-      `http://${require('address').ip()}:3000`
+      `http://${require('address').ip()}:3000`,
     );
     return {
       /* development only config options here */
@@ -18,6 +18,9 @@ const nextConfig = (phase, { defaultConfig }) => {
 
   return {
     /* config options for all phases except development here */
+    experimental: {
+      optimizePackageImports: ['@mui/joy'],
+    },
   };
 };
 

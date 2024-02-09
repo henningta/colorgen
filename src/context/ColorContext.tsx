@@ -54,7 +54,7 @@ export const ColorContextProvider: React.FC<ColorContextProviderProps> = ({
 
   const throttleSetColorName = useMemo(
     () => throttle((color: string) => setColorName(getColorName(color)), 50),
-    [setColorName]
+    [setColorName],
   );
 
   useEffect(() => {
@@ -90,7 +90,7 @@ export const ColorContextProvider: React.FC<ColorContextProviderProps> = ({
       colorName,
       contrastText,
     }),
-    [color, contrastText, colorHex, colorName]
+    [color, contrastText, colorHex, colorName],
   );
 
   return (

@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   CssBaseline,
+  GlobalStyles,
   CssVarsProvider as JoyCssVarsProvider,
   extendTheme as extendJoyTheme,
 } from '@mui/joy';
@@ -58,9 +59,6 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
           fontSize: '6rem',
         },
       },
-      display2: {
-        fontWeight: 300,
-      },
       h1: {
         fontWeight: 300,
       },
@@ -69,19 +67,8 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
       },
       h3: {
         fontWeight: 300,
-        fontSize: '1.5rem',
-
-        '@media (min-width:1200px)': {
-          fontSize: '2rem',
-        },
       },
       h4: {
-        fontWeight: 300,
-      },
-      h5: {
-        fontWeight: 300,
-      },
-      h6: {
         fontWeight: 300,
       },
     },
@@ -179,6 +166,20 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
     <MuiCssVarsProvider theme={{ [MATERIAL_THEME_ID]: muiTheme }}>
       <JoyCssVarsProvider theme={theme}>
         <CssBaseline />
+        <GlobalStyles
+          styles={{
+            html: {
+              overflowX: 'hidden',
+            },
+            body: {
+              height: '100vh',
+
+              '#__next': {
+                height: '100%',
+              },
+            },
+          }}
+        />
         {children}
       </JoyCssVarsProvider>
     </MuiCssVarsProvider>

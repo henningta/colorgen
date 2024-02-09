@@ -1,6 +1,14 @@
-import { IconButton, Menu, MenuItem, Stack, Typography } from '@mui/joy';
+import {
+  Dropdown,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  Stack,
+  Typography,
+} from '@mui/joy';
 import Card, { CardProps } from '@mui/joy/Card';
-import React, { useState } from 'react';
+import React from 'react';
 import { useColorContext, useSnackbarContext } from '../context';
 import { copyToClipboard, getContrastColor } from '../utils';
 import Icon from './Icon';
@@ -22,11 +30,6 @@ const ColorCard: React.FC<ColorCardProps> = ({
   const { setColor } = useColorContext();
   const { setSnackbar } = useSnackbarContext();
 
-  const [anchorEl, setAnchorEl] = useState<HTMLElement>();
-
-  const toggleMenu: React.MouseEventHandler<HTMLElement> = (e) =>
-    setAnchorEl((prev) => (prev ? undefined : e.currentTarget));
-
   const contrastText = getContrastColor(colorHex);
 
   const copyHexToClipboard = async () => {
@@ -43,92 +46,97 @@ const ColorCard: React.FC<ColorCardProps> = ({
   };
 
   return (
-    <>
-      <Card
-        {...props}
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderRadius: 0,
-          boxShadow: 'none',
-          overflow: 'hidden',
-          whiteSpace: 'nowrap',
-          position: 'relative',
-          // minHeight: 120,
+    <Card
+      {...props}
+      variant="plain"
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 0,
+        boxShadow: 'none',
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+        position: 'relative',
+        // minHeight: 120,
 
-          ':hover': {
-            '.color-card--toolbar': {
-              opacity: 1,
-              transition: '300ms opacity cubic-bezier(0.4, 0, 0.2, 1)',
+        ':hover': {
+          '.color-card--toolbar': {
+            opacity: 1,
+            transition: '300ms opacity cubic-bezier(0.4, 0, 0.2, 1)',
+          },
+        },
+      }}
+      style={{
+        backgroundColor: colorHex,
+        width,
+        height,
+      }}
+    >
+      <Stack
+        className="color-card--toolbar"
+        direction="row"
+        sx={{
+          my: 1,
+          mx: 0.5,
+          opacity: 0,
+          transition: '250ms opacity cubic-bezier(0.4, 0, 0.2, 1)',
+          position: 'absolute',
+          top: 0,
+          right: 0,
+
+          '.JoyIconButton-root': {
+            backgroundColor: 'transparent',
+
+            ':hover': {
+              backgroundColor: 'transparent',
             },
+
+            '.Icon': { color: contrastText, opacity: 0.75 },
           },
         }}
-        style={{
-          backgroundColor: colorHex,
-          width,
-          height,
-        }}
       >
-        <Stack
-          className="color-card--toolbar"
-          direction="row"
-          sx={{
-            py: 1,
-            opacity: 0,
-            transition: '250ms opacity cubic-bezier(0.4, 0, 0.2, 1)',
-            position: 'absolute',
-            top: 0,
-            right: 0,
-
-            '.JoyIconButton-root': {
-              backgroundColor: 'transparent',
-
-              ':hover': {
-                backgroundColor: 'transparent',
-              },
-
-              '.Icon': { color: contrastText, opacity: 0.75 },
-            },
-          }}
+        <IconButton
+          size="sm"
+          onClick={() => void copyHexToClipboard()}
+          sx={{ '&:hover': { bgcolor: 'transparent' } }}
         >
-          <IconButton size="sm" onClick={() => void copyHexToClipboard()}>
-            <Icon>content_copy</Icon>
-          </IconButton>
-          <IconButton
-            id="color-card-menu--button"
-            size="sm"
-            onClick={toggleMenu}
+          <Icon sx={{ color: contrastText }}>content_copy</Icon>
+        </IconButton>
+        <Dropdown>
+          <MenuButton
+            slots={{ root: IconButton }}
+            slotProps={{
+              root: {
+                variant: 'plain',
+                size: 'sm',
+                sx: {
+                  '&:hover': { bgcolor: 'transparent' },
+                },
+              },
+            }}
           >
-            <Icon>more_vert</Icon>
-          </IconButton>
-        </Stack>
-        {displayHex && (
-          <Typography
-            level="body2"
-            textColor={contrastText}
-            sx={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
-          >
-            {colorHex}
-          </Typography>
-        )}
-      </Card>
-      <Menu
-        id="color-card-menu"
-        anchorEl={anchorEl}
-        open={!!anchorEl}
-        onClose={() => setAnchorEl(undefined)}
-        aria-labelledby="color-card-menu--button"
-        size="sm"
-        placement="bottom-end"
-        onClick={() => setAnchorEl(undefined)}
-      >
-        <MenuItem onClick={() => void copyHexToClipboard()}>Copy Hex</MenuItem>
-        <MenuItem onClick={() => setColor(colorHex)}>
-          Set as Selected Color
-        </MenuItem>
-      </Menu>
-    </>
+            <Icon sx={{ color: contrastText }}>more_vert</Icon>
+          </MenuButton>
+          <Menu id="color-card-menu" size="sm" placement="bottom-end">
+            <MenuItem onClick={() => void copyHexToClipboard()}>
+              Copy Hex
+            </MenuItem>
+            <MenuItem onClick={() => setColor(colorHex)}>
+              Set as Selected Color
+            </MenuItem>
+          </Menu>
+        </Dropdown>
+      </Stack>
+      {displayHex && (
+        <Typography
+          textColor={contrastText}
+          sx={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
+        >
+          {colorHex}
+        </Typography>
+      )}
+    </Card>
   );
 };
 
