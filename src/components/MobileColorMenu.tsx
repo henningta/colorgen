@@ -89,7 +89,9 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
           anchorOrigin: { vertical: 'top', horizontal: 'left' },
           sx: {
             position: 'absolute',
-            top: -drawerBleeding - 60,
+            top: -drawerBleeding - 96,
+            left: 'auto',
+            right: 16,
             visibility: 'visible',
             pointerEvents: 'all',
           },

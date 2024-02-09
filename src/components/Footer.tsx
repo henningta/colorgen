@@ -1,4 +1,4 @@
-import { Box, Container, Sheet, SheetProps, Typography } from '@mui/joy';
+import { Box, Container, SheetProps, Typography } from '@mui/joy';
 import React from 'react';
 import { passSx } from '../utils';
 import Icon from './Icon';
