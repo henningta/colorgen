@@ -5,31 +5,20 @@ import {
   CssVarsProvider as JoyCssVarsProvider,
   extendTheme as extendJoyTheme,
 } from '@mui/joy';
-import {
-  experimental_extendTheme as extendMuiTheme,
-  Experimental_CssVarsProvider as MuiCssVarsProvider,
-  THEME_ID as MATERIAL_THEME_ID,
-} from '@mui/material/styles';
 
 export type AppThemeProviderProps = {
   children: React.ReactNode;
 };
 
 const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
-  const shadowChannel = '60 60 60';
-
-  const muiTheme = extendMuiTheme();
-
   const theme = extendJoyTheme({
     colorSchemes: {
       dark: {
-        shadowChannel,
         palette: {
           icon: 'rgb(154, 160, 166)',
         },
       },
       light: {
-        shadowChannel,
         palette: {
           icon: 'rgb(95, 99, 104)',
         },
@@ -163,27 +152,20 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
   });
 
   return (
-    <MuiCssVarsProvider theme={{ [MATERIAL_THEME_ID]: muiTheme }}>
-      <JoyCssVarsProvider theme={theme}>
-        <CssBaseline />
-        <GlobalStyles
-          styles={
-            {
-              // html: {
-              //   overflowX: 'hidden',
-              // },
-              // body: {
-              //   height: '100vh',
-              //   '#__next': {
-              //     height: '100%',
-              //   },
-              // },
-            }
-          }
-        />
-        {children}
-      </JoyCssVarsProvider>
-    </MuiCssVarsProvider>
+    <JoyCssVarsProvider theme={theme} defaultMode="system">
+      <CssBaseline />
+      <GlobalStyles
+        styles={{
+          html: {
+            overflowX: 'hidden',
+          },
+          body: {
+            minHeight: '100%',
+          },
+        }}
+      />
+      {children}
+    </JoyCssVarsProvider>
   );
 };
 

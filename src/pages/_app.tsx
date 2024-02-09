@@ -1,6 +1,4 @@
 import 'nprogress/nprogress.css';
-
-import '../styles/global.css';
 import '../styles/nprogress.css';
 
 import React from 'react';

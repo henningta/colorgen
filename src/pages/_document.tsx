@@ -19,7 +19,7 @@ const Document: React.FC<DocumentProps> = () => (
       />
     </Head>
     <body>
-      {getInitColorSchemeScript()}
+      {getInitColorSchemeScript({ defaultMode: 'system' })}
       <Main />
       <NextScript />
     </body>

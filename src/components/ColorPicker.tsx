@@ -9,7 +9,6 @@ import {
   Sheet,
   Stack,
   Tooltip,
-  useColorScheme,
 } from '@mui/joy';
 import Card, { CardProps } from '@mui/joy/Card';
 import React from 'react';
@@ -32,7 +31,6 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   sx,
   ...props
 }) => {
-  const { mode } = useColorScheme();
   const { setSnackbar } = useSnackbarContext();
 
   const colorHex = getColorHex(value);
@@ -65,7 +63,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
           flexDirection: 'row',
           alignItems: 'center',
           boxShadow: 'md',
-          border: `1px solid ${mode === 'dark' ? '#333' : '#ccc'}`,
+          border: '1px solid',
+          borderColor: 'divider',
         },
         ...passSx(sx),
       ]}

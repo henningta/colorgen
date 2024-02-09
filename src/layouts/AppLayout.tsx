@@ -10,13 +10,12 @@ import {
 import {
   Box,
   Container,
+  IconButton,
   Sheet,
-  Switch,
+  Stack,
   Typography,
-  switchClasses,
   useColorScheme as useJoyColorScheme,
 } from '@mui/joy';
-import { useColorScheme as useMuiColorScheme } from '@mui/material';
 import { useAppContext, useColorContext } from '../context';
 
 type AppLayoutProps = {
@@ -24,8 +23,7 @@ type AppLayoutProps = {
 };
 
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
-  const { mode, setMode: setJoyMode } = useJoyColorScheme();
-  const { setMode: setMuiMode } = useMuiColorScheme();
+  const { mode, setMode } = useJoyColorScheme();
   const { color, setColor } = useColorContext();
   const { nav, isMobile } = useAppContext();
 
@@ -68,7 +66,40 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
               </Typography>
             </RouterLink>
             <ClientOnly>
-              <Switch
+              <Stack
+                direction="row"
+                alignItems="center"
+                sx={{ '.Icon': { fontSize: 20 } }}
+              >
+                <IconButton
+                  size="sm"
+                  variant={mode === 'dark' ? 'solid' : 'plain'}
+                  onClick={() => setMode('dark')}
+                >
+                  <Icon sx={{ color: mode === 'dark' ? 'white' : undefined }}>
+                    dark_mode
+                  </Icon>
+                </IconButton>
+                <IconButton
+                  size="sm"
+                  variant={mode === 'system' ? 'solid' : 'plain'}
+                  onClick={() => setMode('system')}
+                >
+                  <Icon sx={{ color: mode === 'system' ? 'white' : undefined }}>
+                    computer
+                  </Icon>
+                </IconButton>
+                <IconButton
+                  size="sm"
+                  variant={mode === 'light' ? 'solid' : 'plain'}
+                  onClick={() => setMode('light')}
+                >
+                  <Icon sx={{ color: mode === 'light' ? 'white' : undefined }}>
+                    light_mode
+                  </Icon>
+                </IconButton>
+              </Stack>
+              {/* <Switch
                 size="lg"
                 slotProps={{
                   input: { 'aria-label': 'dark mode' },
@@ -92,7 +123,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                     '--Switch-thumbBackground': 'transparent',
                   },
                 }}
-              />
+              /> */}
             </ClientOnly>
           </Container>
         </Sheet>

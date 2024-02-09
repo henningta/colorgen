@@ -18,9 +18,6 @@ const nextConfig = (phase, { defaultConfig }) => {
 
   return {
     /* config options for all phases except development here */
-    experimental: {
-      optimizePackageImports: ['@mui/joy'],
-    },
   };
 };
 

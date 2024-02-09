@@ -1,7 +1,0 @@
-html[data-joy-color-scheme='light'] .splash {
-  background-color: var(--bg-color--light);
-}
-
-html[data-joy-color-scheme='dark'] .splash {
-  background-color: var(--bg-color--dark);
-}
