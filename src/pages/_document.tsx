@@ -5,13 +5,13 @@ import { getInitColorSchemeScript } from '@mui/joy';
 const Document: React.FC<DocumentProps> = () => (
   <Html lang="en">
     <Head>
-      {/* <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link
         rel="preconnect"
         href="https://fonts.gstatic.com"
         crossOrigin="anonymous"
       />
-      <link rel="preload" as="style" href={fontsUrl} />
+      {/* <link rel="preload" as="style" href={fontsUrl} />
       <link rel="stylesheet" href={fontsUrl} media={loaded ? 'all' : 'print'} /> */}
       <link
         rel="stylesheet"

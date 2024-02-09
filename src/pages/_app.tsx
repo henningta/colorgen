@@ -15,6 +15,7 @@ import { Splash } from '../components';
 import { AppLayout } from '../layouts';
 import Router from 'next/router';
 import nprogress from 'nprogress';
+import Head from 'next/head';
 
 nprogress.configure({
   showSpinner: false,
@@ -25,18 +26,23 @@ nprogress.configure({
 Router.events.on('routeChangeError', () => nprogress.done());
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => (
-  <AppThemeProvider>
-    <AppContextProvider>
-      <ColorContextProvider>
-        <SnackbarProvider>
-          <Splash />
-          <AppLayout>
-            <Component {...pageProps} />
-          </AppLayout>
-        </SnackbarProvider>
-      </ColorContextProvider>
-    </AppContextProvider>
-  </AppThemeProvider>
+  <>
+    <Head>
+      <meta name="viewport" content="initial-scale=1, width=device-width" />
+    </Head>
+    <AppThemeProvider>
+      <AppContextProvider>
+        <ColorContextProvider>
+          <SnackbarProvider>
+            <Splash />
+            <AppLayout>
+              <Component {...pageProps} />
+            </AppLayout>
+          </SnackbarProvider>
+        </ColorContextProvider>
+      </AppContextProvider>
+    </AppThemeProvider>
+  </>
 );
 
 export default App;

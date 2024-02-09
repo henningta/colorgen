@@ -19,7 +19,8 @@ const ColorHarmonies: React.FC<ColorHarmoniesProps> = ({ colorHex }) => {
     >
       <Grid
         container
-        spacing={4}
+        rowSpacing={4}
+        columnSpacing={{ xs: 0, sm: 4 }}
         sx={{ mt: 2, flex: 1, justifyContent: 'center' }}
       >
         <Grid xs={12} sm={6}>

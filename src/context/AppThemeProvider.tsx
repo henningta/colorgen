@@ -167,18 +167,19 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
       <JoyCssVarsProvider theme={theme}>
         <CssBaseline />
         <GlobalStyles
-          styles={{
-            html: {
-              overflowX: 'hidden',
-            },
-            body: {
-              height: '100vh',
-
-              '#__next': {
-                height: '100%',
-              },
-            },
-          }}
+          styles={
+            {
+              // html: {
+              //   overflowX: 'hidden',
+              // },
+              // body: {
+              //   height: '100vh',
+              //   '#__next': {
+              //     height: '100%',
+              //   },
+              // },
+            }
+          }
         />
         {children}
       </JoyCssVarsProvider>
