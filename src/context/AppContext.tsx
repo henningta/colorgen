@@ -49,7 +49,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
       nav,
       setNav,
     }),
-    [isMobile, mobileColorMenuOpen, nav]
+    [isMobile, mobileColorMenuOpen, nav],
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

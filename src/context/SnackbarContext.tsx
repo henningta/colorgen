@@ -1,5 +1,5 @@
-import { Alert, AlertProps, IconButton } from '@mui/joy';
-import { Snackbar, SnackbarProps } from '@mui/material';
+import { Alert, AlertProps, IconButton, SnackbarCloseReason } from '@mui/joy';
+import { Snackbar, SnackbarProps } from '@mui/joy';
 import React, {
   createContext,
   useContext,
@@ -8,6 +8,7 @@ import React, {
   useState,
 } from 'react';
 import { Icon } from '../components';
+import { useAppContext } from './AppContext';
 
 export type SnackbarMessage = {
   key: number;
@@ -42,13 +43,15 @@ export const useSnackbarContext = () => {
 
 export type SnackbarProviderProps = {
   children: React.ReactNode;
-  SnackbarProps?: SnackbarProps;
+  SnackbarProps?: Omit<SnackbarProps, 'open'>;
 };
 
 export const SnackbarProvider: React.FC<SnackbarProviderProps> = ({
   children,
   SnackbarProps,
 }) => {
+  const { isMobile } = useAppContext();
+
   const [snackPack, setSnackPack] = useState<readonly SnackbarMessage[]>([]);
   const [open, setOpen] = useState(false);
   const [activeSnackbar, setActiveSnackbar] = useState<SnackbarMessage>();
@@ -73,15 +76,15 @@ export const SnackbarProvider: React.FC<SnackbarProviderProps> = ({
     ]);
   };
 
-  const onClose = (e: React.SyntheticEvent | Event, reason?: string) => {
+  const onClose = (
+    e: React.SyntheticEvent | Event | null,
+    reason?: SnackbarCloseReason,
+  ) => {
     if (reason === 'clickaway') {
       return;
     }
-    setOpen(false);
-  };
 
-  const onExited = () => {
-    setActiveSnackbar(undefined);
+    setOpen(false);
   };
 
   const value = useMemo<SnackbarContextType>(
@@ -89,7 +92,7 @@ export const SnackbarProvider: React.FC<SnackbarProviderProps> = ({
       setSnackbar,
       closeSnackbar: () => setOpen(false),
     }),
-    []
+    [],
   );
 
   return (
@@ -99,29 +102,26 @@ export const SnackbarProvider: React.FC<SnackbarProviderProps> = ({
         open={open}
         onClose={onClose}
         autoHideDuration={6000}
-        TransitionProps={{ onExited }}
+        onUnmount={() => setActiveSnackbar(undefined)}
+        size={isMobile ? 'sm' : undefined}
+        color={activeSnackbar?.color}
+        startDecorator={
+          activeSnackbar?.icon && (
+            <Icon fill={activeSnackbar.icon.fill}>
+              {activeSnackbar.icon.name}
+            </Icon>
+          )
+        }
+        endDecorator={
+          activeSnackbar?.dismissable && (
+            <IconButton onClick={onClose} sx={{ p: 0, ml: 1, mr: -1 }}>
+              <Icon style={{ fontSize: 20 }}>close</Icon>
+            </IconButton>
+          )
+        }
         {...SnackbarProps}
       >
-        <Alert
-          color={activeSnackbar?.color}
-          sx={{ boxShadow: 'lg' }}
-          startDecorator={
-            activeSnackbar?.icon && (
-              <Icon fill={activeSnackbar.icon.fill}>
-                {activeSnackbar.icon.name}
-              </Icon>
-            )
-          }
-          endDecorator={
-            activeSnackbar?.dismissable && (
-              <IconButton onClick={onClose} sx={{ p: 0, ml: 1, mr: -1 }}>
-                <Icon style={{ fontSize: 20 }}>close</Icon>
-              </IconButton>
-            )
-          }
-        >
-          {activeSnackbar?.message}
-        </Alert>
+        {activeSnackbar?.message}
       </Snackbar>
       {children}
     </SnackbarContext.Provider>

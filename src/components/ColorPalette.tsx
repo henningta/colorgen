@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Stack, StackProps, Typography } from '@mui/joy';
-import { Unstable_Grid2 as Grid } from '@mui/material';
+import { Grid } from '@mui/joy';
 import chroma from 'chroma-js';
 import ColorCard from './ColorCard';
 
@@ -29,10 +29,10 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({
       maxWidth={false}
       sx={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
     >
-      <Typography level="h3" fontWeight={500}>
+      <Typography level="h2" fontWeight={500}>
         {title}
       </Typography>
-      <Typography level="body2" sx={{ mt: 1 }}>
+      <Typography level="title-md" sx={{ mt: 1 }}>
         {subtitle}
       </Typography>
     </Container>

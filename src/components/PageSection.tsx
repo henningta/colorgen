@@ -24,12 +24,12 @@ const PageSection: React.FC<PageSectionProps> = ({
     >
       <Container maxWidth={false}>
         {title && (
-          <Typography level="h2" fontWeight={600}>
+          <Typography level="h1" fontWeight={600}>
             {title}
           </Typography>
         )}
         {subtitle && (
-          <Typography level="body2" sx={{ mt: 1 }}>
+          <Typography level="title-md" sx={{ mt: 1 }}>
             {subtitle}
           </Typography>
         )}

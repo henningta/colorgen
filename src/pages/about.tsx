@@ -8,29 +8,25 @@ export type LibDetailsProps = BoxProps & {
   links?: { title: string; url: string }[];
 };
 
-const LibDetails: React.FC<LibDetailsProps> = ({ title, links }) => {
-  const { isMobile } = useAppContext();
-
-  return (
-    <Box sx={{ mt: 4, overflow: 'hidden' }}>
-      <Typography level={isMobile ? 'h5' : 'h4'} sx={{ mb: 1 }}>
-        {title}
+const LibDetails: React.FC<LibDetailsProps> = ({ title, links }) => (
+  <Box sx={{ mt: 4, overflow: 'hidden' }}>
+    <Typography level="title-lg" sx={{ mb: 1 }}>
+      {title}
+    </Typography>
+    {links?.map((link) => (
+      <Typography key={link.title}>
+        {`${link.title}: `}
+        <Link
+          href={link.url}
+          target="_blank"
+          sx={{ whiteSpace: 'nowrap', overflow: 'hidden' }}
+        >
+          <Typography component="a">{link.url}</Typography>
+        </Link>
       </Typography>
-      {links?.map((link) => (
-        <Typography key={link.title}>
-          {`${link.title}: `}
-          <Link
-            href={link.url}
-            target="_blank"
-            sx={{ whiteSpace: 'nowrap', overflow: 'hidden' }}
-          >
-            <Typography component="a">{link.url}</Typography>
-          </Link>
-        </Typography>
-      ))}
-    </Box>
-  );
-};
+    ))}
+  </Box>
+);
 
 const About: React.FC<PageProps> = ({ ...props }) => {
   const { setNav } = useAppContext();
@@ -48,7 +44,7 @@ const About: React.FC<PageProps> = ({ ...props }) => {
       sx={{ py: 4 }}
     >
       <Box>
-        <Typography level="h3">Why colorgen.io?</Typography>
+        <Typography level="h2">Why colorgen.io?</Typography>
         <Box sx={{ mt: 4 }}>
           <Typography sx={{ mt: 3 }}>
             This app was created to fill the gaps seen in other color palette
@@ -65,7 +61,7 @@ const About: React.FC<PageProps> = ({ ...props }) => {
         </Box>
       </Box>
       <Box sx={{ mt: 8 }}>
-        <Typography level="h3">Contributors:</Typography>
+        <Typography level="h2">Contributors:</Typography>
         <Stack sx={{ mt: 4 }}>
           <Typography>Travis Henning - owner/developer</Typography>
           <Typography sx={{ mt: 2 }}>Ryan Meloy - designer</Typography>
@@ -81,7 +77,7 @@ const About: React.FC<PageProps> = ({ ...props }) => {
         </Stack>
       </Box>
       <Box sx={{ mt: 8 }}>
-        <Typography level="h3">Awesome libraries we used:</Typography>
+        <Typography level="h2">Awesome libraries we used:</Typography>
         <LibDetails
           title="chroma.js"
           links={[

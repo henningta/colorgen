@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid } from '@mui/material';
+import { Grid } from '@mui/joy';
 import PageSection from './PageSection';
 import ColorPalette from './ColorPalette';
 import chroma from 'chroma-js';
@@ -22,7 +22,7 @@ const ColorHarmonies: React.FC<ColorHarmoniesProps> = ({ colorHex }) => {
         spacing={4}
         sx={{ mt: 2, flex: 1, justifyContent: 'center' }}
       >
-        <Grid item xs={12} sm={6}>
+        <Grid xs={12} sm={6}>
           <ColorPalette
             title="Analogous"
             colors={[
@@ -33,7 +33,7 @@ const ColorHarmonies: React.FC<ColorHarmoniesProps> = ({ colorHex }) => {
             sx={{ height: '100%', minHeight: 200 }}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid xs={12} sm={6}>
           <ColorPalette
             title="Complementary"
             colors={[
@@ -43,7 +43,7 @@ const ColorHarmonies: React.FC<ColorHarmoniesProps> = ({ colorHex }) => {
             sx={{ height: '100%', minHeight: 200 }}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid xs={12} sm={6}>
           <ColorPalette
             title="Split Complementary"
             colors={[
@@ -54,7 +54,7 @@ const ColorHarmonies: React.FC<ColorHarmoniesProps> = ({ colorHex }) => {
             sx={{ height: '100%', minHeight: 200 }}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid xs={12} sm={6}>
           <ColorPalette
             title="Triadic"
             colors={[
@@ -65,7 +65,7 @@ const ColorHarmonies: React.FC<ColorHarmoniesProps> = ({ colorHex }) => {
             sx={{ height: '100%', minHeight: 200 }}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid xs={12} sm={6}>
           <ColorPalette
             title="Tetradic Rectangular"
             colors={[
@@ -77,7 +77,7 @@ const ColorHarmonies: React.FC<ColorHarmoniesProps> = ({ colorHex }) => {
             sx={{ height: '100%', minHeight: 200 }}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid xs={12} sm={6}>
           <ColorPalette
             title="Tetradic Square"
             colors={[

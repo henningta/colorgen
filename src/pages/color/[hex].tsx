@@ -40,10 +40,10 @@ const Color: React.FC<PageProps & ServerDataProps> = ({
           `/color/${hexStripped}`,
           {
             shallow: true,
-          }
+          },
         );
       }, 300),
-    []
+    [],
   );
 
   useEffect(() => {
@@ -103,7 +103,7 @@ export const getServerSideProps: GetServerSideProps = ({ res, params }) => {
   // with a fresh value. If you refresh the page, you will see the new value.
   res.setHeader(
     'Cache-Control',
-    'public, s-maxage=10, stale-while-revalidate=59'
+    'public, s-maxage=10, stale-while-revalidate=59',
   );
 
   const serverHex =
