@@ -1,6 +1,6 @@
 // TODO: replace this component with theme overrides once Joy UI officially supports icon components
 
-import { Box, BoxProps } from '@mui/joy';
+import { Box, type BoxProps } from '@mui/joy';
 import React from 'react';
 import { passSx } from '../utils';
 

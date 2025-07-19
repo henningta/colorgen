@@ -1,9 +1,6 @@
 # IDE-specific
 .vscode/
 
-# build
-.next/
-
 # node
 .husky/_
 node_modules/
@@ -12,4 +9,3 @@ node_modules/
 .DS_Store
 .env.*
 *.orig
-yarn-error.log

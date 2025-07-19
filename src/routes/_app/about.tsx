@@ -1,7 +1,12 @@
-import { Box, BoxProps, Link, Stack, Typography } from '@mui/joy';
+import { Box, type BoxProps, Link, Stack, Typography } from '@mui/joy';
 import React, { useEffect } from 'react';
-import { Page, PageProps } from '../components';
-import { useAppContext } from '../context';
+import { Page } from '../../components';
+import { useAppContext } from '../../context';
+import { createFileRoute } from '@tanstack/react-router';
+
+export const Route = createFileRoute('/_app/about')({
+  component: About,
+});
 
 export type LibDetailsProps = BoxProps & {
   title: string;
@@ -21,14 +26,14 @@ const LibDetails: React.FC<LibDetailsProps> = ({ title, links }) => (
           target="_blank"
           sx={{ whiteSpace: 'nowrap', overflow: 'hidden' }}
         >
-          <Typography component="a">{link.url}</Typography>
+          {link.url}
         </Link>
       </Typography>
     ))}
   </Box>
 );
 
-const About: React.FC<PageProps> = ({ ...props }) => {
+function About() {
   const { setNav } = useAppContext();
 
   useEffect(() => {
@@ -37,10 +42,9 @@ const About: React.FC<PageProps> = ({ ...props }) => {
 
   return (
     <Page
-      {...props}
       title="About"
-      description="Our goal is to provide designers and developers with the options and
-    flexibility needed to create any color palette imaginable."
+      //   description="Our goal is to provide designers and developers with the options and
+      // flexibility needed to create any color palette imaginable."
       sx={{ py: 4 }}
     >
       <Box>
@@ -137,6 +141,6 @@ const About: React.FC<PageProps> = ({ ...props }) => {
       </Box>
     </Page>
   );
-};
+}
 
 export default About;

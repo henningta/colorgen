@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   ClientOnly,
   ColorPicker,
@@ -6,7 +5,7 @@ import {
   Icon,
   MobileColorMenu,
   RouterLink,
-} from '../components';
+} from '../../components';
 import {
   Box,
   Container,
@@ -16,13 +15,14 @@ import {
   Typography,
   useColorScheme as useJoyColorScheme,
 } from '@mui/joy';
-import { useAppContext, useColorContext } from '../context';
+import { useAppContext, useColorContext } from '../../context';
+import { createFileRoute, Outlet } from '@tanstack/react-router';
 
-type AppLayoutProps = {
-  children: React.ReactNode;
-};
+export const Route = createFileRoute('/_app')({
+  component: AppLayout,
+});
 
-const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
+function AppLayout() {
   const { mode, setMode } = useJoyColorScheme();
   const { color, setColor } = useColorContext();
   const { nav, isMobile } = useAppContext();
@@ -50,11 +50,11 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              height: '64px',
+              height: 56,
             }}
           >
             <RouterLink
-              href="/"
+              to="/"
               sx={{
                 color: 'inherit',
                 borderBottom: 'none',
@@ -132,7 +132,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
           </Container>
         </Sheet>
         <Box sx={{ position: 'relative', minHeight: '100%' }}>
-          {children}
+          <Outlet />
           <ClientOnly>
             <Box
               sx={(theme) => ({
@@ -168,6 +168,6 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
       </ClientOnly>
     </>
   );
-};
+}
 
 export default AppLayout;

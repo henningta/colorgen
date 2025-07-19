@@ -1,16 +1,15 @@
-import { Box, ButtonProps, Container, Stack, Typography } from '@mui/joy';
+import { Box, type ButtonProps, Container, Stack, Typography } from '@mui/joy';
 import chroma from 'chroma-js';
 import React, { useEffect } from 'react';
-import {
-  ColorPicker,
-  Icon,
-  Page,
-  PageProps,
-  RouterButton,
-} from '../components';
-import { useAppContext, useColorContext } from '../context';
-import { passSx } from '../utils';
+import { ColorPicker, Icon, Page, RouterButton } from '../../components';
+import { useAppContext, useColorContext } from '../../context';
+import { passSx } from '../../utils';
 import nprogress from 'nprogress';
+import { createFileRoute } from '@tanstack/react-router';
+
+export const Route = createFileRoute('/_app/')({
+  component: Index,
+});
 
 type ColorButtonProps = Pick<ButtonProps, 'sx'> & {
   colorHex: string;
@@ -25,7 +24,8 @@ const ColorButton: React.FC<ColorButtonProps> = ({
   sx,
 }) => (
   <RouterButton
-    href={`/color/${colorHex.substring(1)}`}
+    to="/color/$hex"
+    params={{ hex: colorHex.substring(1) }}
     onClick={() => nprogress.start()}
     variant="plain"
     sx={[
@@ -50,7 +50,7 @@ const ColorButton: React.FC<ColorButtonProps> = ({
   </RouterButton>
 );
 
-const HomePage: React.FC<PageProps> = ({ ...props }) => {
+function Index() {
   const { isMobile } = useAppContext();
   const { color, setColor, colorName, colorHex, contrastText } =
     useColorContext();
@@ -66,11 +66,11 @@ const HomePage: React.FC<PageProps> = ({ ...props }) => {
   }, [setColor]);
 
   return (
-    <Page {...props} sx={{ p: '0 !important' }} maxWidth={false}>
+    <Page sx={{ p: '0 !important' }} maxWidth={false}>
       <Box style={{ height: '100%', backgroundColor: colorHex }}>
         <Stack
           sx={(theme) => ({
-            minHeight: 'calc(100vh - 64px)',
+            minHeight: 'calc(100vh - 56px)',
             py: 4,
             px: 0,
 
@@ -149,6 +149,4 @@ const HomePage: React.FC<PageProps> = ({ ...props }) => {
       </Box>
     </Page>
   );
-};
-
-export default HomePage;
+}

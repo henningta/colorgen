@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Autocomplete } from '@mui/joy';
-import colorNameList from 'color-name-list';
+import { colornames } from 'color-name-list';
 import ListboxComponent from './VirtualListAdapter';
 
 export type ColorInputProps = {
@@ -17,7 +17,7 @@ const ColorInput: React.FC<ColorInputProps> = ({ value, onChange }) => {
 
   return (
     <Autocomplete
-      options={colorNameList.map((x) => x.name)}
+      options={colornames.map((x) => x.name)}
       noOptionsText="Blah"
       value={selected}
       onChange={(_, selected) => setSelected(selected)}

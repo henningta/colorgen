@@ -1,8 +1,8 @@
 declare module 'color-name-list' {
   type ColorName = { name: string; hex: string };
   type ColorNameList = ColorName[];
-  const colorNameList: ColorNameList;
-  export = colorNameList;
+  const colornames: ColorNameList;
+  export { colornames };
 }
 
 declare module 'nearest-color' {

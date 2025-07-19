@@ -1,7 +1,7 @@
 import React from 'react';
-import Head from 'next/head';
+// import Head from 'next/head';
 import config from '../config';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 
 export type SeoImage = {
   url?: string;
@@ -32,7 +32,7 @@ const Seo: React.FC<SeoProps> = ({
   description,
   image: imgUrl,
 }) => {
-  const router = useRouter();
+  // const router = useRouter();
 
   const seo: SeoType = {
     ...config,
@@ -44,13 +44,15 @@ const Seo: React.FC<SeoProps> = ({
       width: '80',
       height: '80',
     },
-    url: `${config.siteUrl}${router.asPath.substring(1)}`,
+    url: '',
+    // url: `${config.siteUrl}${router.asPath.substring(1)}`,
   };
 
   // console.log(seo.image);
 
   return (
-    <Head>
+    // <Head>
+    <>
       {/* Page/tab title */}
       <title>{seo.title}</title>
 
@@ -89,7 +91,8 @@ const Seo: React.FC<SeoProps> = ({
 
       {/* Dynamic options */}
       {children}
-    </Head>
+    </>
+    // </Head>
   );
 };
 

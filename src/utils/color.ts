@@ -1,7 +1,20 @@
-import chroma, { InterpolationMode } from 'chroma-js';
-import colorNameList from 'color-name-list';
+import chroma from 'chroma-js';
+import { colornames } from 'color-name-list';
 import nearestColor from 'nearest-color';
 import CaseInsensitiveMap from './CaseInsensitiveMap';
+
+// chroma-js removed this export? :(
+type InterpolationMode =
+  | 'hcl'
+  | 'hsi'
+  | 'hsl'
+  | 'hsv'
+  | 'lab'
+  | 'lch'
+  | 'lrgb'
+  | 'oklab'
+  | 'oklch'
+  | 'rgb';
 
 const secretColors = [
   { name: 'Amanda', hex: '#b76e79' },
@@ -26,7 +39,7 @@ export const getContrastColor = (
 };
 
 export const colorMap = (() =>
-  colorNameList.reduce(
+  colornames.reduce(
     (acc, x) => acc.set(x.name, x.hex),
     new CaseInsensitiveMap<string, string>(),
   ))();

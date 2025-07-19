@@ -1,4 +1,10 @@
-import { Box, BoxProps, Stack, Typography, TypographyProps } from '@mui/joy';
+import {
+  Box,
+  type BoxProps,
+  Stack,
+  Typography,
+  type TypographyProps,
+} from '@mui/joy';
 import React from 'react';
 import { getContrastColor, passSx } from '../utils';
 import pant from 'nearest-pantone';
@@ -46,7 +52,7 @@ const ColorInfo: React.FC<ColorInfoProps> = ({
     >
       <Stack
         sx={(theme) => ({
-          minHeight: 'calc(100vh - 64px)',
+          minHeight: 'calc(100vh - 56px)',
           justifyContent: 'space-between',
           py: 4,
           px: 4,

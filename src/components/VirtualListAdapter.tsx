@@ -2,7 +2,7 @@ import React from 'react';
 import { Popper } from '@mui/base/Popper';
 import { AutocompleteListbox, AutocompleteOption, useTheme } from '@mui/joy';
 import ListSubheader from '@mui/joy/ListSubheader';
-import { ListChildComponentProps, FixedSizeList } from 'react-window';
+import { type ListChildComponentProps, FixedSizeList } from 'react-window';
 
 const LISTBOX_PADDING = 6; // px
 

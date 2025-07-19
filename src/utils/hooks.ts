@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Hook
 export const useWindowSize = () => {
@@ -33,19 +33,20 @@ export const useMounted = () => {
 };
 
 export const useOnClickOutside = <T extends Element>(
-  ref: React.RefObject<T>,
+  ref: React.RefObject<T | null>,
   callback: (e: MouseEvent | TouchEvent) => void,
 ) => {
-  const listener = useCallback(
-    (e: MouseEvent | TouchEvent) => {
+  useEffect(() => {
+    if (!ref) {
+      return;
+    }
+
+    const listener = (e: MouseEvent | TouchEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
         callback(e);
       }
-    },
-    [ref, callback],
-  );
+    };
 
-  useEffect(() => {
     document.addEventListener('mousedown', listener);
     document.addEventListener('touchstart', listener);
 
@@ -53,5 +54,5 @@ export const useOnClickOutside = <T extends Element>(
       document.removeEventListener('mousedown', listener);
       document.removeEventListener('touchstart', listener);
     };
-  }, [listener]);
+  }, []);
 };

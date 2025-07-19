@@ -7,7 +7,7 @@ import {
   Stack,
   Typography,
 } from '@mui/joy';
-import Card, { CardProps } from '@mui/joy/Card';
+import Card, { type CardProps } from '@mui/joy/Card';
 import React from 'react';
 import { useColorContext, useSnackbarContext } from '../context';
 import { copyToClipboard, getContrastColor } from '../utils';
@@ -22,9 +22,9 @@ export type ColorCardProps = CardProps & {
 
 const ColorCard: React.FC<ColorCardProps> = ({
   colorHex,
-  width,
-  height,
-  displayHex,
+  width = '100%',
+  height = '100%',
+  displayHex = true,
   ...props
 }) => {
   const { setColor } = useColorContext();
@@ -138,12 +138,6 @@ const ColorCard: React.FC<ColorCardProps> = ({
       )}
     </Card>
   );
-};
-
-ColorCard.defaultProps = {
-  width: '100%',
-  height: '100%',
-  displayHex: true,
 };
 
 export default ColorCard;

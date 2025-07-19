@@ -1,19 +1,19 @@
 import React from 'react';
-import { Container, ContainerProps, Typography } from '@mui/joy';
+import { Container, type ContainerProps, Typography } from '@mui/joy';
 import { useAppContext } from '../context';
 import { passSx, useMounted } from '../utils';
-import Seo, { SeoProps } from './Seo';
+// import Seo, { type SeoProps } from './Seo';
 
-export type PageProps = SeoProps &
-  ContainerProps & {
-    showPageTitle?: boolean;
-  };
+// export type PageProps = SeoProps &
+export type PageProps = ContainerProps & {
+  showPageTitle?: boolean;
+};
 
 const Page: React.FC<PageProps> = ({
   children,
   title,
-  description,
-  image,
+  // description,
+  // image,
   sx,
   showPageTitle,
   ...props
@@ -34,7 +34,7 @@ const Page: React.FC<PageProps> = ({
         ...passSx(sx),
       ]}
     >
-      <Seo title={title} description={description} image={image} />
+      {/* <Seo title={title} description={description} image={image} /> */}
       {title && showPageTitle && (
         <Typography level={isMobile ? 'h2' : 'h1'} mb={4}>
           {title}

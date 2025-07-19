@@ -1,20 +1,13 @@
-import React from 'react';
-import NextLink from 'next/link';
-import {
-  Button,
-  ButtonProps,
-  Link as JoyLink,
-  LinkProps as JoyLinkProps,
-} from '@mui/joy';
+import { Button, Link, ListItemButton, MenuItem } from '@mui/joy';
+import { createLink } from '@tanstack/react-router';
 
-// https://gist.github.com/kachar/028b6994eb6b160e2475c1bb03e33e6a
+const RouterLink = createLink(Link);
 
-const RouterLink = (props: JoyLinkProps<'a'>) => (
-  <JoyLink component={NextLink} {...props} />
-);
-
-export const RouterButton = (props: ButtonProps<'a'>) => (
-  <Button component={NextLink} {...props} />
-);
+export const ListItemRouterButton = createLink(ListItemButton);
+export const MenuItemRouterLink = createLink(MenuItem);
+export const RouterButton = createLink((props) => (
+  // @ts-expect-error
+  <Button component="a" {...props} />
+));
 
 export default RouterLink;

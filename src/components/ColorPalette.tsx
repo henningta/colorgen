@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Stack, StackProps, Typography } from '@mui/joy';
+import { Container, Stack, type StackProps, Typography } from '@mui/joy';
 import { Grid } from '@mui/joy';
 import chroma from 'chroma-js';
 import ColorCard from './ColorCard';

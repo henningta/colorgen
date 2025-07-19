@@ -1,9 +1,9 @@
-import { Box, Container, SheetProps, Typography } from '@mui/joy';
+import { Box, Container, type SheetProps, Typography } from '@mui/joy';
 import React from 'react';
 import { passSx } from '../utils';
 import Icon from './Icon';
 import { RouterButton } from './RouterLink';
-import { useAppContext } from '@/context';
+import { useAppContext } from '../context';
 
 export type FooterProps = SheetProps;
 
@@ -57,7 +57,7 @@ const Footer: React.FC<FooterProps> = ({ sx, ...props }) => {
               favorite
             </Icon>
           </Box>
-          <RouterButton href="/about">About</RouterButton>
+          <RouterButton to="/about">About</RouterButton>
         </Container>
       </Box>
     </Box>

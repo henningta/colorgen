@@ -4,7 +4,7 @@ import {
   Box,
   Button,
   Drawer,
-  DrawerProps,
+  type DrawerProps,
   IconButton,
   Sheet,
   Slider,
