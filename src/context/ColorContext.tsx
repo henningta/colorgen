@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { createContext, useEffect, useMemo, useState } from 'react';
 import { getColorHex, getColorName, getContrastColor } from '../utils';
 import throttle from 'lodash.throttle';
 
@@ -27,14 +21,6 @@ const defaultContext: ColorContextType = {
 };
 
 const ColorContext = createContext(defaultContext);
-
-export const useColorContext = () => {
-  const context = useContext(ColorContext);
-  if (!context) {
-    throw new Error('Attempted to consume ColorContext without a provider.');
-  }
-  return context;
-};
 
 type ColorContextProviderProps = {
   children: React.ReactNode;

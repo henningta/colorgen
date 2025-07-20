@@ -1,6 +1,7 @@
 import React from 'react';
 // import Head from 'next/head';
 import config from '../config';
+import { Helmet } from 'react-helmet-async';
 // import { useRouter } from 'next/router';
 
 export type SeoImage = {
@@ -37,13 +38,15 @@ const Seo: React.FC<SeoProps> = ({
   const seo: SeoType = {
     ...config,
     title: title ? config.titleTemplate.replace('%s', title) : config.siteName,
-    description: description || config.description,
-    image: {
-      url: `${config.siteUrl}${imgUrl}`,
-      // alt: '',
-      width: '80',
-      height: '80',
-    },
+    description: description ?? config.description,
+    image: imgUrl
+      ? {
+          url: `${config.siteUrl}${imgUrl}`,
+          // alt: '',
+          width: '80',
+          height: '80',
+        }
+      : undefined,
     url: '',
     // url: `${config.siteUrl}${router.asPath.substring(1)}`,
   };
@@ -51,8 +54,7 @@ const Seo: React.FC<SeoProps> = ({
   // console.log(seo.image);
 
   return (
-    // <Head>
-    <>
+    <Helmet>
       {/* Page/tab title */}
       <title>{seo.title}</title>
 
@@ -91,8 +93,7 @@ const Seo: React.FC<SeoProps> = ({
 
       {/* Dynamic options */}
       {children}
-    </>
-    // </Head>
+    </Helmet>
   );
 };
 

@@ -34,17 +34,11 @@ const LibDetails: React.FC<LibDetailsProps> = ({ title, links }) => (
 );
 
 function About() {
-  const { setNav } = useAppContext();
-
-  useEffect(() => {
-    setNav(['about']);
-  }, [setNav]);
-
   return (
     <Page
       title="About"
-      //   description="Our goal is to provide designers and developers with the options and
-      // flexibility needed to create any color palette imaginable."
+      description="Our goal is to provide designers and developers with the options and
+      flexibility needed to create any color palette imaginable."
       sx={{ py: 4 }}
     >
       <Box>

@@ -58,10 +58,7 @@ export const getColorHex = (color: string) => {
     return secret.hex;
   }
 
-  return (
-    (chroma.valid(color) ? chroma(color).hex() : colorMap.get(color)) ||
-    undefined
-  );
+  return chroma.valid(color) ? chroma(color).hex() : colorMap.get(color);
 };
 
 export const getColorName = (() => {
@@ -86,7 +83,7 @@ export const getColorName = (() => {
           .join(' ');
       }
       return name;
-    } catch (e) {
+    } catch {
       return 'RGBA not yet supported';
     }
   };
@@ -114,13 +111,13 @@ export const getShades = (
     color: chroma.mix(colorHex, blackPoint, (x + 1) / amount, mode),
   }));
 
-export const stripColorName = (color: string, toLower = true) => {
-  if (!color?.length) {
-    return undefined;
-  }
-  const stripped = color.replace(/\W/g, '');
-  return toLower ? stripped.toLocaleLowerCase() : stripped;
-};
+// export const stripColorName = (color: string, toLower = true) => {
+//   if (!color.length) {
+//     return undefined;
+//   }
+//   const stripped = color.replace(/\W/g, '');
+//   return toLower ? stripped.toLocaleLowerCase() : stripped;
+// };
 
 // export const generateHexImage = async (
 //   hex: string,

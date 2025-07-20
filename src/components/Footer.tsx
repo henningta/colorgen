@@ -4,14 +4,19 @@ import { passSx } from '../utils';
 import Icon from './Icon';
 import { RouterButton } from './RouterLink';
 import { useAppContext } from '../context';
+import { useLocation } from '@tanstack/react-router';
 
 export type FooterProps = SheetProps;
 
 const Footer: React.FC<FooterProps> = ({ sx, ...props }) => {
-  const { nav, isMobile } = useAppContext();
+  const location = useLocation();
+
+  const { isMobile } = useAppContext();
 
   const hasColorMenu =
-    isMobile && !nav.includes('home') && !nav.includes('about');
+    isMobile &&
+    !location.pathname.startsWith('/home') &&
+    !location.pathname.startsWith('/about');
 
   return (
     <Box

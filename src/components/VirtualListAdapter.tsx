@@ -8,13 +8,14 @@ const LISTBOX_PADDING = 6; // px
 
 function renderRow(props: ListChildComponentProps) {
   const { data, index, style } = props;
+
   const dataSet = data[index];
   const inlineStyle = {
     ...style,
     top: (style.top as number) + LISTBOX_PADDING,
   };
 
-  if (dataSet.hasOwnProperty('group')) {
+  if (Object.hasOwn(dataSet as object, 'group')) {
     return (
       <ListSubheader key={dataSet.key} component="li" style={inlineStyle}>
         {dataSet.group}
@@ -68,15 +69,13 @@ const ListboxComponent = React.forwardRef<
   const theme = useTheme();
 
   // eslint-disable-next-line
-  const itemData: Array<any> = [];
-  (
-    children as [Array<{ children: Array<React.ReactElement> | undefined }>]
-  )[0].forEach((item) => {
-    if (item) {
+  const itemData: any[] = [];
+  (children as [{ children: React.ReactElement[] | undefined }[]])[0].forEach(
+    (item) => {
       itemData.push(item);
-      itemData.push(...(item.children || []));
-    }
-  });
+      itemData.push(...(item.children ?? []));
+    },
+  );
 
   const itemCount = itemData.length;
   const itemSize = 40;

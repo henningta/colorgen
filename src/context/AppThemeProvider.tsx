@@ -102,6 +102,7 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
       },
       JoyIconButton: {
         defaultProps: {
+          component: 'button',
           color: 'neutral',
         },
       },

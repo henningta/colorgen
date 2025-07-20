@@ -12,7 +12,9 @@ const ColorInput: React.FC<ColorInputProps> = ({ value, onChange }) => {
   const [selected, setSelected] = useState<string | null>(null);
 
   useEffect(() => {
-    selected && onChange(selected);
+    if (selected) {
+      onChange(selected);
+    }
   }, [selected, onChange]);
 
   return (

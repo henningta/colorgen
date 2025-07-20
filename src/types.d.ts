@@ -25,7 +25,7 @@ declare module 'nearest-pantone' {
   };
 
   type NearestPantone = {
-    getClosestColor: (hex: string) => PantoneColor;
+    getClosestColor: (hex: string) => PantoneColor | undefined;
   };
 
   const nearestPantone: NearestPantone;

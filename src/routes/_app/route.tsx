@@ -16,19 +16,22 @@ import {
   useColorScheme as useJoyColorScheme,
 } from '@mui/joy';
 import { useAppContext, useColorContext } from '../../context';
-import { createFileRoute, Outlet } from '@tanstack/react-router';
+import { createFileRoute, Outlet, useLocation } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_app')({
   component: AppLayout,
 });
 
 function AppLayout() {
+  const location = useLocation();
+
   const { mode, setMode } = useJoyColorScheme();
   const { color, setColor } = useColorContext();
-  const { nav, isMobile } = useAppContext();
+  const { isMobile } = useAppContext();
 
   const hasColorMenu =
-    isMobile && !nav.includes('home') && !nav.includes('about');
+    !location.pathname.startsWith('/home') &&
+    !location.pathname.startsWith('/about');
 
   return (
     <>
@@ -139,10 +142,7 @@ function AppLayout() {
                 width: '100%',
                 maxWidth: 600,
                 px: 2,
-                display:
-                  nav.includes('home') || nav.includes('about') || isMobile
-                    ? 'none'
-                    : undefined,
+                display: hasColorMenu && !isMobile ? undefined : 'none',
                 position: 'fixed',
                 left: '50%',
                 transform: 'translateX(-50%)',
@@ -161,11 +161,7 @@ function AppLayout() {
         </Box>
       </Box>
       <Footer />
-      <ClientOnly>
-        {isMobile && !nav.includes('home') && !nav.includes('about') && (
-          <MobileColorMenu />
-        )}
-      </ClientOnly>
+      <ClientOnly>{hasColorMenu && isMobile && <MobileColorMenu />}</ClientOnly>
     </>
   );
 }

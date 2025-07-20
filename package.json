@@ -24,19 +24,25 @@
   },
   "scripts": {
     "prepare": "husky",
-    "build": "tsc && vite build",
-    "dev": "vite",
+    "prebuild": "tsc",
+    "build": "pnpm build:client && pnpm build:server",
+    "build:client": "vite build --outDir dist/client",
+    "build:server": "vite build --outDir dist/server --ssr src/entry-server.js",
+    "dev": "node server/server",
     "format": "prettier --write \"**/*.{css,js,jsx,md,ts,tsx}\"",
     "lint": "eslint src/** --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@fastify/middie": "^9.0.3",
     "@mui/joy": "5.0.0-beta.52",
     "@tanstack/react-router": "^1.128.6",
     "@tanstack/react-router-devtools": "^1.128.6",
     "chroma-js": "^3.1.2",
     "color-name-list": "^11.24.0",
+    "compression": "^1.8.1",
+    "fastify": "^5.4.0",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
     "nearest-color": "^0.4.4",
@@ -47,10 +53,12 @@
     "react-colorful": "^5.6.1",
     "react-dom": "^19.1.0",
     "react-helmet-async": "^2.0.5",
-    "react-window": "^1.8.11"
+    "react-window": "^1.8.11",
+    "sirv": "^3.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.31.0",
+    "@tanstack/eslint-plugin-router": "^1.125.0",
     "@tanstack/router-plugin": "^1.128.6",
     "@types/chroma-js": "^3.1.1",
     "@types/lodash.debounce": "^4.0.9",

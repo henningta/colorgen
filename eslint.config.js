@@ -4,13 +4,13 @@ import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
-// import pluginRouter from '@tanstack/eslint-plugin-router';
+import pluginRouter from '@tanstack/eslint-plugin-router';
 
 export default tseslint.config(
   {
     ignores: [
       // files
-      // 'src/routeTree.gen.ts',
+      'src/routeTree.gen.ts',
       'vite.config.*',
 
       // dirs
@@ -24,7 +24,7 @@ export default tseslint.config(
       ...tseslint.configs.strictTypeChecked,
       ...tseslint.configs.stylisticTypeChecked,
     ],
-    files: ['**/*/{ts,tsx}'],
+    files: ['**/*.{ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2022,
       // globals: {
@@ -36,7 +36,7 @@ export default tseslint.config(
       },
     },
     plugins: {
-      // '@tanstack/router': pluginRouter,
+      '@tanstack/router': pluginRouter,
       react,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
@@ -66,6 +66,8 @@ export default tseslint.config(
       // typescript
       '@typescript-eslint/consistent-type-definitions': ['warn', 'type'],
       '@typescript-eslint/no-confusing-void-expression': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
     },
   },
 );

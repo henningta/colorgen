@@ -1,14 +1,8 @@
-import { AlertProps, IconButton, SnackbarCloseReason } from '@mui/joy';
-import { Snackbar, SnackbarProps } from '@mui/joy';
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { type AlertProps, IconButton } from '@mui/joy';
+import { Snackbar, type SnackbarProps } from '@mui/joy';
+import React, { createContext, useEffect, useMemo, useState } from 'react';
 import { Icon } from '../components';
-import { useAppContext } from './AppContext';
+import { useAppContext } from '.';
 
 export type SnackbarMessage = {
   key: number;
@@ -32,14 +26,6 @@ const defaultContext: SnackbarContextType = {
 };
 
 const SnackbarContext = createContext(defaultContext);
-
-export const useSnackbarContext = () => {
-  const context = useContext(SnackbarContext);
-  if (!context) {
-    throw new Error('Attempted to consume SnackbarContext without a provider.');
-  }
-  return context;
-};
 
 export type SnackbarProviderProps = {
   children: React.ReactNode;
@@ -76,10 +62,7 @@ export const SnackbarProvider: React.FC<SnackbarProviderProps> = ({
     ]);
   };
 
-  const onClose = (
-    e: React.SyntheticEvent | Event | null,
-    reason?: SnackbarCloseReason,
-  ) => {
+  const onClose: SnackbarProps['onClose'] = (_, reason) => {
     if (reason === 'clickaway') {
       return;
     }
@@ -114,7 +97,10 @@ export const SnackbarProvider: React.FC<SnackbarProviderProps> = ({
         }
         endDecorator={
           activeSnackbar?.dismissable && (
-            <IconButton onClick={onClose} sx={{ p: 0, ml: 1, mr: -1 }}>
+            <IconButton
+              onClick={() => setOpen(false)}
+              sx={{ p: 0, ml: 1, mr: -1 }}
+            >
               <Icon style={{ fontSize: 20 }}>close</Icon>
             </IconButton>
           )

@@ -10,12 +10,12 @@ import {
 } from './context';
 import { Splash } from './components';
 import nprogress from 'nprogress';
+import { HelmetProvider } from 'react-helmet-async';
 
-// Create a new router instance
 const router = createRouter({ routeTree });
 
-// Register the router instance for type safety
 declare module '@tanstack/react-router' {
+  // eslint-disable-next-line
   interface Register {
     router: typeof router;
   }
@@ -32,16 +32,18 @@ nprogress.configure({
 // router.subscribe('')
 
 const App = () => (
-  <AppThemeProvider>
-    <AppContextProvider>
-      <ColorContextProvider>
-        <SnackbarProvider>
-          <Splash />
-          <RouterProvider router={router} />
-        </SnackbarProvider>
-      </ColorContextProvider>
-    </AppContextProvider>
-  </AppThemeProvider>
+  <HelmetProvider>
+    <AppThemeProvider>
+      <AppContextProvider>
+        <ColorContextProvider>
+          <SnackbarProvider>
+            <Splash />
+            <RouterProvider router={router} />
+          </SnackbarProvider>
+        </ColorContextProvider>
+      </AppContextProvider>
+    </AppThemeProvider>
+  </HelmetProvider>
 );
 
 export default App;

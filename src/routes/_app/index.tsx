@@ -55,12 +55,6 @@ function Index() {
   const { color, setColor, colorName, colorHex, contrastText } =
     useColorContext();
 
-  const { setNav } = useAppContext();
-
-  useEffect(() => {
-    setNav(['home']);
-  }, [setNav]);
-
   useEffect(() => {
     setColor(chroma.random().hex());
   }, [setColor]);

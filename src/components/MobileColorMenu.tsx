@@ -397,7 +397,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     />
                   </Stack>
                 </Stack>
-              ) : activePanel === 'cmyk' ? (
+              ) : (
                 <Stack sx={{ height: '100%', justifyContent: 'space-around' }}>
                   <Stack>
                     <Typography level="body-sm">Cyan</Typography>
@@ -480,8 +480,6 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     />
                   </Stack>
                 </Stack>
-              ) : (
-                <></>
               )}
             </Box>
             <Stack sx={{ width: 56, alignItems: 'center' }}>

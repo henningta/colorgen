@@ -5,9 +5,10 @@ const RouterLink = createLink(Link);
 
 export const ListItemRouterButton = createLink(ListItemButton);
 export const MenuItemRouterLink = createLink(MenuItem);
-export const RouterButton = createLink((props) => (
-  // @ts-expect-error
-  <Button component="a" {...props} />
-));
+export const RouterButton = createLink(Button);
+// export const RouterButton = createLink((props) => (
+//   // @ts-expect-error
+//   <Button component="a" {...props} />
+// ));
 
 export default RouterLink;
