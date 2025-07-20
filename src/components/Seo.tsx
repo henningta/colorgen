@@ -1,7 +1,7 @@
 import React from 'react';
 // import Head from 'next/head';
 import config from '../config';
-import { Helmet } from 'react-helmet-async';
+// import { Helmet } from 'react-helmet-async';
 // import { useRouter } from 'next/router';
 
 export type SeoImage = {
@@ -54,7 +54,7 @@ const Seo: React.FC<SeoProps> = ({
   // console.log(seo.image);
 
   return (
-    <Helmet>
+    <>
       {/* Page/tab title */}
       <title>{seo.title}</title>
 
@@ -93,7 +93,7 @@ const Seo: React.FC<SeoProps> = ({
 
       {/* Dynamic options */}
       {children}
-    </Helmet>
+    </>
   );
 };
 

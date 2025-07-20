@@ -1,4 +1,6 @@
 import {
+  Card,
+  type CardProps,
   Dropdown,
   IconButton,
   Menu,
@@ -7,7 +9,6 @@ import {
   Stack,
   Typography,
 } from '@mui/joy';
-import Card, { type CardProps } from '@mui/joy/Card';
 import React from 'react';
 import { useColorContext, useSnackbarContext } from '../context';
 import { copyToClipboard, getContrastColor } from '../utils';

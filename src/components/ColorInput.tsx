@@ -20,7 +20,6 @@ const ColorInput: React.FC<ColorInputProps> = ({ value, onChange }) => {
   return (
     <Autocomplete
       options={colornames.map((x) => x.name)}
-      noOptionsText="Blah"
       value={selected}
       onChange={(_, selected) => setSelected(selected)}
       placeholder="Search by name, hex, rgb…"

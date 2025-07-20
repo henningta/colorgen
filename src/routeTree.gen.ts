@@ -8,11 +8,16 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createServerRootRoute } from '@tanstack/react-start/server'
+
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteRouteImport } from './routes/_app/route'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as AppAboutRouteImport } from './routes/_app/about'
 import { Route as AppColorHexRouteImport } from './routes/_app/color/$hex'
+import { ServerRoute as ApiColorServerRouteImport } from './routes/api/$color'
+
+const rootServerRouteImport = createServerRootRoute()
 
 const AppRouteRoute = AppRouteRouteImport.update({
   id: '/_app',
@@ -32,6 +37,11 @@ const AppColorHexRoute = AppColorHexRouteImport.update({
   id: '/color/$hex',
   path: '/color/$hex',
   getParentRoute: () => AppRouteRoute,
+} as any)
+const ApiColorServerRoute = ApiColorServerRouteImport.update({
+  id: '/api/$color',
+  path: '/api/$color',
+  getParentRoute: () => rootServerRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -61,6 +71,27 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   AppRouteRoute: typeof AppRouteRouteWithChildren
+}
+export interface FileServerRoutesByFullPath {
+  '/api/$color': typeof ApiColorServerRoute
+}
+export interface FileServerRoutesByTo {
+  '/api/$color': typeof ApiColorServerRoute
+}
+export interface FileServerRoutesById {
+  __root__: typeof rootServerRouteImport
+  '/api/$color': typeof ApiColorServerRoute
+}
+export interface FileServerRouteTypes {
+  fileServerRoutesByFullPath: FileServerRoutesByFullPath
+  fullPaths: '/api/$color'
+  fileServerRoutesByTo: FileServerRoutesByTo
+  to: '/api/$color'
+  id: '__root__' | '/api/$color'
+  fileServerRoutesById: FileServerRoutesById
+}
+export interface RootServerRouteChildren {
+  ApiColorServerRoute: typeof ApiColorServerRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -95,6 +126,17 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+declare module '@tanstack/react-start/server' {
+  interface ServerFileRoutesByPath {
+    '/api/$color': {
+      id: '/api/$color'
+      path: '/api/$color'
+      fullPath: '/api/$color'
+      preLoaderRoute: typeof ApiColorServerRouteImport
+      parentRoute: typeof rootServerRouteImport
+    }
+  }
+}
 
 interface AppRouteRouteChildren {
   AppAboutRoute: typeof AppAboutRoute
@@ -118,3 +160,9 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+const rootServerRouteChildren: RootServerRouteChildren = {
+  ApiColorServerRoute: ApiColorServerRoute,
+}
+export const serverRouteTree = rootServerRouteImport
+  ._addFileChildren(rootServerRouteChildren)
+  ._addFileTypes<FileServerRouteTypes>()

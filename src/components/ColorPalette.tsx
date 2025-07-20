@@ -8,7 +8,6 @@ type ColorPaletteProps = StackProps & {
   title?: string;
   subtitle?: React.ReactNode;
   colors: { id: number; color: chroma.Color }[];
-  reverse?: boolean;
   width?: number | string;
   height?: number | string;
   fullWidth?: boolean;
@@ -18,7 +17,6 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({
   title,
   subtitle,
   colors,
-  reverse,
   width,
   height,
   fullWidth,
@@ -38,7 +36,7 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({
     </Container>
     {fullWidth ? (
       <Grid container sx={{ flex: 1, mt: 2 }}>
-        {(reverse ? colors.reverse() : colors).map((x) => (
+        {colors.map((x) => (
           <Grid key={x.id} xs={3} sm={3} md>
             <ColorCard colorHex={x.color.hex()} width={width} height={height} />
           </Grid>
@@ -46,7 +44,7 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({
       </Grid>
     ) : (
       <Stack direction="row" sx={{ flex: 1, mt: 2 }}>
-        {(reverse ? colors.reverse() : colors).map((x) => (
+        {colors.map((x) => (
           <ColorCard
             key={x.id}
             colorHex={x.color.hex()}

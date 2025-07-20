@@ -10,7 +10,7 @@ export type TintsShadesProps = {
 };
 
 const TintsShades: React.FC<TintsShadesProps> = ({ colorHex, colorName }) => {
-  const tints = getTints(colorHex, undefined, 10);
+  const tints = getTints(colorHex, undefined, 10).reverse();
   const shades = getShades(colorHex, undefined, 10);
 
   return (
@@ -26,7 +26,6 @@ const TintsShades: React.FC<TintsShadesProps> = ({ colorHex, colorName }) => {
           subtitle={`Mixing ${colorName} with white`}
           colors={tints}
           fullWidth
-          reverse
           sx={{ pt: 6, flex: 1 }}
         />
         <ColorPalette

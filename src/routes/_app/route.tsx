@@ -1,22 +1,18 @@
-import {
-  ClientOnly,
-  ColorPicker,
-  Footer,
-  Icon,
-  MobileColorMenu,
-  RouterLink,
-} from '../../components';
+import { Footer, Icon, RouterLink } from '../../components';
 import {
   Box,
   Container,
   IconButton,
   Sheet,
   Stack,
-  Typography,
-  useColorScheme as useJoyColorScheme,
+  useColorScheme,
 } from '@mui/joy';
-import { useAppContext, useColorContext } from '../../context';
-import { createFileRoute, Outlet, useLocation } from '@tanstack/react-router';
+import {
+  ClientOnly,
+  createFileRoute,
+  Outlet,
+  useLocation,
+} from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_app')({
   component: AppLayout,
@@ -25,13 +21,9 @@ export const Route = createFileRoute('/_app')({
 function AppLayout() {
   const location = useLocation();
 
-  const { mode, setMode } = useJoyColorScheme();
-  const { color, setColor } = useColorContext();
-  const { isMobile } = useAppContext();
+  const { mode, setMode } = useColorScheme();
 
-  const hasColorMenu =
-    !location.pathname.startsWith('/home') &&
-    !location.pathname.startsWith('/about');
+  const hasColorMenu = location.pathname.startsWith('/color');
 
   return (
     <>
@@ -58,19 +50,17 @@ function AppLayout() {
           >
             <RouterLink
               to="/"
+              fontSize={30}
+              fontWeight={300}
+              underline="none"
               sx={{
                 color: 'inherit',
-                borderBottom: 'none',
-
                 '&:hover': {
                   color: 'inherit',
-                  borderBottom: 'none',
                 },
               }}
             >
-              <Typography fontSize={30} fontWeight={300}>
-                colorgen.io
-              </Typography>
+              colorgen.io
             </RouterLink>
             <ClientOnly>
               <Stack
@@ -106,62 +96,14 @@ function AppLayout() {
                   </Icon>
                 </IconButton>
               </Stack>
-              {/* <Switch
-                size="lg"
-                slotProps={{
-                  input: { 'aria-label': 'dark mode' },
-                  thumb: {
-                    children: (
-                      <Icon style={{ color: 'white' }}>
-                        {mode === 'dark' ? 'dark_mode' : 'light_mode'}
-                      </Icon>
-                    ),
-                  },
-                }}
-                checked={mode === 'dark'}
-                onChange={(e) => {
-                  setJoyMode(e.target.checked ? 'dark' : 'light');
-                  setMuiMode(e.target.checked ? 'dark' : 'light');
-                }}
-                sx={{
-                  '--Switch-thumbBackground': 'transparent',
-
-                  [`&.${switchClasses.checked}`]: {
-                    '--Switch-thumbBackground': 'transparent',
-                  },
-                }}
-              /> */}
             </ClientOnly>
           </Container>
         </Sheet>
         <Box sx={{ position: 'relative', minHeight: '100%' }}>
           <Outlet />
-          <ClientOnly>
-            <Box
-              sx={(theme) => ({
-                width: '100%',
-                maxWidth: 600,
-                px: 2,
-                display: hasColorMenu && !isMobile ? undefined : 'none',
-                position: 'fixed',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                zIndex: theme.zIndex.popup,
-                transition: 'all 150ms ease-in-out',
-                top: 36,
-              })}
-            >
-              <ColorPicker
-                value={color}
-                onChange={setColor}
-                useHexPicker={!isMobile}
-              />
-            </Box>
-          </ClientOnly>
         </Box>
       </Box>
       <Footer />
-      <ClientOnly>{hasColorMenu && isMobile && <MobileColorMenu />}</ClientOnly>
     </>
   );
 }

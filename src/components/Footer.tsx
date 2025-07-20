@@ -13,10 +13,7 @@ const Footer: React.FC<FooterProps> = ({ sx, ...props }) => {
 
   const { isMobile } = useAppContext();
 
-  const hasColorMenu =
-    isMobile &&
-    !location.pathname.startsWith('/home') &&
-    !location.pathname.startsWith('/about');
+  const hasColorMenu = isMobile && location.pathname.startsWith('/color');
 
   return (
     <Box

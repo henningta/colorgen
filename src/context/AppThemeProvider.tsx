@@ -108,18 +108,28 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
       },
       JoyLink: {
         defaultProps: {
-          underline: 'none',
+          underline: 'always',
         },
         styleOverrides: {
-          root: {
-            color: 'var(--joy-palette-primary-solidBg)',
-            borderBottom: '1px dotted var(--joy-palette-primary-solidBg)',
+          root: ({ ownerState, theme }) => ({
+            color: theme.vars.palette.primary.solidBg,
+            textDecorationColor: theme.vars.palette.primary.solidBg,
 
             '&:hover': {
-              color: 'var(--joy-palette-primary-softColor)',
-              borderBottom: '1px dotted var(--joy-palette-primary-softColor)',
+              color: theme.vars.palette.primary.softColor,
+              textDecorationColor: theme.vars.palette.primary.softColor,
             },
-          },
+
+            ...(ownerState.underline === 'always' && {
+              textDecoration: 'underline dotted',
+            }),
+
+            ...(ownerState.underline === 'hover' && {
+              '&:hover': {
+                textDecoration: 'underline dotted',
+              },
+            }),
+          }),
         },
       },
       JoySlider: {

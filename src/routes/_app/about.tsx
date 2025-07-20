@@ -1,7 +1,6 @@
 import { Box, type BoxProps, Link, Stack, Typography } from '@mui/joy';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Page } from '../../components';
-import { useAppContext } from '../../context';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_app/about')({

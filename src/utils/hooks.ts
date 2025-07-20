@@ -22,16 +22,6 @@ export const useWindowSize = () => {
   return [width, height];
 };
 
-export const useMounted = () => {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  return mounted;
-};
-
 export const useOnClickOutside = <T extends Element>(
   ref: React.RefObject<T | null>,
   callback: (e: MouseEvent | TouchEvent) => void,
@@ -51,4 +41,20 @@ export const useOnClickOutside = <T extends Element>(
       document.removeEventListener('touchstart', listener);
     };
   }, [callback, ref]);
+};
+
+export const useDebounce = <T>(value: T, delay = 100) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
 };

@@ -2,7 +2,7 @@ import { type AlertProps, IconButton } from '@mui/joy';
 import { Snackbar, type SnackbarProps } from '@mui/joy';
 import React, { createContext, useEffect, useMemo, useState } from 'react';
 import { Icon } from '../components';
-import { useAppContext } from '.';
+import { useWindowSize } from '~/utils';
 
 export type SnackbarMessage = {
   key: number;
@@ -36,7 +36,8 @@ export const SnackbarProvider: React.FC<SnackbarProviderProps> = ({
   children,
   SnackbarProps,
 }) => {
-  const { isMobile } = useAppContext();
+  const [screenWidth] = useWindowSize();
+  const isMobile = screenWidth !== undefined && screenWidth < 900;
 
   const [snackPack, setSnackPack] = useState<readonly SnackbarMessage[]>([]);
   const [open, setOpen] = useState(false);

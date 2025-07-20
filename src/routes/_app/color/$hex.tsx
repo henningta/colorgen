@@ -3,21 +3,27 @@ import chroma from 'chroma-js';
 import {
   ColorHarmonies,
   ColorInfo,
+  ColorPicker,
+  MobileColorMenu,
   Page,
   TintsShades,
 } from '../../../components';
-import { useAppContext, useColorContext } from '../../../context';
+import {
+  ColorContextProvider,
+  useAppContext,
+  useColorContext,
+} from '../../../context';
 import debounce from 'lodash.debounce';
-import config from '../../../config';
-import { redirect, useNavigate } from '@tanstack/react-router';
-import nprogress from 'nprogress';
+// import config from '../../../config';
+import { ClientOnly, redirect, useNavigate } from '@tanstack/react-router';
 import { getColorHex, getColorName } from '../../../utils';
 import { createFileRoute } from '@tanstack/react-router';
+import { Box } from '@mui/joy';
 
 const getTitle = (hex: string) => `${hex} · ${getColorName(hex)}`;
 
 export const Route = createFileRoute('/_app/color/$hex')({
-  component: ColorPage,
+  component: ColorPageWrapper,
   beforeLoad: ({ params }) => {
     if (!chroma.valid(params.hex)) {
       redirect({ to: '/', throw: true });
@@ -25,11 +31,22 @@ export const Route = createFileRoute('/_app/color/$hex')({
   },
 });
 
+function ColorPageWrapper() {
+  const { hex } = Route.useParams();
+
+  return (
+    <ColorContextProvider initialColor={hex}>
+      <ColorPage />
+    </ColorContextProvider>
+  );
+}
+
 function ColorPage() {
   const { hex } = Route.useParams();
   const navigate = useNavigate();
 
-  const { colorName, colorHex, setColor } = useColorContext();
+  const { isMobile } = useAppContext();
+  const { color, colorName, colorHex, setColor } = useColorContext();
 
   const debounceSetUrl = useMemo(
     () =>
@@ -64,10 +81,6 @@ function ColorPage() {
     }
   }, [debounceSetUrl, colorHex]);
 
-  useEffect(() => {
-    nprogress.done();
-  }, []);
-
   // const seoHex = getColorHex(serverHex) ?? '#010';
 
   return (
@@ -78,9 +91,32 @@ function ColorPage() {
       maxWidth={false}
       sx={{ p: '0 !important' }}
     >
+      <ClientOnly>
+        <Box
+          sx={(theme) => ({
+            width: '100%',
+            maxWidth: 600,
+            px: 2,
+            display: isMobile ? 'none' : undefined,
+            position: 'fixed',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: theme.zIndex.popup,
+            transition: 'all 150ms ease-in-out',
+            top: 36,
+          })}
+        >
+          <ColorPicker
+            value={color}
+            onChange={setColor}
+            useHexPicker={!isMobile}
+          />
+        </Box>
+      </ClientOnly>
       <ColorInfo colorHex={colorHex} colorName={colorName} />
       <TintsShades colorHex={colorHex} colorName={colorName} />
       <ColorHarmonies colorHex={colorHex} />
+      <ClientOnly>{isMobile && <MobileColorMenu />}</ClientOnly>
     </Page>
   );
 }

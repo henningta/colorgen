@@ -1,14 +1,18 @@
 import { Box, type ButtonProps, Container, Stack, Typography } from '@mui/joy';
 import chroma from 'chroma-js';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ColorPicker, Icon, Page, RouterButton } from '../../components';
-import { useAppContext, useColorContext } from '../../context';
+import {
+  ColorContextProvider,
+  useAppContext,
+  useColorContext,
+} from '../../context';
 import { passSx } from '../../utils';
-import nprogress from 'nprogress';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_app/')({
-  component: Index,
+  component: IndexWrapper,
+  loader: () => chroma.random().hex(),
 });
 
 type ColorButtonProps = Pick<ButtonProps, 'sx'> & {
@@ -26,7 +30,6 @@ const ColorButton: React.FC<ColorButtonProps> = ({
   <RouterButton
     to="/color/$hex"
     params={{ hex: colorHex.substring(1) }}
-    onClick={() => nprogress.start()}
     variant="plain"
     sx={[
       (theme) => ({
@@ -50,14 +53,20 @@ const ColorButton: React.FC<ColorButtonProps> = ({
   </RouterButton>
 );
 
+function IndexWrapper() {
+  const serverHex = Route.useLoaderData();
+
+  return (
+    <ColorContextProvider initialColor={serverHex}>
+      <Index />
+    </ColorContextProvider>
+  );
+}
+
 function Index() {
   const { isMobile } = useAppContext();
   const { color, setColor, colorName, colorHex, contrastText } =
     useColorContext();
-
-  useEffect(() => {
-    setColor(chroma.random().hex());
-  }, [setColor]);
 
   return (
     <Page sx={{ p: '0 !important' }} maxWidth={false}>

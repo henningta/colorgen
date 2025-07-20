@@ -1,12 +1,14 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import { checker } from 'vite-plugin-checker';
-import { tanstackRouter } from '@tanstack/router-plugin/vite';
+import { tanstackStart } from '@tanstack/react-start/plugin/vite';
+import tsConfigPaths from 'vite-tsconfig-paths';
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    tanstackRouter({ target: 'react', autoCodeSplitting: true }),
+    tsConfigPaths({ projects: ['./tsconfig.json'] }),
+    tanstackStart({ customViteReactPlugin: true }),
     react(),
     checker({
       eslint: {
@@ -18,16 +20,10 @@ export default defineConfig({
         initialIsOpen: 'error',
       },
       typescript: {
-        tsconfigPath: './tsconfig.app.json',
+        tsconfigPath: './tsconfig.json',
       },
     }),
   ],
-  optimizeDeps: {
-    include: ['react-helmet-async'],
-  },
-  ssr: {
-    noExternal: ['react-helmet-async'],
-  },
   server: {
     open: true,
     port: 3000,

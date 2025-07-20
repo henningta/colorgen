@@ -1,7 +1,7 @@
 import React from 'react';
 import { Popper } from '@mui/base/Popper';
 import { AutocompleteListbox, AutocompleteOption, useTheme } from '@mui/joy';
-import ListSubheader from '@mui/joy/ListSubheader';
+import { ListSubheader } from '@mui/joy';
 import { type ListChildComponentProps, FixedSizeList } from 'react-window';
 
 const LISTBOX_PADDING = 6; // px
@@ -23,8 +23,10 @@ function renderRow(props: ListChildComponentProps) {
     );
   }
 
+  const { key, ...optionProps } = dataSet[0];
+
   return (
-    <AutocompleteOption {...dataSet[0]} style={inlineStyle}>
+    <AutocompleteOption key={key} {...optionProps} style={inlineStyle}>
       {dataSet[1]}
     </AutocompleteOption>
   );

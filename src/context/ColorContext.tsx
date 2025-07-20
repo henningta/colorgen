@@ -1,4 +1,10 @@
-import React, { createContext, useEffect, useMemo, useState } from 'react';
+import React, {
+  createContext,
+  PropsWithChildren,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { getColorHex, getColorName, getContrastColor } from '../utils';
 import throttle from 'lodash.throttle';
 
@@ -22,14 +28,14 @@ const defaultContext: ColorContextType = {
 
 const ColorContext = createContext(defaultContext);
 
-type ColorContextProviderProps = {
-  children: React.ReactNode;
-};
+type ColorContextProviderProps = PropsWithChildren<{
+  initialColor?: string;
+}>;
 
 export const ColorContextProvider: React.FC<ColorContextProviderProps> = ({
   children,
+  initialColor = '#c41e3a',
 }) => {
-  const initialColor = '#ffffff';
   const initialColorName = getColorName(initialColor);
   const initialContrastText = getContrastColor(initialColor);
 

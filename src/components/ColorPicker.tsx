@@ -1,5 +1,7 @@
 import {
   Box,
+  Card,
+  type CardProps,
   Dropdown,
   IconButton,
   Menu,
@@ -9,7 +11,6 @@ import {
   Stack,
   Tooltip,
 } from '@mui/joy';
-import Card, { type CardProps } from '@mui/joy/Card';
 import React from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { copyToClipboard, getColorHex, passSx } from '../utils';
