@@ -89,6 +89,10 @@ function ColorPage() {
     }
   }, [selectedColor]);
 
+  useEffect(() => {
+    setSelectedColor(colorHex);
+  }, [colorHex]);
+
   const debouncedSetColor = useMemo(
     () => debounce((color: string) => setColor(color), 100),
     [setColor],
@@ -133,8 +137,8 @@ function ColorPage() {
         </Box>
       </ClientOnly>
       <ColorInfo colorHex={selectedColorHex} />
-      <TintsShades colorHex={colorHex} />
-      <ColorHarmonies colorHex={colorHex} />
+      <TintsShades colorHex={colorHex} onColorSelected={setSelectedColor} />
+      <ColorHarmonies colorHex={colorHex} onColorSelected={setSelectedColor} />
       <ClientOnly>
         {isMobile && (
           <MobileColorMenu value={selectedColor} onChange={setSelectedColor} />

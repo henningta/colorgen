@@ -6,9 +6,13 @@ import chroma from 'chroma-js';
 
 export type ColorHarmoniesProps = {
   colorHex: string;
+  onColorSelected: (color: string) => void;
 };
 
-const ColorHarmonies: React.FC<ColorHarmoniesProps> = ({ colorHex }) => {
+const ColorHarmonies: React.FC<ColorHarmoniesProps> = ({
+  colorHex,
+  onColorSelected,
+}) => {
   const chromaColor = useMemo(() => chroma(colorHex), [colorHex]);
 
   return (
@@ -31,6 +35,7 @@ const ColorHarmonies: React.FC<ColorHarmoniesProps> = ({ colorHex }) => {
               { id: 2, color: chromaColor },
               { id: 3, color: chromaColor.set('hsl.h', '+30') },
             ]}
+            onColorSelected={onColorSelected}
             sx={{ height: '100%', minHeight: 200 }}
           />
         </Grid>
@@ -41,6 +46,7 @@ const ColorHarmonies: React.FC<ColorHarmoniesProps> = ({ colorHex }) => {
               { id: 1, color: chromaColor },
               { id: 2, color: chromaColor.set('hsl.h', '+180') },
             ]}
+            onColorSelected={onColorSelected}
             sx={{ height: '100%', minHeight: 200 }}
           />
         </Grid>
@@ -52,6 +58,7 @@ const ColorHarmonies: React.FC<ColorHarmoniesProps> = ({ colorHex }) => {
               { id: 2, color: chromaColor.set('hsl.h', '+150') },
               { id: 3, color: chromaColor.set('hsl.h', '+210') },
             ]}
+            onColorSelected={onColorSelected}
             sx={{ height: '100%', minHeight: 200 }}
           />
         </Grid>
@@ -63,6 +70,7 @@ const ColorHarmonies: React.FC<ColorHarmoniesProps> = ({ colorHex }) => {
               { id: 2, color: chromaColor.set('hsl.h', '+120') },
               { id: 3, color: chromaColor.set('hsl.h', '-120') },
             ]}
+            onColorSelected={onColorSelected}
             sx={{ height: '100%', minHeight: 200 }}
           />
         </Grid>
@@ -75,6 +83,7 @@ const ColorHarmonies: React.FC<ColorHarmoniesProps> = ({ colorHex }) => {
               { id: 3, color: chromaColor.set('hsl.h', '+180') },
               { id: 4, color: chromaColor.set('hsl.h', '-120') },
             ]}
+            onColorSelected={onColorSelected}
             sx={{ height: '100%', minHeight: 200 }}
           />
         </Grid>
@@ -87,6 +96,7 @@ const ColorHarmonies: React.FC<ColorHarmoniesProps> = ({ colorHex }) => {
               { id: 3, color: chromaColor.set('hsl.h', '+180') },
               { id: 4, color: chromaColor.set('hsl.h', '-90') },
             ]}
+            onColorSelected={onColorSelected}
             sx={{ height: '100%', minHeight: 200 }}
           />
         </Grid>

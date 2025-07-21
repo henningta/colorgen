@@ -8,7 +8,10 @@ import tsConfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
   plugins: [
     tsConfigPaths({ projects: ['./tsconfig.json'] }),
-    tanstackStart({ customViteReactPlugin: true }),
+    tanstackStart({
+      customViteReactPlugin: true,
+      target: 'aws-amplify',
+    }),
     react(),
     checker({
       eslint: {

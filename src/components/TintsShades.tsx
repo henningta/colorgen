@@ -6,9 +6,13 @@ import PageSection from './PageSection';
 
 export type TintsShadesProps = {
   colorHex: string;
+  onColorSelected: (color: string) => void;
 };
 
-const TintsShades: React.FC<TintsShadesProps> = ({ colorHex }) => {
+const TintsShades: React.FC<TintsShadesProps> = ({
+  colorHex,
+  onColorSelected,
+}) => {
   const colorName = useMemo(() => getColorName(colorHex), [colorHex]);
   const tints = useMemo(
     () => getTints(colorHex, undefined, 10).reverse(),
@@ -25,16 +29,18 @@ const TintsShades: React.FC<TintsShadesProps> = ({ colorHex }) => {
     >
       <Stack sx={{ flex: 1 }}>
         <ColorPalette
+          colors={tints}
+          onColorSelected={onColorSelected}
           title="Tints"
           subtitle={`Mixing ${colorName} with white`}
-          colors={tints}
           fullWidth
           sx={{ pt: 6, flex: 1 }}
         />
         <ColorPalette
+          colors={shades}
+          onColorSelected={onColorSelected}
           title="Shades"
           subtitle={`Mixing ${colorName} with black`}
-          colors={shades}
           fullWidth
           sx={{ pt: 6, flex: 1 }}
         />

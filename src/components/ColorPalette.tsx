@@ -5,18 +5,20 @@ import chroma from 'chroma-js';
 import ColorCard from './ColorCard';
 
 type ColorPaletteProps = StackProps & {
+  colors: { id: number; color: chroma.Color }[];
+  onColorSelected: (color: string) => void;
   title?: string;
   subtitle?: React.ReactNode;
-  colors: { id: number; color: chroma.Color }[];
   width?: number | string;
   height?: number | string;
   fullWidth?: boolean;
 };
 
 const ColorPalette: React.FC<ColorPaletteProps> = ({
+  colors,
+  onColorSelected,
   title,
   subtitle,
-  colors,
   width,
   height,
   fullWidth,
@@ -38,7 +40,12 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({
       <Grid container sx={{ flex: 1, mt: 2 }}>
         {colors.map((x) => (
           <Grid key={x.id} xs={3} sm={3} md>
-            <ColorCard colorHex={x.color.hex()} width={width} height={height} />
+            <ColorCard
+              colorHex={x.color.hex()}
+              onSetAsSelected={onColorSelected}
+              width={width}
+              height={height}
+            />
           </Grid>
         ))}
       </Grid>
@@ -48,6 +55,7 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({
           <ColorCard
             key={x.id}
             colorHex={x.color.hex()}
+            onSetAsSelected={onColorSelected}
             width={width}
             height={height}
           />

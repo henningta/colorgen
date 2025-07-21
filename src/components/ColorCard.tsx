@@ -10,12 +10,13 @@ import {
   Typography,
 } from '@mui/joy';
 import React from 'react';
-import { useColorStore, useSnackbarContext } from '../context';
+import { useSnackbarContext } from '../context';
 import { copyToClipboard, getContrastColor } from '../utils';
 import Icon from './Icon';
 
 export type ColorCardProps = CardProps & {
   colorHex: string;
+  onSetAsSelected: (colorHex: string) => void;
   width?: number | string;
   height?: number | string;
   displayHex?: boolean;
@@ -23,12 +24,12 @@ export type ColorCardProps = CardProps & {
 
 const ColorCard: React.FC<ColorCardProps> = ({
   colorHex,
+  onSetAsSelected,
   width = '100%',
   height = '100%',
   displayHex = true,
   ...props
 }) => {
-  const setColor = useColorStore((state) => state.setColor);
   const { setSnackbar } = useSnackbarContext();
 
   const contrastText = getContrastColor(colorHex);
@@ -123,7 +124,7 @@ const ColorCard: React.FC<ColorCardProps> = ({
             <MenuItem onClick={() => void copyHexToClipboard()}>
               Copy Hex
             </MenuItem>
-            <MenuItem onClick={() => setColor(colorHex)}>
+            <MenuItem onClick={() => onSetAsSelected(colorHex)}>
               Set as Selected Color
             </MenuItem>
           </Menu>
