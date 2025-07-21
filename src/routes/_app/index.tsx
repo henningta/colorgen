@@ -11,9 +11,15 @@ import { passSx } from '../../utils';
 import { createFileRoute } from '@tanstack/react-router';
 import { useShallow } from 'zustand/shallow';
 
+const url = 'https://www.colorgen.io';
+
 export const Route = createFileRoute('/_app/')({
   component: IndexWrapper,
   loader: () => chroma.random().hex(),
+  head: ({ match }) => ({
+    meta: [{ property: 'og:url', content: `${url}${match.pathname}` }],
+    links: [{ rel: 'canonical', href: `${url}${match.pathname}` }],
+  }),
 });
 
 type ColorButtonProps = Pick<ButtonProps, 'sx'> & {

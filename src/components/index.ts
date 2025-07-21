@@ -28,9 +28,6 @@ export * from './RouterLink';
 export { default as Page } from './Page';
 export * from './Page';
 
-export { default as Seo } from './Seo';
-export * from './Seo';
-
 export { default as TintsShades } from './TintsShades';
 export * from './TintsShades';
 

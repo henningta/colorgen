@@ -17,12 +17,20 @@ import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 const fontsUrl =
   'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&family=Manrope:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap';
 
+const description = 'An advanced color visualizer and palette generator tool';
+
 export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { title: 'colorgen.io' },
+      { name: 'description', content: description },
+
+      // og
+      { property: 'og:site_name', content: 'colorgen.io' },
+      { property: 'og:title', content: 'colorgen.io' },
+      { property: 'og:description', content: description },
     ],
   }),
   component: RootComponent,

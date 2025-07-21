@@ -3,8 +3,25 @@ import React from 'react';
 import { Page } from '../../components';
 import { createFileRoute } from '@tanstack/react-router';
 
+const url = 'https://www.colorgen.io';
+
+const description =
+  'Our goal is to provide designers and developers with the options and flexibility needed to create any color palette imaginable.';
+
 export const Route = createFileRoute('/_app/about')({
   component: About,
+  head: ({ match }) => ({
+    meta: [
+      { title: 'About · colorgen.io' },
+      { name: 'description', content: description },
+
+      // og
+      { property: 'og:title', content: 'colorgen.io' },
+      { property: 'og:description', content: description },
+      { property: 'og:url', content: `${url}${match.pathname}` },
+    ],
+    links: [{ rel: 'canonical', href: `${url}${match.pathname}` }],
+  }),
 });
 
 export type LibDetailsProps = BoxProps & {
@@ -34,12 +51,7 @@ const LibDetails: React.FC<LibDetailsProps> = ({ title, links }) => (
 
 function About() {
   return (
-    <Page
-      title="About"
-      description="Our goal is to provide designers and developers with the options and
-      flexibility needed to create any color palette imaginable."
-      sx={{ py: 4 }}
-    >
+    <Page sx={{ py: 4 }}>
       <Box>
         <Typography level="h2">Why colorgen.io?</Typography>
         <Box sx={{ mt: 4 }}>
@@ -99,21 +111,11 @@ function About() {
           ]}
         />
         <LibDetails
-          title="Next.js"
-          links={[
-            {
-              title: 'API Docs',
-              url: 'https://nextjs.org/docs/getting-started',
-            },
-            { title: 'GitHub', url: 'https://github.com/vercel/next.js' },
-          ]}
-        />
-        <LibDetails
           title="React"
           links={[
             {
               title: 'API Docs',
-              url: 'https://reactjs.org',
+              url: 'https://react.dev',
             },
             { title: 'GitHub', url: 'https://github.com/facebook/react' },
           ]}
@@ -129,6 +131,26 @@ function About() {
               title: 'GitHub',
               url: 'https://github.com/omgovich/react-colorful',
             },
+          ]}
+        />
+        <LibDetails
+          title="Tanstack Start"
+          links={[
+            {
+              title: 'API Docs',
+              url: 'https://tanstack.com/start/latest',
+            },
+            { title: 'GitHub', url: 'https://github.com/tanstack/router' },
+          ]}
+        />
+        <LibDetails
+          title="Vite"
+          links={[
+            {
+              title: 'API Docs',
+              url: 'https://vite.dev/',
+            },
+            { title: 'GitHub', url: 'https://github.com/vitejs/vite' },
           ]}
         />
       </Box>

@@ -21,7 +21,9 @@ import { createFileRoute } from '@tanstack/react-router';
 import { Box } from '@mui/joy';
 import { useShallow } from 'zustand/shallow';
 
-const getTitle = (hex: string) => `${hex} · ${getColorName(hex)}`;
+const url = 'https://www.colorgen.io';
+
+const getTitle = (hex: string) => `${hex} · ${getColorName(hex)} · colorgen.io`;
 
 export const Route = createFileRoute('/_app/color/$hex')({
   component: ColorPageWrapper,
@@ -29,6 +31,30 @@ export const Route = createFileRoute('/_app/color/$hex')({
     if (!chroma.valid(params.hex)) {
       redirect({ to: '/', throw: true });
     }
+  },
+  head: ({ match, params }) => {
+    const hex = getColorHex(params.hex) ?? params.hex;
+    const title = getTitle(hex);
+    const description = `Tints, shades, and color info for hex code: ${hex}`;
+    const imgUrl = `${url}/api/${hex.substring(1)}.png`;
+
+    return {
+      meta: [
+        { title },
+        { name: 'description', content: description },
+        { property: 'og:title', content: title },
+        { property: 'og:description', content: description },
+        { property: 'og:url', content: `${url}${match.pathname}` },
+
+        // seo color image
+        { property: 'og:image', content: imgUrl },
+        { property: 'og:image:secure_url', content: imgUrl },
+        { property: 'og:image:width', content: '80' },
+        { property: 'og:image:height', content: '80' },
+        { property: 'og:image:alt', content: hex },
+      ],
+      links: [{ rel: 'canonical', href: `${url}${match.pathname}` }],
+    };
   },
 });
 
@@ -63,15 +89,8 @@ function ColorPage() {
     }
   }, [selectedColor]);
 
-  // useEffect(() => {
-  //   const split = router.asPath.split('/');
-  //   const hex = `#${split[split.length - 1]}`;
-
-  //   document.title = config.titleTemplate.replace('%s', getTitle(hex));
-  // }, [router]);
-
   const debouncedSetColor = useMemo(
-    () => debounce((color: string) => setColor(color), 200),
+    () => debounce((color: string) => setColor(color), 100),
     [setColor],
   );
 
@@ -90,13 +109,7 @@ function ColorPage() {
   }, [colorHex, navigate]);
 
   return (
-    <Page
-      title={getTitle(colorHex)}
-      description={`Tints, shades, and color info for hex code: ${colorHex}`}
-      image={`api/${colorHex.substring(1)}.png`}
-      maxWidth={false}
-      sx={{ p: '0 !important' }}
-    >
+    <Page maxWidth={false} sx={{ p: '0 !important' }}>
       <ClientOnly>
         <Box
           sx={(theme) => ({
