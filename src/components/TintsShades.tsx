@@ -1,17 +1,20 @@
 import { Stack } from '@mui/joy';
-import React from 'react';
-import { getShades, getTints } from '../utils';
+import React, { memo, useMemo } from 'react';
+import { getColorName, getShades, getTints } from '../utils';
 import ColorPalette from './ColorPalette';
 import PageSection from './PageSection';
 
 export type TintsShadesProps = {
   colorHex: string;
-  colorName: string;
 };
 
-const TintsShades: React.FC<TintsShadesProps> = ({ colorHex, colorName }) => {
-  const tints = getTints(colorHex, undefined, 10).reverse();
-  const shades = getShades(colorHex, undefined, 10);
+const TintsShades: React.FC<TintsShadesProps> = ({ colorHex }) => {
+  const colorName = useMemo(() => getColorName(colorHex), [colorHex]);
+  const tints = useMemo(
+    () => getTints(colorHex, undefined, 10).reverse(),
+    [colorHex],
+  );
+  const shades = useMemo(() => getShades(colorHex, undefined, 10), [colorHex]);
 
   return (
     <PageSection
@@ -40,4 +43,4 @@ const TintsShades: React.FC<TintsShadesProps> = ({ colorHex, colorName }) => {
   );
 };
 
-export default TintsShades;
+export default memo(TintsShades);

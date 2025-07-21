@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { SnackbarProvider, useAppContext, useColorContext } from '../context';
+import { SnackbarProvider, useAppContext } from '../context';
 import {
   Box,
   Button,
@@ -31,19 +31,25 @@ type ColorPanelOption = 'hex' | 'rgb' | 'hsl' | 'hsv' | 'cmyk';
 
 export type MobileColorMenuProps = Omit<
   DrawerProps,
-  'children' | 'open' | 'onClose'
->;
+  'children' | 'open' | 'onClose' | 'onChange'
+> & {
+  value: string;
+  onChange: (value: string) => void;
+};
 
-const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
+const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
+  value,
+  onChange,
+  ...props
+}) => {
   const { mobileColorMenuOpen, onMobileColorMenuOpenChange } = useAppContext();
-  const { color, setColor } = useColorContext();
 
   const drawerRef = useRef<HTMLDivElement>(null);
 
   const [activePanel, setActivePanel] = useState<ColorPanelOption>('hex');
   const [chromaColor, setChromaColor] = useState<chroma.Color>();
 
-  const colorHex = getColorHex(color);
+  const colorHex = getColorHex(value);
 
   const colorComplement = chroma(colorHex ?? 0)
     .set('hsl.h', '+180')
@@ -143,8 +149,8 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
           >
             <Stack justifyContent="flex-end" sx={{ height: '100%' }}>
               <ColorPicker
-                value={color}
-                onChange={setColor}
+                value={value}
+                onChange={onChange}
                 sx={{
                   boxShadow: 'none',
                   border: 'none',
@@ -228,7 +234,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
               {activePanel === 'hex' ? (
                 <HexColorPicker
                   color={colorHex}
-                  onChange={setColor}
+                  onChange={onChange}
                   style={{ width: '100%', height: '100%' }}
                 />
               ) : !chromaColor ? (
@@ -244,7 +250,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     <Slider
                       value={chromaColor.get('rgb.r')}
                       onChange={(_, value) =>
-                        setColor(
+                        onChange(
                           chromaColor.set('rgb.r', value as number).hex(),
                         )
                       }
@@ -265,7 +271,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     <Slider
                       value={chromaColor.get('rgb.g')}
                       onChange={(_, value) =>
-                        setColor(
+                        onChange(
                           chromaColor.set('rgb.g', value as number).hex(),
                         )
                       }
@@ -286,7 +292,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     <Slider
                       value={chromaColor.get('rgb.b')}
                       onChange={(_, value) =>
-                        setColor(
+                        onChange(
                           chromaColor.set('rgb.b', value as number).hex(),
                         )
                       }
@@ -310,7 +316,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     <Slider
                       value={chromaColor.get('hsl.h')}
                       onChange={(_, value) =>
-                        setColor(
+                        onChange(
                           chromaColor.set('hsl.h', value as number).hex(),
                         )
                       }
@@ -324,7 +330,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     <Slider
                       value={chromaColor.get('hsl.s')}
                       onChange={(_, value) =>
-                        setColor(
+                        onChange(
                           chromaColor.set('hsl.s', value as number).hex(),
                         )
                       }
@@ -339,7 +345,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     <Slider
                       value={chromaColor.get('hsl.l')}
                       onChange={(_, value) =>
-                        setColor(
+                        onChange(
                           chromaColor.set('hsl.l', value as number).hex(),
                         )
                       }
@@ -357,7 +363,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     <Slider
                       value={chromaColor.get('hsv.h')}
                       onChange={(_, value) =>
-                        setColor(
+                        onChange(
                           chromaColor.set('hsv.h', value as number).hex(),
                         )
                       }
@@ -371,7 +377,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     <Slider
                       value={chromaColor.get('hsv.s')}
                       onChange={(_, value) =>
-                        setColor(
+                        onChange(
                           chromaColor.set('hsv.s', value as number).hex(),
                         )
                       }
@@ -386,7 +392,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     <Slider
                       value={chromaColor.get('hsv.v')}
                       onChange={(_, value) =>
-                        setColor(
+                        onChange(
                           chromaColor.set('hsv.v', value as number).hex(),
                         )
                       }
@@ -404,7 +410,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     <Slider
                       value={chromaColor.get('cmyk.c')}
                       onChange={(_, value) =>
-                        setColor(
+                        onChange(
                           chromaColor.set('cmyk.c', value as number).hex(),
                         )
                       }
@@ -426,7 +432,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     <Slider
                       value={chromaColor.get('cmyk.m')}
                       onChange={(_, value) =>
-                        setColor(
+                        onChange(
                           chromaColor.set('cmyk.m', value as number).hex(),
                         )
                       }
@@ -448,7 +454,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     <Slider
                       value={chromaColor.get('cmyk.y')}
                       onChange={(_, value) =>
-                        setColor(
+                        onChange(
                           chromaColor.set('cmyk.y', value as number).hex(),
                         )
                       }
@@ -470,7 +476,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
                     <Slider
                       value={chromaColor.get('cmyk.k')}
                       onChange={(_, value) =>
-                        setColor(
+                        onChange(
                           chromaColor.set('cmyk.k', value as number).hex(),
                         )
                       }
@@ -486,7 +492,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({ ...props }) => {
               <Tooltip title="Random" placement="left">
                 <IconButton
                   variant="plain"
-                  onClick={() => setColor(chroma.random().hex())}
+                  onClick={() => onChange(chroma.random().hex())}
                 >
                   <Icon>ifl</Icon>
                 </IconButton>

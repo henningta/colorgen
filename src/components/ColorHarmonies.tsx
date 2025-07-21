@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import { Grid } from '@mui/joy';
 import PageSection from './PageSection';
 import ColorPalette from './ColorPalette';
@@ -9,7 +9,7 @@ export type ColorHarmoniesProps = {
 };
 
 const ColorHarmonies: React.FC<ColorHarmoniesProps> = ({ colorHex }) => {
-  const chromaColor = chroma(colorHex);
+  const chromaColor = useMemo(() => chroma(colorHex), [colorHex]);
 
   return (
     <PageSection
@@ -95,4 +95,4 @@ const ColorHarmonies: React.FC<ColorHarmoniesProps> = ({ colorHex }) => {
   );
 };
 
-export default ColorHarmonies;
+export default memo(ColorHarmonies);

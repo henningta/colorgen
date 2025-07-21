@@ -3,12 +3,13 @@ import chroma from 'chroma-js';
 import React from 'react';
 import { ColorPicker, Icon, Page, RouterButton } from '../../components';
 import {
-  ColorContextProvider,
+  ColorStoreProvider,
   useAppContext,
-  useColorContext,
+  useColorStore,
 } from '../../context';
 import { passSx } from '../../utils';
 import { createFileRoute } from '@tanstack/react-router';
+import { useShallow } from 'zustand/shallow';
 
 export const Route = createFileRoute('/_app/')({
   component: IndexWrapper,
@@ -57,16 +58,23 @@ function IndexWrapper() {
   const serverHex = Route.useLoaderData();
 
   return (
-    <ColorContextProvider initialColor={serverHex}>
+    <ColorStoreProvider initialColor={serverHex}>
       <Index />
-    </ColorContextProvider>
+    </ColorStoreProvider>
   );
 }
 
 function Index() {
   const { isMobile } = useAppContext();
-  const { color, setColor, colorName, colorHex, contrastText } =
-    useColorContext();
+  const { color, setColor, colorName, colorHex, contrastText } = useColorStore(
+    useShallow((state) => ({
+      color: state.color,
+      setColor: state.setColor,
+      colorName: state.colorName,
+      colorHex: state.colorHex,
+      contrastText: state.contrastText,
+    })),
+  );
 
   return (
     <Page sx={{ p: '0 !important' }} maxWidth={false}>

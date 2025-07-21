@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@mui/joy';
 import React from 'react';
-import { useColorContext, useSnackbarContext } from '../context';
+import { useColorStore, useSnackbarContext } from '../context';
 import { copyToClipboard, getContrastColor } from '../utils';
 import Icon from './Icon';
 
@@ -28,7 +28,7 @@ const ColorCard: React.FC<ColorCardProps> = ({
   displayHex = true,
   ...props
 }) => {
-  const { setColor } = useColorContext();
+  const setColor = useColorStore((state) => state.setColor);
   const { setSnackbar } = useSnackbarContext();
 
   const contrastText = getContrastColor(colorHex);

@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import chroma from 'chroma-js';
 import {
   ColorHarmonies,
@@ -9,9 +9,9 @@ import {
   TintsShades,
 } from '../../../components';
 import {
-  ColorContextProvider,
+  ColorStoreProvider,
   useAppContext,
-  useColorContext,
+  useColorStore,
 } from '../../../context';
 import debounce from 'lodash.debounce';
 // import config from '../../../config';
@@ -19,6 +19,7 @@ import { ClientOnly, redirect, useNavigate } from '@tanstack/react-router';
 import { getColorHex, getColorName } from '../../../utils';
 import { createFileRoute } from '@tanstack/react-router';
 import { Box } from '@mui/joy';
+import { useShallow } from 'zustand/shallow';
 
 const getTitle = (hex: string) => `${hex} · ${getColorName(hex)}`;
 
@@ -35,32 +36,32 @@ function ColorPageWrapper() {
   const { hex } = Route.useParams();
 
   return (
-    <ColorContextProvider initialColor={hex}>
+    <ColorStoreProvider initialColor={hex}>
       <ColorPage />
-    </ColorContextProvider>
+    </ColorStoreProvider>
   );
 }
 
 function ColorPage() {
-  const { hex } = Route.useParams();
   const navigate = useNavigate();
 
   const { isMobile } = useAppContext();
-  const { color, colorName, colorHex, setColor } = useColorContext();
-
-  const debounceSetUrl = useMemo(
-    () =>
-      debounce(async (hex: string) => {
-        const hexStripped = hex.substring(1);
-
-        await navigate({
-          to: '/color/$hex',
-          params: { hex: hexStripped },
-          replace: true,
-        });
-      }, 300),
-    [],
+  const { colorHex, setColor } = useColorStore(
+    useShallow((state) => ({
+      colorHex: state.colorHex,
+      setColor: state.setColor,
+    })),
   );
+
+  const [selectedColor, setSelectedColor] = useState(colorHex);
+  const [selectedColorHex, setSelectedColorHex] = useState(colorHex);
+
+  useEffect(() => {
+    const hex = getColorHex(selectedColor);
+    if (hex) {
+      setSelectedColorHex(hex);
+    }
+  }, [selectedColor]);
 
   // useEffect(() => {
   //   const split = router.asPath.split('/');
@@ -69,19 +70,24 @@ function ColorPage() {
   //   document.title = config.titleTemplate.replace('%s', getTitle(hex));
   // }, [router]);
 
-  useEffect(() => {
-    setColor(hex);
-  }, [hex, setColor]);
+  const debouncedSetColor = useMemo(
+    () => debounce((color: string) => setColor(color), 200),
+    [setColor],
+  );
 
   useEffect(() => {
-    try {
-      void debounceSetUrl(colorHex);
-    } catch {
-      /* ignore */
-    }
-  }, [debounceSetUrl, colorHex]);
+    debouncedSetColor(selectedColor);
+  }, [selectedColor, debouncedSetColor]);
 
-  // const seoHex = getColorHex(serverHex) ?? '#010';
+  useEffect(() => {
+    // already debounced from color set
+    void navigate({
+      to: '/color/$hex',
+      params: { hex: colorHex.substring(1) },
+      replace: true,
+      resetScroll: false,
+    });
+  }, [colorHex, navigate]);
 
   return (
     <Page
@@ -107,16 +113,20 @@ function ColorPage() {
           })}
         >
           <ColorPicker
-            value={color}
-            onChange={setColor}
+            value={selectedColor}
+            onChange={setSelectedColor}
             useHexPicker={!isMobile}
           />
         </Box>
       </ClientOnly>
-      <ColorInfo colorHex={colorHex} colorName={colorName} />
-      <TintsShades colorHex={colorHex} colorName={colorName} />
+      <ColorInfo colorHex={selectedColorHex} />
+      <TintsShades colorHex={colorHex} />
       <ColorHarmonies colorHex={colorHex} />
-      <ClientOnly>{isMobile && <MobileColorMenu />}</ClientOnly>
+      <ClientOnly>
+        {isMobile && (
+          <MobileColorMenu value={selectedColor} onChange={setSelectedColor} />
+        )}
+      </ClientOnly>
     </Page>
   );
 }

@@ -5,8 +5,8 @@ import {
   Typography,
   type TypographyProps,
 } from '@mui/joy';
-import React from 'react';
-import { getContrastColor, passSx } from '../utils';
+import React, { useMemo } from 'react';
+import { getColorName, getContrastColor, passSx } from '../utils';
 import pant from 'nearest-pantone';
 import chroma from 'chroma-js';
 
@@ -28,17 +28,15 @@ const ColorInfoPart: React.FC<ColorInfoPartProps> = ({
 
 export type ColorInfoProps = BoxProps & {
   colorHex: string;
-  colorName: string;
 };
 
-const ColorInfo: React.FC<ColorInfoProps> = ({
-  colorHex,
-  colorName,
-  style,
-  ...props
-}) => {
-  const contrastText = getContrastColor(colorHex);
-  const nearestPantone = pant.getClosestColor(colorHex);
+const ColorInfo: React.FC<ColorInfoProps> = ({ colorHex, style, ...props }) => {
+  const colorName = useMemo(() => getColorName(colorHex), [colorHex]);
+  const contrastText = useMemo(() => getContrastColor(colorHex), [colorHex]);
+  const nearestPantone = useMemo(
+    () => pant.getClosestColor(colorHex),
+    [colorHex],
+  );
 
   const chromaColor = chroma(colorHex);
   const rgb = chromaColor.rgb();
@@ -47,8 +45,8 @@ const ColorInfo: React.FC<ColorInfoProps> = ({
 
   return (
     <Box
-      {...props}
       style={{ height: '100%', backgroundColor: colorHex, ...style }}
+      {...props}
     >
       <Stack
         sx={(theme) => ({
