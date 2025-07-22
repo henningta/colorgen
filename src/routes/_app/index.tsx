@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import chroma from 'chroma-js';
 import React from 'react';
-import { ColorPicker, Icon, Page, RouterButton } from '../../components';
+import { ColorPicker, Page, RouterButton } from '../../components';
 import {
   ColorStoreProvider,
   useAppContext,
@@ -16,6 +16,7 @@ import {
 import { passSx } from '../../utils';
 import { createFileRoute } from '@tanstack/react-router';
 import { useShallow } from 'zustand/shallow';
+import { ArrowRight } from 'lucide-react';
 
 const url = 'https://www.colorgen.io';
 
@@ -44,7 +45,7 @@ const ColorButton: React.FC<ColorButtonProps> = ({
     to="/color/$hex"
     params={{ hex: colorHex.substring(1) }}
     sx={[
-      (theme) => ({
+      {
         whiteSpace: 'nowrap',
         color: textColor,
 
@@ -52,14 +53,10 @@ const ColorButton: React.FC<ColorButtonProps> = ({
           color: textColor === 'common.white' ? 'common.black' : 'common.white',
           backgroundColor: textColor,
         },
-
-        [theme.breakpoints.down('md')]: {
-          ml: 'auto',
-        },
-      }),
+      },
       ...passSx(sx),
     ]}
-    endIcon={<Icon sx={{ color: 'inherit' }}>arrow_forward</Icon>}
+    endIcon={<ArrowRight size={18} />}
   >
     See color info for &ldquo;{colorName}&rdquo;
   </RouterButton>
@@ -140,27 +137,22 @@ function Index() {
             </Stack>
           </Container>
           {!isMobile && (
-            <Container
-              maxWidth={false}
-              sx={{
-                m: 0,
-                mt: 6,
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              <ColorPicker
-                value={color}
-                onChange={setColor}
-                useHexPicker
-                sx={{ maxWidth: 536, my: 2 }}
-              />
-              <ColorButton
-                colorHex={colorHex}
-                colorName={colorName}
-                textColor={contrastText}
-                sx={{ ml: 2 }}
-              />
+            <Container maxWidth={false} sx={{ m: 0, mt: 6 }}>
+              <Stack direction="row" alignItems="center">
+                <ColorPicker
+                  value={color}
+                  onChange={setColor}
+                  useHexPicker
+                  sx={{ my: 2 }}
+                />
+                <Box sx={{ ml: 2 }}>
+                  <ColorButton
+                    colorHex={colorHex}
+                    colorName={colorName}
+                    textColor={contrastText}
+                  />
+                </Box>
+              </Stack>
             </Container>
           )}
         </Stack>

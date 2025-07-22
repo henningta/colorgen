@@ -10,12 +10,9 @@ import React, {
 
 export type SnackbarMessage = {
   key: number;
-  icon?: {
-    name: string;
-    fill?: boolean;
-  };
   message: React.ReactNode;
-  color?: AlertProps['color'];
+  icon?: React.ReactNode;
+  severity?: AlertProps['severity'];
   dismissable?: boolean;
 };
 
@@ -86,29 +83,22 @@ export const SnackbarProvider: React.FC<SnackbarProviderProps> = ({
         open={open}
         onClose={onClose}
         autoHideDuration={6000}
-        // onUnmount={() => setActiveSnackbar(undefined)}
-        // size={isMobile ? 'sm' : undefined}
-        color={activeSnackbar?.color}
-        // startDecorator={
-        //   activeSnackbar?.icon && (
-        //     <Icon fill={activeSnackbar.icon.fill}>
-        //       {activeSnackbar.icon.name}
-        //     </Icon>
-        //   )
-        // }
-        // endDecorator={
-        //   activeSnackbar?.dismissable && (
-        //     <IconButton
-        //       onClick={() => setOpen(false)}
-        //       sx={{ p: 0, ml: 1, mr: -1 }}
-        //     >
-        //       <Icon style={{ fontSize: 20 }}>close</Icon>
-        //     </IconButton>
-        //   )
-        // }
+        slotProps={{
+          transition: {
+            onExited: () => setActiveSnackbar(undefined),
+          },
+        }}
         {...SnackbarProps}
       >
-        <Alert>{activeSnackbar?.message}</Alert>
+        <Alert
+          onClose={
+            activeSnackbar?.dismissable ? () => setOpen(false) : undefined
+          }
+          icon={activeSnackbar?.icon}
+          severity={activeSnackbar?.severity}
+        >
+          {activeSnackbar?.message}
+        </Alert>
       </Snackbar>
       {children}
     </SnackbarContext.Provider>

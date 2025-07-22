@@ -6,6 +6,13 @@ import {
   createTheme,
   responsiveFontSizes,
 } from '@mui/material';
+import {
+  CircleAlert,
+  CircleCheckBig,
+  Info,
+  TriangleAlert,
+  X,
+} from 'lucide-react';
 
 export type AppThemeProviderProps = {
   children: React.ReactNode;
@@ -75,13 +82,15 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
     components: {
       MuiAlert: {
         defaultProps: {
-          color: 'info',
-        },
-        styleOverrides: {
-          root: {
-            paddingTop: 0,
-            paddingBottom: 0,
-            height: 48,
+          severity: 'info',
+          iconMapping: {
+            error: <CircleAlert size={22} />,
+            info: <Info size={22} />,
+            success: <CircleCheckBig size={22} />,
+            warning: <TriangleAlert size={22} />,
+          },
+          slots: {
+            closeIcon: () => <X size={20} />,
           },
         },
       },
@@ -177,7 +186,7 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
   const responsiveTheme = responsiveFontSizes(theme);
 
   return (
-    <ThemeProvider theme={responsiveTheme} defaultMode="system">
+    <ThemeProvider theme={responsiveTheme}>
       <CssBaseline />
       <GlobalStyles
         styles={{

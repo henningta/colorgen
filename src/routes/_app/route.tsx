@@ -1,4 +1,4 @@
-import { Footer, Icon, RouterLink } from '../../components';
+import { Footer, RouterLink } from '../../components';
 import {
   Box,
   Container,
@@ -14,6 +14,7 @@ import {
   Outlet,
   useLocation,
 } from '@tanstack/react-router';
+import { LaptopMinimal, Moon, Sun } from 'lucide-react';
 
 type ColorMode = 'light' | 'dark' | 'system';
 
@@ -73,13 +74,13 @@ function AppLayout() {
                 exclusive
               >
                 <ToggleButton value="dark">
-                  <Icon>dark_mode</Icon>
+                  <Moon size={18} />
                 </ToggleButton>
                 <ToggleButton value="system">
-                  <Icon>computer</Icon>
+                  <LaptopMinimal size={18} />
                 </ToggleButton>
                 <ToggleButton value="light">
-                  <Icon>light_mode</Icon>
+                  <Sun size={18} />
                 </ToggleButton>
               </ToggleButtonGroup>
             </ClientOnly>

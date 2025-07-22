@@ -10,7 +10,7 @@ import {
 import React, { useState } from 'react';
 import { useSnackbarContext } from '../context';
 import { copyToClipboard, getContrastColor } from '../utils';
-import Icon from './Icon';
+import { Copy, MoreVertical } from 'lucide-react';
 
 export type ColorCardProps = PaperProps & {
   colorHex: string;
@@ -38,7 +38,7 @@ const ColorCard: React.FC<ColorCardProps> = ({
     try {
       await copyToClipboard(colorHex);
       setSnackbar({
-        icon: { name: 'content_copy' },
+        icon: <Copy />,
         message: <>&ldquo;{colorHex}&rdquo; copied to clipboard.</>,
         dismissable: true,
       });
@@ -100,24 +100,16 @@ const ColorCard: React.FC<ColorCardProps> = ({
         <IconButton
           size="small"
           onClick={() => void copyHexToClipboard()}
-          sx={{ '&:hover': { bgcolor: 'transparent' } }}
+          sx={{ color: contrastText }}
         >
-          <Icon sx={{ color: contrastText }}>content_copy</Icon>
+          <Copy size={20} />
         </IconButton>
         <IconButton
-          // slots={{ root: IconButton }}
-          // slotProps={{
-          //   root: {
-          //     variant: 'plain',
-          //     size: 'sm',
-          //     sx: {
-          //       '&:hover': { bgcolor: 'transparent' },
-          //     },
-          //   },
-          // }}
+          size="small"
           onClick={(e) => setMenuAnchor(e.currentTarget)}
+          sx={{ color: contrastText }}
         >
-          <Icon sx={{ color: contrastText }}>more_vert</Icon>
+          <MoreVertical size={20} />
         </IconButton>
         <Menu
           id="color-card-menu"

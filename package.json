@@ -42,6 +42,7 @@
     "compression": "^1.8.1",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
+    "lucide-react": "^0.525.0",
     "nearest-color": "^0.4.4",
     "nearest-pantone": "^1.0.1",
     "pngjs": "^7.0.0",

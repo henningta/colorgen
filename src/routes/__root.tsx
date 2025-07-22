@@ -13,9 +13,10 @@ import {
   SnackbarProvider,
 } from '../context';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
+import { InitColorSchemeScript } from '@mui/material';
 
 const fontsUrl =
-  'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&family=Manrope:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap';
+  'https://fonts.googleapis.com/css2?family=Manrope:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap';
 
 const description = 'An advanced color visualizer and palette generator tool';
 
@@ -69,6 +70,7 @@ function RootDocument({ children }: Readonly<PropsWithChildren>) {
         <link rel="stylesheet" href={fontsUrl} />
       </head>
       <body>
+        <InitColorSchemeScript attribute='[data-mui-color-scheme="%s"]' />
         <Providers>{children}</Providers>
         <TanStackRouterDevtools position="bottom-right" />
         <Scripts />

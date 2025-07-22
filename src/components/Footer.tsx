@@ -1,10 +1,16 @@
-import { Box, type BoxProps, Container, Typography } from '@mui/material';
+import {
+  Box,
+  type BoxProps,
+  Container,
+  Stack,
+  Typography,
+} from '@mui/material';
 import React from 'react';
 import { passSx } from '../utils';
-import Icon from './Icon';
 import { RouterButton } from './RouterLink';
 import { useAppContext } from '../context';
 import { useLocation } from '@tanstack/react-router';
+import { Heart } from 'lucide-react';
 
 export type FooterProps = BoxProps;
 
@@ -49,16 +55,10 @@ const Footer: React.FC<FooterProps> = ({ sx, ...props }) => {
             mx: 0,
           }}
         >
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Stack direction="row" alignItems="center" gap={0.75}>
             <Typography>Made with</Typography>
-            <Icon
-              sx={{ ml: '6px' }}
-              style={{ fontSize: 18, color: '#c41e3a' }}
-              fill
-            >
-              favorite
-            </Icon>
-          </Box>
+            <Heart size={18} color="#c41e3a" strokeWidth={2.5} />
+          </Stack>
           <RouterButton to="/about" variant="contained">
             About
           </RouterButton>

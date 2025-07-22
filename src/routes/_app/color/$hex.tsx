@@ -94,7 +94,7 @@ function ColorPage() {
   }, [colorHex]);
 
   const debouncedSetColor = useMemo(
-    () => debounce((color: string) => setColor(color), 100),
+    () => debounce((color: string) => setColor(color), 200),
     [setColor],
   );
 

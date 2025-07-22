@@ -16,9 +16,6 @@ export * from './ColorPicker';
 export { default as Footer } from './Footer';
 export * from './Footer';
 
-export { default as Icon } from './Icon';
-export * from './Icon';
-
 export { default as MobileColorMenu } from './MobileColorMenu';
 export * from './MobileColorMenu';
 

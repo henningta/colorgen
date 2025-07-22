@@ -18,7 +18,7 @@ import ColorPicker from './ColorPicker';
 import chroma from 'chroma-js';
 import { HexColorPicker } from 'react-colorful';
 import { getColorHex, getContrastColor, useOnClickOutside } from '../utils';
-import Icon from './Icon';
+import { ArrowDownToLine, Dices, Palette } from 'lucide-react';
 
 const drawerBleeding = 80;
 
@@ -121,9 +121,9 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
           size="medium"
           onClick={() => onMobileColorMenuOpenChange((prev) => !prev)}
         >
-          <Icon sx={{ color: complementContrast }}>
-            {mobileColorMenuOpen ? 'close' : 'palette'}
-          </Icon>
+          <Stack sx={{ color: complementContrast }}>
+            {mobileColorMenuOpen ? <ArrowDownToLine /> : <Palette />}
+          </Stack>
         </Fab>
         <Box
           sx={{
@@ -448,7 +448,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
             <Stack sx={{ width: 56, alignItems: 'center' }}>
               <Tooltip title="Random" placement="left">
                 <IconButton onClick={() => onChange(chroma.random().hex())}>
-                  <Icon>ifl</Icon>
+                  <Dices />
                 </IconButton>
               </Tooltip>
             </Stack>

@@ -13,10 +13,10 @@ import {
 import React, { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { copyToClipboard, getColorHex, passSx } from '../utils';
-import Icon from './Icon';
 import chroma from 'chroma-js';
 import ColorInput, { type ColorInputProps } from './ColorInput';
 import { useSnackbarContext } from '../context';
+import { ChevronDown, CircleDashed, Copy, Dices } from 'lucide-react';
 
 export type ColorPickerProps = Omit<PaperProps, 'onChange'> &
   Pick<ColorInputProps, 'value' | 'onChange'> & {
@@ -44,7 +44,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
     try {
       await copyToClipboard(colorHex);
       setSnackbar({
-        icon: { name: 'content_copy' },
+        icon: <Copy />,
         message: <>&ldquo;{colorHex}&rdquo; copied to clipboard.</>,
         dismissable: true,
       });
@@ -87,7 +87,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
               borderTopRightRadius: 0,
               borderBottomRightRadius: 0,
             }}
-            endIcon={<Icon style={{ fontSize: 18 }}>keyboard_arrow_down</Icon>}
+            endIcon={<ChevronDown size={18} style={{ marginTop: 1 }} />}
           >
             Hex
           </Button>
@@ -107,28 +107,30 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
           >
             <MenuItem
               sx={{
-                padding: 0,
-                // bgcolor: 'transparent',
+                p: 0,
                 '&:hover': {
                   bgcolor: 'inherit',
                 },
               }}
             >
               <Stack direction="row">
-                <Box sx={{ boxShadow: 'md' }}>
+                <Paper
+                  elevation={4}
+                  sx={{ borderRadius: 2, bgcolor: 'transparent' }}
+                >
                   <HexColorPicker
                     style={{ width: 200 }}
                     color={colorHex}
                     onChange={onChange}
                   />
-                </Box>
+                </Paper>
                 <Stack sx={{ ml: 1, pt: 2 }}>
                   <Tooltip title="Random" placement="right">
-                    <Card sx={{ p: 0, boxShadow: 'md' }}>
+                    <Card elevation={4} sx={{ p: 0 }}>
                       <IconButton
                         onClick={() => onChange(chroma.random().hex())}
                       >
-                        <Icon>ifl</Icon>
+                        <Dices />
                       </IconButton>
                     </Card>
                   </Tooltip>
@@ -151,7 +153,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
               }}
             />
           ) : (
-            <Icon style={{ fontSize: 28 }}>pending</Icon>
+            <CircleDashed size={29} strokeWidth={1.75} />
           )}
         </Box>
         <ColorInput value={value} onChange={onChange} />
@@ -163,7 +165,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
         >
           <Tooltip title="Copy Hex" placement="top">
             <IconButton onClick={() => void copyColorHex()}>
-              <Icon>content_copy</Icon>
+              <Copy />
             </IconButton>
           </Tooltip>
         </Stack>
