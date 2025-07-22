@@ -1,5 +1,4 @@
-import { type Theme } from '@mui/material';
-import { type SxProps } from '@mui/system';
+import { type SxProps, type Theme } from '@mui/material';
 
 // eslint-disable-next-line
 export const passSx = (sx?: SxProps<Theme>): any[] =>

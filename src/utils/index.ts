@@ -3,6 +3,5 @@ export * from './CaseInsensitiveMap';
 
 export * from './color';
 export * from './dom';
-export * from './hooks';
-export * from './joy';
+export * from './mui';
 export * from './stream';

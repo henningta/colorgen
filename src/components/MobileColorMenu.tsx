@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { SnackbarProvider, useAppContext } from '../context';
 import {
   Box,
-  Button,
   Drawer,
   type DrawerProps,
   Fab,
@@ -11,23 +10,26 @@ import {
   Slider,
   Stack,
   styled,
+  ToggleButton,
+  ToggleButtonGroup,
   Tooltip,
   Typography,
 } from '@mui/material';
 import ColorPicker from './ColorPicker';
 import chroma from 'chroma-js';
 import { HexColorPicker } from 'react-colorful';
-import { getColorHex, getContrastColor, useOnClickOutside } from '../utils';
+import { getColorHex, getContrastColor } from '../utils';
 import { ArrowDownToLine, Dices, Palette } from 'lucide-react';
 
 const drawerBleeding = 80;
 
-const ColorOptionButton = styled(Button)(() => ({
+const ColorOptionButton = styled(ToggleButton)(() => ({
   color: 'inherit',
   justifyContent: 'flex-start',
-  borderTopLeftRadius: 0,
-  borderBottomLeftRadius: 0,
-  paddingLeft: '16px',
+  borderRadius: 0,
+  borderTopLeftRadius: '0 !important',
+  borderBottomLeftRadius: '0 !important',
+  paddingLeft: 16,
 }));
 
 type ColorPanelOption = 'hex' | 'rgb' | 'hsl' | 'hsv' | 'cmyk';
@@ -65,12 +67,6 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
     }
   }, [colorHex]);
 
-  useOnClickOutside(drawerRef, (e) => {
-    // TODO: scope this just to the ColorPicker autocomplete
-    if (!(e.target as HTMLElement).className.includes('MuiAutocomplete'))
-      onMobileColorMenuOpenChange(false);
-  });
-
   return (
     <Drawer
       {...props}
@@ -78,9 +74,8 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
       open={mobileColorMenuOpen}
       onClose={() => onMobileColorMenuOpenChange(false)}
       anchor="bottom"
-      // disableScrollLock
+      disableScrollLock
       keepMounted
-      hideBackdrop
       slotProps={{
         paper: {
           elevation: 0,
@@ -91,6 +86,9 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
             pb: 2,
             height: 'auto',
           },
+        },
+        backdrop: {
+          sx: { background: 'none' },
         },
       }}
     >
@@ -156,63 +154,20 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
         </Box>
         <Paper elevation={4} sx={{ py: 2, borderRadius: 3 }}>
           <Stack direction="row">
-            <Stack sx={{ width: 72 }}>
-              <ColorOptionButton
-                onClick={() => setActivePanel('hex')}
-                sx={{
-                  backgroundColor:
-                    activePanel === 'hex'
-                      ? 'var(--joy-palette-neutral-softBg)'
-                      : undefined,
-                }}
-              >
-                Hex
-              </ColorOptionButton>
-              <ColorOptionButton
-                onClick={() => setActivePanel('rgb')}
-                sx={{
-                  backgroundColor:
-                    activePanel === 'rgb'
-                      ? 'var(--joy-palette-neutral-softBg)'
-                      : undefined,
-                }}
-              >
-                RGB
-              </ColorOptionButton>
-              <ColorOptionButton
-                onClick={() => setActivePanel('hsl')}
-                sx={{
-                  backgroundColor:
-                    activePanel === 'hsl'
-                      ? 'var(--joy-palette-neutral-softBg)'
-                      : undefined,
-                }}
-              >
-                HSL
-              </ColorOptionButton>
-              <ColorOptionButton
-                onClick={() => setActivePanel('hsv')}
-                sx={{
-                  backgroundColor:
-                    activePanel === 'hsv'
-                      ? 'var(--joy-palette-neutral-softBg)'
-                      : undefined,
-                }}
-              >
-                HSV
-              </ColorOptionButton>
-              <ColorOptionButton
-                onClick={() => setActivePanel('cmyk')}
-                sx={{
-                  backgroundColor:
-                    activePanel === 'cmyk'
-                      ? 'var(--joy-palette-neutral-softBg)'
-                      : undefined,
-                }}
-              >
-                CMYK
-              </ColorOptionButton>
-            </Stack>
+            <ToggleButtonGroup
+              value={activePanel}
+              onChange={(_, value) => setActivePanel(value as ColorPanelOption)}
+              exclusive
+              orientation="vertical"
+              size="small"
+              sx={{ width: 72 }}
+            >
+              <ColorOptionButton value="hex">Hex</ColorOptionButton>
+              <ColorOptionButton value="rgb">RGB</ColorOptionButton>
+              <ColorOptionButton value="hsl">HSL</ColorOptionButton>
+              <ColorOptionButton value="hsv">HSV</ColorOptionButton>
+              <ColorOptionButton value="cmyk">CMYK</ColorOptionButton>
+            </ToggleButtonGroup>
             <Box sx={{ flex: 1, pl: 2 }}>
               {activePanel === 'hex' ? (
                 <HexColorPicker
@@ -237,14 +192,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
                       }
                       max={255}
                       valueLabelDisplay="auto"
-                      sx={{
-                        py: 1,
-                        '--Slider-trackBackground': 'red',
-
-                        ':hover': {
-                          '--Slider-trackBackground': 'red',
-                        },
-                      }}
+                      sx={{ py: '8px !important' }}
                     />
                   </Stack>
                   <Stack>
@@ -256,14 +204,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
                       }
                       max={255}
                       valueLabelDisplay="auto"
-                      sx={{
-                        py: 1,
-                        '--Slider-trackBackground': 'green',
-
-                        ':hover': {
-                          '--Slider-trackBackground': 'green',
-                        },
-                      }}
+                      sx={{ py: '8px !important' }}
                     />
                   </Stack>
                   <Stack>
@@ -275,14 +216,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
                       }
                       max={255}
                       valueLabelDisplay="auto"
-                      sx={{
-                        py: 1,
-                        '--Slider-trackBackground': 'blue',
-
-                        ':hover': {
-                          '--Slider-trackBackground': 'blue',
-                        },
-                      }}
+                      sx={{ py: '8px !important' }}
                     />
                   </Stack>
                 </Stack>
@@ -297,7 +231,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
                       }
                       max={360}
                       valueLabelDisplay="auto"
-                      sx={{ py: 1 }}
+                      sx={{ py: '8px !important' }}
                     />
                   </Stack>
                   <Stack>
@@ -310,7 +244,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
                       max={1}
                       step={0.01}
                       valueLabelDisplay="auto"
-                      sx={{ py: 1 }}
+                      sx={{ py: '8px !important' }}
                     />
                   </Stack>
                   <Stack>
@@ -323,7 +257,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
                       max={1}
                       step={0.01}
                       valueLabelDisplay="auto"
-                      sx={{ py: 1 }}
+                      sx={{ py: '8px !important' }}
                     />
                   </Stack>
                 </Stack>
@@ -338,7 +272,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
                       }
                       max={360}
                       valueLabelDisplay="auto"
-                      sx={{ py: 1 }}
+                      sx={{ py: '8px !important' }}
                     />
                   </Stack>
                   <Stack>
@@ -351,7 +285,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
                       max={1}
                       step={0.01}
                       valueLabelDisplay="auto"
-                      sx={{ py: 1 }}
+                      sx={{ py: '8px !important' }}
                     />
                   </Stack>
                   <Stack>
@@ -364,7 +298,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
                       max={1}
                       step={0.01}
                       valueLabelDisplay="auto"
-                      sx={{ py: 1 }}
+                      sx={{ py: '8px !important' }}
                     />
                   </Stack>
                 </Stack>
@@ -380,14 +314,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
                       max={1}
                       step={0.05}
                       valueLabelDisplay="auto"
-                      sx={{
-                        py: 1,
-                        '--Slider-trackBackground': 'cyan',
-
-                        ':hover': {
-                          '--Slider-trackBackground': 'cyan',
-                        },
-                      }}
+                      sx={{ py: '8px !important' }}
                     />
                   </Stack>
                   <Stack>
@@ -400,14 +327,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
                       max={1}
                       step={0.05}
                       valueLabelDisplay="auto"
-                      sx={{
-                        py: 1,
-                        '--Slider-trackBackground': 'magenta',
-
-                        ':hover': {
-                          '--Slider-trackBackground': 'magenta',
-                        },
-                      }}
+                      sx={{ py: '8px !important' }}
                     />
                   </Stack>
                   <Stack>
@@ -420,14 +340,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
                       max={1}
                       step={0.05}
                       valueLabelDisplay="auto"
-                      sx={{
-                        py: 1,
-                        '--Slider-trackBackground': 'yellow',
-
-                        ':hover': {
-                          '--Slider-trackBackground': 'yellow',
-                        },
-                      }}
+                      sx={{ py: '8px !important' }}
                     />
                   </Stack>
                   <Stack>
@@ -440,6 +353,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
                       max={1}
                       step={0.05}
                       valueLabelDisplay="auto"
+                      sx={{ py: '8px !important' }}
                     />
                   </Stack>
                 </Stack>

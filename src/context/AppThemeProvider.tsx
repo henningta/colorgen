@@ -175,11 +175,32 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
           },
         },
       },
-      // MuiTypography: {
-      //   defaultProps: {
-      //     component: 'span',
-      //   },
-      // },
+      MuiToggleButton: {
+        styleOverrides: {
+          root: {
+            textTransform: 'none',
+            fontWeight: 600,
+          },
+        },
+      },
+      MuiToggleButtonGroup: {
+        styleOverrides: {
+          grouped: {
+            margin: 0.5,
+            border: 0,
+            borderRadius: 6,
+
+            variants: [
+              {
+                props: { disabled: true },
+                style: {
+                  border: '0 !important',
+                },
+              },
+            ],
+          },
+        },
+      },
     },
   });
 

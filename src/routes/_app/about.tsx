@@ -101,11 +101,11 @@ function About() {
           ]}
         />
         <LibDetails
-          title="Joy UI"
+          title="MUI"
           links={[
             {
               title: 'API Docs',
-              url: 'https://mui.com/joy-ui/getting-started/overview',
+              url: 'https://mui.com/material-ui/getting-started',
             },
             { title: 'GitHub', url: 'https://github.com/mui/material-ui' },
           ]}
