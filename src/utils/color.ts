@@ -1,7 +1,20 @@
-import chroma, { InterpolationMode } from 'chroma-js';
-import colorNameList from 'color-name-list';
+import chroma from 'chroma-js';
+import { colornames } from 'color-name-list';
 import nearestColor from 'nearest-color';
 import CaseInsensitiveMap from './CaseInsensitiveMap';
+
+// chroma-js removed this export? :(
+type InterpolationMode =
+  | 'hcl'
+  | 'hsi'
+  | 'hsl'
+  | 'hsv'
+  | 'lab'
+  | 'lch'
+  | 'lrgb'
+  | 'oklab'
+  | 'oklch'
+  | 'rgb';
 
 const secretColors = [
   { name: 'Amanda', hex: '#b76e79' },
@@ -17,7 +30,7 @@ export const getContrastColor = (
   }
 
   const contrastWhite = chroma.contrast(bgColor, 'white');
-  if (contrastWhite >= 3) {
+  if (contrastWhite >= 3.5) {
     return 'common.white';
   }
 
@@ -26,7 +39,7 @@ export const getContrastColor = (
 };
 
 export const colorMap = (() =>
-  colorNameList.reduce(
+  colornames.reduce(
     (acc, x) => acc.set(x.name, x.hex),
     new CaseInsensitiveMap<string, string>(),
   ))();
@@ -45,10 +58,7 @@ export const getColorHex = (color: string) => {
     return secret.hex;
   }
 
-  return (
-    (chroma.valid(color) ? chroma(color).hex() : colorMap.get(color)) ||
-    undefined
-  );
+  return chroma.valid(color) ? chroma(color).hex() : colorMap.get(color);
 };
 
 export const getColorName = (() => {
@@ -73,7 +83,7 @@ export const getColorName = (() => {
           .join(' ');
       }
       return name;
-    } catch (e) {
+    } catch {
       return 'RGBA not yet supported';
     }
   };
@@ -100,36 +110,3 @@ export const getShades = (
     id: x,
     color: chroma.mix(colorHex, blackPoint, (x + 1) / amount, mode),
   }));
-
-export const stripColorName = (color: string, toLower = true) => {
-  if (!color?.length) {
-    return undefined;
-  }
-  const stripped = color.replace(/\W/g, '');
-  return toLower ? stripped.toLocaleLowerCase() : stripped;
-};
-
-// export const generateHexImage = async (
-//   hex: string,
-//   width = 80,
-//   height = 80
-// ) => {
-//   if (!chroma.valid(hex)) {
-//     return undefined;
-//   }
-
-//   hex = chroma(hex).hex();
-
-//   // const canvas = createCanvas(width, height);
-//   const canvas = document.createElement('canvas');
-//   const context = canvas.getContext('2d');
-//   if (!context) {
-//     return undefined;
-//   }
-
-//   context.fillStyle = hex;
-//   context.fillRect(0, 0, width, height);
-
-//   // const buffer = canvas.toBuffer('image/png');
-//   // await fs.promises.writeFile(`./preview/${hex.substring(1)}.png`, buffer);
-// };

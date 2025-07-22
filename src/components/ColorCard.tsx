@@ -1,20 +1,20 @@
 import {
-  Dropdown,
   IconButton,
   Menu,
-  MenuButton,
   MenuItem,
+  Paper,
+  type PaperProps,
   Stack,
   Typography,
-} from '@mui/joy';
-import Card, { CardProps } from '@mui/joy/Card';
-import React from 'react';
-import { useColorContext, useSnackbarContext } from '../context';
+} from '@mui/material';
+import React, { useState } from 'react';
+import { useSnackbarContext } from '../context';
 import { copyToClipboard, getContrastColor } from '../utils';
 import Icon from './Icon';
 
-export type ColorCardProps = CardProps & {
+export type ColorCardProps = PaperProps & {
   colorHex: string;
+  onSetAsSelected: (colorHex: string) => void;
   width?: number | string;
   height?: number | string;
   displayHex?: boolean;
@@ -22,13 +22,15 @@ export type ColorCardProps = CardProps & {
 
 const ColorCard: React.FC<ColorCardProps> = ({
   colorHex,
-  width,
-  height,
-  displayHex,
+  onSetAsSelected,
+  width = '100%',
+  height = '100%',
+  displayHex = true,
   ...props
 }) => {
-  const { setColor } = useColorContext();
   const { setSnackbar } = useSnackbarContext();
+
+  const [menuAnchor, setMenuAnchor] = useState<HTMLElement>();
 
   const contrastText = getContrastColor(colorHex);
 
@@ -46,9 +48,8 @@ const ColorCard: React.FC<ColorCardProps> = ({
   };
 
   return (
-    <Card
+    <Paper
       {...props}
-      variant="plain"
       sx={{
         display: 'flex',
         justifyContent: 'center',
@@ -97,53 +98,51 @@ const ColorCard: React.FC<ColorCardProps> = ({
         }}
       >
         <IconButton
-          size="sm"
+          size="small"
           onClick={() => void copyHexToClipboard()}
           sx={{ '&:hover': { bgcolor: 'transparent' } }}
         >
           <Icon sx={{ color: contrastText }}>content_copy</Icon>
         </IconButton>
-        <Dropdown>
-          <MenuButton
-            slots={{ root: IconButton }}
-            slotProps={{
-              root: {
-                variant: 'plain',
-                size: 'sm',
-                sx: {
-                  '&:hover': { bgcolor: 'transparent' },
-                },
-              },
-            }}
-          >
-            <Icon sx={{ color: contrastText }}>more_vert</Icon>
-          </MenuButton>
-          <Menu id="color-card-menu" size="sm" placement="bottom-end">
-            <MenuItem onClick={() => void copyHexToClipboard()}>
-              Copy Hex
-            </MenuItem>
-            <MenuItem onClick={() => setColor(colorHex)}>
-              Set as Selected Color
-            </MenuItem>
-          </Menu>
-        </Dropdown>
+        <IconButton
+          // slots={{ root: IconButton }}
+          // slotProps={{
+          //   root: {
+          //     variant: 'plain',
+          //     size: 'sm',
+          //     sx: {
+          //       '&:hover': { bgcolor: 'transparent' },
+          //     },
+          //   },
+          // }}
+          onClick={(e) => setMenuAnchor(e.currentTarget)}
+        >
+          <Icon sx={{ color: contrastText }}>more_vert</Icon>
+        </IconButton>
+        <Menu
+          id="color-card-menu"
+          anchorEl={menuAnchor}
+          open={!!menuAnchor}
+          onClose={() => setMenuAnchor(undefined)}
+        >
+          <MenuItem onClick={() => void copyHexToClipboard()}>
+            Copy Hex
+          </MenuItem>
+          <MenuItem onClick={() => onSetAsSelected(colorHex)}>
+            Set as Selected Color
+          </MenuItem>
+        </Menu>
       </Stack>
       {displayHex && (
         <Typography
-          textColor={contrastText}
+          color={contrastText}
           sx={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
         >
           {colorHex}
         </Typography>
       )}
-    </Card>
+    </Paper>
   );
-};
-
-ColorCard.defaultProps = {
-  width: '100%',
-  height: '100%',
-  displayHex: true,
 };
 
 export default ColorCard;

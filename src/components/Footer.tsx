@@ -1,17 +1,19 @@
-import { Box, Container, SheetProps, Typography } from '@mui/joy';
+import { Box, type BoxProps, Container, Typography } from '@mui/material';
 import React from 'react';
 import { passSx } from '../utils';
 import Icon from './Icon';
 import { RouterButton } from './RouterLink';
-import { useAppContext } from '@/context';
+import { useAppContext } from '../context';
+import { useLocation } from '@tanstack/react-router';
 
-export type FooterProps = SheetProps;
+export type FooterProps = BoxProps;
 
 const Footer: React.FC<FooterProps> = ({ sx, ...props }) => {
-  const { nav, isMobile } = useAppContext();
+  const location = useLocation();
 
-  const hasColorMenu =
-    isMobile && !nav.includes('home') && !nav.includes('about');
+  const { isMobile } = useAppContext();
+
+  const hasColorMenu = isMobile && location.pathname.startsWith('/color');
 
   return (
     <Box
@@ -57,7 +59,9 @@ const Footer: React.FC<FooterProps> = ({ sx, ...props }) => {
               favorite
             </Icon>
           </Box>
-          <RouterButton href="/about">About</RouterButton>
+          <RouterButton to="/about" variant="contained">
+            About
+          </RouterButton>
         </Container>
       </Box>
     </Box>

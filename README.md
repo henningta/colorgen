@@ -6,11 +6,11 @@ Colorgen.io is a color visualizer and palette generation tool that aims to fill 
 
 ## Installation
 
-You can build and run the app locally using yarn:
+You can build and run the app locally using pnpm:
 
 ```sh
 git clone https://github.com/henningta/colorgen.git
 
-yarn install
-yarn start
+pnpm install
+pnpm dev
 ```

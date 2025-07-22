@@ -1,7 +1,6 @@
-.cache/
 .husky/_
-.next/
 node_modules/
 public/
 
-yarn.lock
+pnpm-lock.yaml
+routeTree.gen.ts

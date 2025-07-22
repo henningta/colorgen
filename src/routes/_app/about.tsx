@@ -1,7 +1,28 @@
-import { Box, BoxProps, Link, Stack, Typography } from '@mui/joy';
-import React, { useEffect } from 'react';
-import { Page, PageProps } from '../components';
-import { useAppContext } from '../context';
+import { Box, type BoxProps, Link, Stack, Typography } from '@mui/material';
+import React from 'react';
+import { Page } from '../../components';
+import { createFileRoute } from '@tanstack/react-router';
+
+const url = 'https://www.colorgen.io';
+
+const description =
+  'Our goal is to provide designers and developers with the options and flexibility needed to create any color palette imaginable.';
+
+export const Route = createFileRoute('/_app/about')({
+  component: About,
+  head: ({ match }) => ({
+    meta: [
+      { title: 'About · colorgen.io' },
+      { name: 'description', content: description },
+
+      // og
+      { property: 'og:title', content: 'colorgen.io' },
+      { property: 'og:description', content: description },
+      { property: 'og:url', content: `${url}${match.pathname}` },
+    ],
+    links: [{ rel: 'canonical', href: `${url}${match.pathname}` }],
+  }),
+});
 
 export type LibDetailsProps = BoxProps & {
   title: string;
@@ -10,7 +31,7 @@ export type LibDetailsProps = BoxProps & {
 
 const LibDetails: React.FC<LibDetailsProps> = ({ title, links }) => (
   <Box sx={{ mt: 4, overflow: 'hidden' }}>
-    <Typography level="title-lg" sx={{ mb: 1 }}>
+    <Typography variant="h3" sx={{ mb: 1 }}>
       {title}
     </Typography>
     {links?.map((link) => (
@@ -21,30 +42,18 @@ const LibDetails: React.FC<LibDetailsProps> = ({ title, links }) => (
           target="_blank"
           sx={{ whiteSpace: 'nowrap', overflow: 'hidden' }}
         >
-          <Typography component="a">{link.url}</Typography>
+          {link.url}
         </Link>
       </Typography>
     ))}
   </Box>
 );
 
-const About: React.FC<PageProps> = ({ ...props }) => {
-  const { setNav } = useAppContext();
-
-  useEffect(() => {
-    setNav(['about']);
-  }, [setNav]);
-
+function About() {
   return (
-    <Page
-      {...props}
-      title="About"
-      description="Our goal is to provide designers and developers with the options and
-    flexibility needed to create any color palette imaginable."
-      sx={{ py: 4 }}
-    >
+    <Page sx={{ py: 4 }}>
       <Box>
-        <Typography level="h2">Why colorgen.io?</Typography>
+        <Typography variant="h2">Why colorgen.io?</Typography>
         <Box sx={{ mt: 4 }}>
           <Typography sx={{ mt: 3 }}>
             This app was created to fill the gaps seen in other color palette
@@ -61,7 +70,7 @@ const About: React.FC<PageProps> = ({ ...props }) => {
         </Box>
       </Box>
       <Box sx={{ mt: 8 }}>
-        <Typography level="h2">Contributors:</Typography>
+        <Typography variant="h2">Contributors:</Typography>
         <Stack sx={{ mt: 4 }}>
           <Typography>Travis Henning - owner/developer</Typography>
           <Typography sx={{ mt: 2 }}>Ryan Meloy - designer</Typography>
@@ -77,7 +86,7 @@ const About: React.FC<PageProps> = ({ ...props }) => {
         </Stack>
       </Box>
       <Box sx={{ mt: 8 }}>
-        <Typography level="h2">Awesome libraries we used:</Typography>
+        <Typography variant="h2">Awesome libraries we used:</Typography>
         <LibDetails
           title="chroma.js"
           links={[
@@ -102,21 +111,11 @@ const About: React.FC<PageProps> = ({ ...props }) => {
           ]}
         />
         <LibDetails
-          title="Next.js"
-          links={[
-            {
-              title: 'API Docs',
-              url: 'https://nextjs.org/docs/getting-started',
-            },
-            { title: 'GitHub', url: 'https://github.com/vercel/next.js' },
-          ]}
-        />
-        <LibDetails
           title="React"
           links={[
             {
               title: 'API Docs',
-              url: 'https://reactjs.org',
+              url: 'https://react.dev',
             },
             { title: 'GitHub', url: 'https://github.com/facebook/react' },
           ]}
@@ -134,9 +133,29 @@ const About: React.FC<PageProps> = ({ ...props }) => {
             },
           ]}
         />
+        <LibDetails
+          title="Tanstack Start"
+          links={[
+            {
+              title: 'API Docs',
+              url: 'https://tanstack.com/start/latest',
+            },
+            { title: 'GitHub', url: 'https://github.com/tanstack/router' },
+          ]}
+        />
+        <LibDetails
+          title="Vite"
+          links={[
+            {
+              title: 'API Docs',
+              url: 'https://vite.dev/',
+            },
+            { title: 'GitHub', url: 'https://github.com/vitejs/vite' },
+          ]}
+        />
       </Box>
     </Page>
   );
-};
+}
 
 export default About;

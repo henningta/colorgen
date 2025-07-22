@@ -1,17 +1,24 @@
-import { Stack } from '@mui/joy';
-import React from 'react';
-import { getShades, getTints } from '../utils';
+import { Stack } from '@mui/material';
+import React, { memo, useMemo } from 'react';
+import { getColorName, getShades, getTints } from '../utils';
 import ColorPalette from './ColorPalette';
 import PageSection from './PageSection';
 
 export type TintsShadesProps = {
   colorHex: string;
-  colorName: string;
+  onColorSelected: (color: string) => void;
 };
 
-const TintsShades: React.FC<TintsShadesProps> = ({ colorHex, colorName }) => {
-  const tints = getTints(colorHex, undefined, 10);
-  const shades = getShades(colorHex, undefined, 10);
+const TintsShades: React.FC<TintsShadesProps> = ({
+  colorHex,
+  onColorSelected,
+}) => {
+  const colorName = useMemo(() => getColorName(colorHex), [colorHex]);
+  const tints = useMemo(
+    () => getTints(colorHex, undefined, 10).reverse(),
+    [colorHex],
+  );
+  const shades = useMemo(() => getShades(colorHex, undefined, 10), [colorHex]);
 
   return (
     <PageSection
@@ -22,17 +29,18 @@ const TintsShades: React.FC<TintsShadesProps> = ({ colorHex, colorName }) => {
     >
       <Stack sx={{ flex: 1 }}>
         <ColorPalette
+          colors={tints}
+          onColorSelected={onColorSelected}
           title="Tints"
           subtitle={`Mixing ${colorName} with white`}
-          colors={tints}
           fullWidth
-          reverse
           sx={{ pt: 6, flex: 1 }}
         />
         <ColorPalette
+          colors={shades}
+          onColorSelected={onColorSelected}
           title="Shades"
           subtitle={`Mixing ${colorName} with black`}
-          colors={shades}
           fullWidth
           sx={{ pt: 6, flex: 1 }}
         />
@@ -41,4 +49,4 @@ const TintsShades: React.FC<TintsShadesProps> = ({ colorHex, colorName }) => {
   );
 };
 
-export default TintsShades;
+export default memo(TintsShades);

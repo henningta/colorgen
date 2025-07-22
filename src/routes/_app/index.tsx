@@ -1,16 +1,32 @@
-import { Box, ButtonProps, Container, Stack, Typography } from '@mui/joy';
-import chroma from 'chroma-js';
-import React, { useEffect } from 'react';
 import {
-  ColorPicker,
-  Icon,
-  Page,
-  PageProps,
-  RouterButton,
-} from '../components';
-import { useAppContext, useColorContext } from '../context';
-import { passSx } from '../utils';
-import nprogress from 'nprogress';
+  Box,
+  type ButtonProps,
+  Container,
+  Stack,
+  Typography,
+} from '@mui/material';
+import chroma from 'chroma-js';
+import React from 'react';
+import { ColorPicker, Icon, Page, RouterButton } from '../../components';
+import {
+  ColorStoreProvider,
+  useAppContext,
+  useColorStore,
+} from '../../context';
+import { passSx } from '../../utils';
+import { createFileRoute } from '@tanstack/react-router';
+import { useShallow } from 'zustand/shallow';
+
+const url = 'https://www.colorgen.io';
+
+export const Route = createFileRoute('/_app/')({
+  component: IndexWrapper,
+  loader: () => chroma.random().hex(),
+  head: ({ match }) => ({
+    meta: [{ property: 'og:url', content: `${url}${match.pathname}` }],
+    links: [{ rel: 'canonical', href: `${url}${match.pathname}` }],
+  }),
+});
 
 type ColorButtonProps = Pick<ButtonProps, 'sx'> & {
   colorHex: string;
@@ -25,9 +41,8 @@ const ColorButton: React.FC<ColorButtonProps> = ({
   sx,
 }) => (
   <RouterButton
-    href={`/color/${colorHex.substring(1)}`}
-    onClick={() => nprogress.start()}
-    variant="plain"
+    to="/color/$hex"
+    params={{ hex: colorHex.substring(1) }}
     sx={[
       (theme) => ({
         whiteSpace: 'nowrap',
@@ -44,33 +59,40 @@ const ColorButton: React.FC<ColorButtonProps> = ({
       }),
       ...passSx(sx),
     ]}
-    endDecorator={<Icon sx={{ color: 'inherit' }}>arrow_forward</Icon>}
+    endIcon={<Icon sx={{ color: 'inherit' }}>arrow_forward</Icon>}
   >
     See color info for &ldquo;{colorName}&rdquo;
   </RouterButton>
 );
 
-const HomePage: React.FC<PageProps> = ({ ...props }) => {
-  const { isMobile } = useAppContext();
-  const { color, setColor, colorName, colorHex, contrastText } =
-    useColorContext();
-
-  const { setNav } = useAppContext();
-
-  useEffect(() => {
-    setNav(['home']);
-  }, [setNav]);
-
-  useEffect(() => {
-    setColor(chroma.random().hex());
-  }, [setColor]);
+function IndexWrapper() {
+  const serverHex = Route.useLoaderData();
 
   return (
-    <Page {...props} sx={{ p: '0 !important' }} maxWidth={false}>
+    <ColorStoreProvider initialColor={serverHex}>
+      <Index />
+    </ColorStoreProvider>
+  );
+}
+
+function Index() {
+  const { isMobile } = useAppContext();
+  const { color, setColor, colorName, colorHex, contrastText } = useColorStore(
+    useShallow((state) => ({
+      color: state.color,
+      setColor: state.setColor,
+      colorName: state.colorName,
+      colorHex: state.colorHex,
+      contrastText: state.contrastText,
+    })),
+  );
+
+  return (
+    <Page sx={{ p: '0 !important' }} maxWidth={false}>
       <Box style={{ height: '100%', backgroundColor: colorHex }}>
         <Stack
           sx={(theme) => ({
-            minHeight: 'calc(100vh - 64px)',
+            minHeight: 'calc(100vh - 56px)',
             py: 4,
             px: 0,
 
@@ -86,20 +108,16 @@ const HomePage: React.FC<PageProps> = ({ ...props }) => {
           })}
         >
           <Container maxWidth="sm" sx={{ m: 0 }}>
-            <Typography level="display1" textColor={contrastText}>
+            <Typography variant="display1" color={contrastText}>
               Welcome
             </Typography>
             <Stack sx={{ mt: 4 }}>
-              <Typography fontWeight={300} textColor={contrastText}>
+              <Typography fontWeight={300} color={contrastText}>
                 Welcome to colorgen.io. This tool was created to help designers
                 and developers find just the right color palette they need to
                 beautifully brand their next app.
               </Typography>
-              <Typography
-                sx={{ mt: 4 }}
-                fontWeight={300}
-                textColor={contrastText}
-              >
+              <Typography fontWeight={300} color={contrastText} sx={{ mt: 4 }}>
                 This app is a work-in-progress, so stay tuned for more changes
                 and features coming soon.
               </Typography>
@@ -149,6 +167,4 @@ const HomePage: React.FC<PageProps> = ({ ...props }) => {
       </Box>
     </Page>
   );
-};
-
-export default HomePage;
+}

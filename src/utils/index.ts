@@ -5,3 +5,4 @@ export * from './color';
 export * from './dom';
 export * from './hooks';
 export * from './joy';
+export * from './stream';

@@ -1,4 +1,4 @@
-import { Box, BoxProps, Container, Typography } from '@mui/joy';
+import { Box, type BoxProps, Container, Typography } from '@mui/material';
 import React from 'react';
 import { passSx } from '../utils';
 
@@ -24,15 +24,11 @@ const PageSection: React.FC<PageSectionProps> = ({
     >
       <Container maxWidth={false}>
         {title && (
-          <Typography level="h1" fontWeight={600}>
+          <Typography variant="h3" fontWeight={600}>
             {title}
           </Typography>
         )}
-        {subtitle && (
-          <Typography level="title-md" sx={{ mt: 1 }}>
-            {subtitle}
-          </Typography>
-        )}
+        {subtitle && <Typography sx={{ mt: 1 }}>{subtitle}</Typography>}
       </Container>
       {children}
     </Box>

@@ -1,20 +1,41 @@
-import React from 'react';
-import NextLink from 'next/link';
-import {
-  Button,
-  ButtonProps,
-  Link as JoyLink,
-  LinkProps as JoyLinkProps,
-} from '@mui/joy';
+import { forwardRef } from 'react';
+import { createLink } from '@tanstack/react-router';
+import { Button, type ButtonProps, Link, type LinkProps } from '@mui/material';
+import type { LinkComponent } from '@tanstack/react-router';
 
-// https://gist.github.com/kachar/028b6994eb6b160e2475c1bb03e33e6a
+// RouterLink
+type MuiLinkProps = LinkProps & {
+  // additional link props
+};
 
-const RouterLink = (props: JoyLinkProps<'a'>) => (
-  <JoyLink component={NextLink} {...props} />
+const MuiLinkComponent = forwardRef<HTMLAnchorElement, MuiLinkProps>(
+  function MuiLinkComponent(props, ref) {
+    return <Link ref={ref} {...props} />;
+  },
 );
 
-export const RouterButton = (props: ButtonProps<'a'>) => (
-  <Button component={NextLink} {...props} />
+const CreatedLinkComponent = createLink(MuiLinkComponent);
+
+const RouterLink: LinkComponent<typeof MuiLinkComponent> = (props) => (
+  <CreatedLinkComponent preload="intent" {...props} />
 );
 
 export default RouterLink;
+
+// RouterButton
+type MuiButtonLinkProps = ButtonProps<'a'> & {
+  // additional button props
+};
+
+const MuiButtonLinkComponent = forwardRef<
+  HTMLAnchorElement,
+  MuiButtonLinkProps
+>(function MuiButtonLinkComponent(props, ref) {
+  return <Button ref={ref} component="a" {...props} />;
+});
+
+const CreatedButtonLinkComponent = createLink(MuiButtonLinkComponent);
+
+export const RouterButton: LinkComponent<typeof MuiButtonLinkComponent> = (
+  props,
+) => <CreatedButtonLinkComponent preload="intent" {...props} />;
