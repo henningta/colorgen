@@ -26,13 +26,14 @@
     "prepare": "husky",
     "build": "tsc && vite build",
     "dev": "vite dev",
+    "preview": "node .amplify-hosting/compute/default/server.js",
     "format": "prettier --write \"**/*.{css,js,jsx,md,ts,tsx}\"",
     "lint": "eslint src/** --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@mui/joy": "5.0.0-beta.52",
+    "@mui/material": "^7.2.0",
     "@tanstack/react-router": "^1.129.2",
     "@tanstack/react-router-devtools": "^1.129.2",
     "@tanstack/react-start": "^1.129.2",

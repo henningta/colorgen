@@ -1,4 +1,4 @@
-import { Box, Container, type SheetProps, Typography } from '@mui/joy';
+import { Box, type BoxProps, Container, Typography } from '@mui/material';
 import React from 'react';
 import { passSx } from '../utils';
 import Icon from './Icon';
@@ -6,7 +6,7 @@ import { RouterButton } from './RouterLink';
 import { useAppContext } from '../context';
 import { useLocation } from '@tanstack/react-router';
 
-export type FooterProps = SheetProps;
+export type FooterProps = BoxProps;
 
 const Footer: React.FC<FooterProps> = ({ sx, ...props }) => {
   const location = useLocation();
@@ -59,7 +59,9 @@ const Footer: React.FC<FooterProps> = ({ sx, ...props }) => {
               favorite
             </Icon>
           </Box>
-          <RouterButton to="/about">About</RouterButton>
+          <RouterButton to="/about" variant="contained">
+            About
+          </RouterButton>
         </Container>
       </Box>
     </Box>

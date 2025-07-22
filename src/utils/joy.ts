@@ -1,4 +1,4 @@
-import { type Theme } from '@mui/joy';
+import { type Theme } from '@mui/material';
 import { type SxProps } from '@mui/system';
 
 // eslint-disable-next-line

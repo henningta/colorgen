@@ -1,6 +1,6 @@
 import React from 'react';
-import { Container, Stack, type StackProps, Typography } from '@mui/joy';
-import { Grid } from '@mui/joy';
+import { Container, Stack, type StackProps, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 import chroma from 'chroma-js';
 import ColorCard from './ColorCard';
 
@@ -29,17 +29,17 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({
       maxWidth={false}
       sx={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
     >
-      <Typography level="h2" fontWeight={500}>
+      <Typography variant="h2" fontWeight={500}>
         {title}
       </Typography>
-      <Typography level="title-md" sx={{ mt: 1 }}>
+      <Typography variant="subtitle1" sx={{ mt: 1 }}>
         {subtitle}
       </Typography>
     </Container>
     {fullWidth ? (
       <Grid container sx={{ flex: 1, mt: 2 }}>
         {colors.map((x) => (
-          <Grid key={x.id} xs={3} sm={3} md>
+          <Grid key={x.id} size={{ xs: 3, sm: 3, md: 'grow' }}>
             <ColorCard
               colorHex={x.color.hex()}
               onSetAsSelected={onColorSelected}

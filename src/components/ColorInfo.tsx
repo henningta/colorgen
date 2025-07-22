@@ -4,7 +4,7 @@ import {
   Stack,
   Typography,
   type TypographyProps,
-} from '@mui/joy';
+} from '@mui/material';
 import React, { useMemo } from 'react';
 import { getColorName, getContrastColor, passSx } from '../utils';
 import pant from 'nearest-pantone';
@@ -68,44 +68,41 @@ const ColorInfo: React.FC<ColorInfoProps> = ({ colorHex, style, ...props }) => {
       >
         <Box>
           <Typography
-            level="body-lg"
+            // variant=""
             fontWeight={600}
             sx={{ opacity: 0.75 }}
-            textColor={contrastText}
+            color={contrastText}
           >
             {colorHex}
           </Typography>
           <Typography
-            level="display1"
-            textColor={contrastText}
+            variant="display1"
+            color={contrastText}
             sx={{ wordWrap: 'break-word', hyphens: 'auto' }}
           >
             {colorName}
           </Typography>
         </Box>
         <Stack sx={(theme) => ({ [theme.breakpoints.down('md')]: { mb: 20 } })}>
-          <ColorInfoPart label="Hex" textColor={contrastText}>
+          <ColorInfoPart label="Hex" color={contrastText}>
             {colorHex}
           </ColorInfoPart>
-          <ColorInfoPart label="RGB" textColor={contrastText}>
+          <ColorInfoPart label="RGB" color={contrastText}>
             {rgb[0]}, {rgb[1]}, {rgb[2]}
           </ColorInfoPart>
-          <ColorInfoPart label="HSL" textColor={contrastText}>
+          <ColorInfoPart label="HSL" color={contrastText}>
             {hsl[0].toFixed(0)}°, {(hsl[1] * 100).toFixed(1)},{' '}
             {(hsl[2] * 100).toFixed(1)}
           </ColorInfoPart>
-          <ColorInfoPart label="CMYK" textColor={contrastText}>
+          <ColorInfoPart label="CMYK" color={contrastText}>
             {(cmyk[0] * 100).toFixed(0)}, {(cmyk[1] * 100).toFixed(0)},{' '}
             {(cmyk[2] * 100).toFixed(0)}, {(cmyk[3] * 100).toFixed(0)}
           </ColorInfoPart>
-          <ColorInfoPart label="Closest Pantone" textColor={contrastText}>
+          <ColorInfoPart label="Closest Pantone" color={contrastText}>
             {nearestPantone ? (
               <>
-                <Typography>{nearestPantone.pantone}</Typography>,{' '}
-                <Typography sx={{ textTransform: 'capitalize' }}>
-                  {nearestPantone.name.split('-').join(' ')}
-                </Typography>
-                , <Typography>{nearestPantone.hex}</Typography>
+                {nearestPantone.pantone},{' '}
+                {nearestPantone.name.split('-').join(' ')}, {nearestPantone.hex}
               </>
             ) : (
               'unknown'

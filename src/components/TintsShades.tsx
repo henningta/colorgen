@@ -1,4 +1,4 @@
-import { Stack } from '@mui/joy';
+import { Stack } from '@mui/material';
 import React, { memo, useMemo } from 'react';
 import { getColorName, getShades, getTints } from '../utils';
 import ColorPalette from './ColorPalette';

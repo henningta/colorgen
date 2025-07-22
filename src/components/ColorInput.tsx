@@ -1,7 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Autocomplete } from '@mui/joy';
+import {
+  Autocomplete,
+  autocompleteClasses,
+  Popper,
+  styled,
+  TextField,
+} from '@mui/material';
 import { colornames } from 'color-name-list';
 import ListboxComponent from './VirtualListAdapter';
+
+const StyledPopper = styled(Popper)({
+  [`& .${autocompleteClasses.listbox}`]: {
+    boxSizing: 'border-box',
+    '& ul': {
+      padding: 0,
+      margin: 0,
+    },
+  },
+});
 
 export type ColorInputProps = {
   value: string;
@@ -22,15 +38,29 @@ const ColorInput: React.FC<ColorInputProps> = ({ value, onChange }) => {
       options={colornames.map((x) => x.name)}
       value={selected}
       onChange={(_, selected) => setSelected(selected)}
-      placeholder="Search by name, hex, rgb…"
       inputValue={value}
       onInputChange={(_, value) => onChange(value)}
       freeSolo
       selectOnFocus
+      disableListWrap
       slots={{
-        listbox: ListboxComponent,
+        popper: StyledPopper,
       }}
-      renderOption={(props, option) => [props, option] as React.ReactNode}
+      slotProps={{
+        listbox: {
+          component: ListboxComponent,
+        },
+      }}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          size="small"
+          placeholder="Search by name, hex, rgb…"
+        />
+      )}
+      renderOption={(props, option, state) =>
+        [props, option, state.index] as React.ReactNode
+      }
       renderGroup={(params) => params as unknown as React.ReactNode}
       sx={(theme) => ({
         width: 0,

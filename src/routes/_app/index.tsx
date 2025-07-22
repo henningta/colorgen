@@ -1,4 +1,10 @@
-import { Box, type ButtonProps, Container, Stack, Typography } from '@mui/joy';
+import {
+  Box,
+  type ButtonProps,
+  Container,
+  Stack,
+  Typography,
+} from '@mui/material';
 import chroma from 'chroma-js';
 import React from 'react';
 import { ColorPicker, Icon, Page, RouterButton } from '../../components';
@@ -37,7 +43,6 @@ const ColorButton: React.FC<ColorButtonProps> = ({
   <RouterButton
     to="/color/$hex"
     params={{ hex: colorHex.substring(1) }}
-    variant="plain"
     sx={[
       (theme) => ({
         whiteSpace: 'nowrap',
@@ -54,7 +59,7 @@ const ColorButton: React.FC<ColorButtonProps> = ({
       }),
       ...passSx(sx),
     ]}
-    endDecorator={<Icon sx={{ color: 'inherit' }}>arrow_forward</Icon>}
+    endIcon={<Icon sx={{ color: 'inherit' }}>arrow_forward</Icon>}
   >
     See color info for &ldquo;{colorName}&rdquo;
   </RouterButton>
@@ -103,20 +108,16 @@ function Index() {
           })}
         >
           <Container maxWidth="sm" sx={{ m: 0 }}>
-            <Typography level="display1" textColor={contrastText}>
+            <Typography variant="display1" color={contrastText}>
               Welcome
             </Typography>
             <Stack sx={{ mt: 4 }}>
-              <Typography fontWeight={300} textColor={contrastText}>
+              <Typography fontWeight={300} color={contrastText}>
                 Welcome to colorgen.io. This tool was created to help designers
                 and developers find just the right color palette they need to
                 beautifully brand their next app.
               </Typography>
-              <Typography
-                sx={{ mt: 4 }}
-                fontWeight={300}
-                textColor={contrastText}
-              >
+              <Typography fontWeight={300} color={contrastText} sx={{ mt: 4 }}>
                 This app is a work-in-progress, so stay tuned for more changes
                 and features coming soon.
               </Typography>

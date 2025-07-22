@@ -1,41 +1,41 @@
 import { forwardRef } from 'react';
 import { createLink } from '@tanstack/react-router';
-import { Button, type ButtonProps, Link, type LinkProps } from '@mui/joy';
+import { Button, type ButtonProps, Link, type LinkProps } from '@mui/material';
 import type { LinkComponent } from '@tanstack/react-router';
 
 // RouterLink
-type JoyLinkProps = LinkProps & {
+type MuiLinkProps = LinkProps & {
   // additional link props
 };
 
-const JoyLinkComponent = forwardRef<HTMLAnchorElement, JoyLinkProps>(
-  (props, ref) => <Link ref={ref} {...props} />,
+const MuiLinkComponent = forwardRef<HTMLAnchorElement, MuiLinkProps>(
+  function MuiLinkComponent(props, ref) {
+    return <Link ref={ref} {...props} />;
+  },
 );
 
-JoyLinkComponent.displayName = 'MUILinkComponent';
+const CreatedLinkComponent = createLink(MuiLinkComponent);
 
-const CreatedLinkComponent = createLink(JoyLinkComponent);
-
-const RouterLink: LinkComponent<typeof JoyLinkComponent> = (props) => (
+const RouterLink: LinkComponent<typeof MuiLinkComponent> = (props) => (
   <CreatedLinkComponent preload="intent" {...props} />
 );
 
 export default RouterLink;
 
 // RouterButton
-type JoyButtonLinkProps = ButtonProps<'a'> & {
+type MuiButtonLinkProps = ButtonProps<'a'> & {
   // additional button props
 };
 
-const JoyButtonLinkComponent = forwardRef<
+const MuiButtonLinkComponent = forwardRef<
   HTMLAnchorElement,
-  JoyButtonLinkProps
->((props, ref) => <Button ref={ref} component="a" {...props} />);
+  MuiButtonLinkProps
+>(function MuiButtonLinkComponent(props, ref) {
+  return <Button ref={ref} component="a" {...props} />;
+});
 
-JoyButtonLinkComponent.displayName = 'JoyButtonLinkComponent';
+const CreatedButtonLinkComponent = createLink(MuiButtonLinkComponent);
 
-const CreatedButtonLinkComponent = createLink(JoyButtonLinkComponent);
-
-export const RouterButton: LinkComponent<typeof JoyButtonLinkComponent> = (
+export const RouterButton: LinkComponent<typeof MuiButtonLinkComponent> = (
   props,
 ) => <CreatedButtonLinkComponent preload="intent" {...props} />;
