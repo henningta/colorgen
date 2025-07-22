@@ -1,4 +1,4 @@
-import { Box, type BoxProps, Link, Stack, Typography } from '@mui/joy';
+import { Box, type BoxProps, Link, Stack, Typography } from '@mui/material';
 import React from 'react';
 import { Page } from '../../components';
 import { createFileRoute } from '@tanstack/react-router';
@@ -31,7 +31,7 @@ export type LibDetailsProps = BoxProps & {
 
 const LibDetails: React.FC<LibDetailsProps> = ({ title, links }) => (
   <Box sx={{ mt: 4, overflow: 'hidden' }}>
-    <Typography level="title-lg" sx={{ mb: 1 }}>
+    <Typography variant="h3" sx={{ mb: 1 }}>
       {title}
     </Typography>
     {links?.map((link) => (
@@ -53,7 +53,7 @@ function About() {
   return (
     <Page sx={{ py: 4 }}>
       <Box>
-        <Typography level="h2">Why colorgen.io?</Typography>
+        <Typography variant="h2">Why colorgen.io?</Typography>
         <Box sx={{ mt: 4 }}>
           <Typography sx={{ mt: 3 }}>
             This app was created to fill the gaps seen in other color palette
@@ -70,7 +70,7 @@ function About() {
         </Box>
       </Box>
       <Box sx={{ mt: 8 }}>
-        <Typography level="h2">Contributors:</Typography>
+        <Typography variant="h2">Contributors:</Typography>
         <Stack sx={{ mt: 4 }}>
           <Typography>Travis Henning - owner/developer</Typography>
           <Typography sx={{ mt: 2 }}>Ryan Meloy - designer</Typography>
@@ -86,7 +86,7 @@ function About() {
         </Stack>
       </Box>
       <Box sx={{ mt: 8 }}>
-        <Typography level="h2">Awesome libraries we used:</Typography>
+        <Typography variant="h2">Awesome libraries we used:</Typography>
         <LibDetails
           title="chroma.js"
           links={[

@@ -1,5 +1,5 @@
 import React, { createContext, useMemo, useState } from 'react';
-import { useWindowSize } from '../utils';
+import { useMediaQuery } from '@mui/material';
 
 export type AppContextType = {
   isMobile: boolean;
@@ -22,11 +22,9 @@ type AppContextProviderProps = {
 export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   children,
 }) => {
-  const [screenWidth] = useWindowSize();
-
   const [mobileColorMenuOpen, setMobileColorMenuOpen] = useState(false);
 
-  const isMobile = screenWidth !== undefined && screenWidth < 900;
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
   const value = useMemo<AppContextType>(
     () => ({

@@ -2,17 +2,20 @@ import { Footer, Icon, RouterLink } from '../../components';
 import {
   Box,
   Container,
-  IconButton,
-  Sheet,
-  Stack,
+  Divider,
+  Paper,
+  ToggleButton,
+  ToggleButtonGroup,
   useColorScheme,
-} from '@mui/joy';
+} from '@mui/material';
 import {
   ClientOnly,
   createFileRoute,
   Outlet,
   useLocation,
 } from '@tanstack/react-router';
+
+type ColorMode = 'light' | 'dark' | 'system';
 
 export const Route = createFileRoute('/_app')({
   component: AppLayout,
@@ -38,7 +41,7 @@ function AppLayout() {
           },
         }}
       >
-        <Sheet sx={{ zIndex: 24 }}>
+        <Paper elevation={0} sx={{ zIndex: 24 }}>
           <Container
             maxWidth={false}
             sx={{
@@ -63,42 +66,26 @@ function AppLayout() {
               colorgen.io
             </RouterLink>
             <ClientOnly>
-              <Stack
-                direction="row"
-                alignItems="center"
-                sx={{ '.Icon': { fontSize: 20 } }}
+              <ToggleButtonGroup
+                size="small"
+                value={mode}
+                onChange={(_, value) => setMode(value as ColorMode)}
+                exclusive
               >
-                <IconButton
-                  size="sm"
-                  variant={mode === 'dark' ? 'solid' : 'plain'}
-                  onClick={() => setMode('dark')}
-                >
-                  <Icon sx={{ color: mode === 'dark' ? 'white' : undefined }}>
-                    dark_mode
-                  </Icon>
-                </IconButton>
-                <IconButton
-                  size="sm"
-                  variant={mode === 'system' ? 'solid' : 'plain'}
-                  onClick={() => setMode('system')}
-                >
-                  <Icon sx={{ color: mode === 'system' ? 'white' : undefined }}>
-                    computer
-                  </Icon>
-                </IconButton>
-                <IconButton
-                  size="sm"
-                  variant={mode === 'light' ? 'solid' : 'plain'}
-                  onClick={() => setMode('light')}
-                >
-                  <Icon sx={{ color: mode === 'light' ? 'white' : undefined }}>
-                    light_mode
-                  </Icon>
-                </IconButton>
-              </Stack>
+                <ToggleButton value="dark">
+                  <Icon>dark_mode</Icon>
+                </ToggleButton>
+                <ToggleButton value="system">
+                  <Icon>computer</Icon>
+                </ToggleButton>
+                <ToggleButton value="light">
+                  <Icon>light_mode</Icon>
+                </ToggleButton>
+              </ToggleButtonGroup>
             </ClientOnly>
           </Container>
-        </Sheet>
+        </Paper>
+        <Divider />
         <Box sx={{ position: 'relative', minHeight: '100%' }}>
           <Outlet />
         </Box>

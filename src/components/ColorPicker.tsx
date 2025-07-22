@@ -1,17 +1,16 @@
 import {
   Box,
+  Button,
   Card,
-  type CardProps,
-  Dropdown,
   IconButton,
   Menu,
-  MenuButton,
   MenuItem,
-  Sheet,
+  Paper,
+  type PaperProps,
   Stack,
   Tooltip,
-} from '@mui/joy';
-import React from 'react';
+} from '@mui/material';
+import React, { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { copyToClipboard, getColorHex, passSx } from '../utils';
 import Icon from './Icon';
@@ -19,7 +18,7 @@ import chroma from 'chroma-js';
 import ColorInput, { type ColorInputProps } from './ColorInput';
 import { useSnackbarContext } from '../context';
 
-export type ColorPickerProps = Omit<CardProps, 'onChange'> &
+export type ColorPickerProps = Omit<PaperProps, 'onChange'> &
   Pick<ColorInputProps, 'value' | 'onChange'> & {
     useHexPicker?: boolean;
   };
@@ -32,6 +31,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   ...props
 }) => {
   const { setSnackbar } = useSnackbarContext();
+
+  const [menuAnchor, setMenuAnchor] = useState<HTMLElement>();
 
   const colorHex = getColorHex(value);
 
@@ -53,55 +54,66 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   };
 
   return (
-    <Card
-      variant="plain"
+    <Paper
       sx={[
         {
           p: 0,
           height: 56,
           width: '100%',
+          display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
           boxShadow: 'md',
           border: '1px solid',
           borderColor: 'divider',
+          borderRadius: 3,
+          overflow: 'hidden',
         },
         ...passSx(sx),
       ]}
       {...props}
     >
       {useHexPicker && (
-        <Dropdown>
-          <MenuButton
+        <>
+          <Button
             id="color-picker-menu--button"
-            variant="plain"
+            color="inherit"
+            onClick={(e) => setMenuAnchor(e.currentTarget)}
             sx={{
               height: '100%',
               minWidth: 80,
+              borderTopLeftRadius: 3,
+              borderBottomLeftRadius: 3,
               borderTopRightRadius: 0,
               borderBottomRightRadius: 0,
             }}
-            endDecorator={
-              <Icon style={{ fontSize: 18 }}>keyboard_arrow_down</Icon>
-            }
+            endIcon={<Icon style={{ fontSize: 18 }}>keyboard_arrow_down</Icon>}
           >
             Hex
-          </MenuButton>
+          </Button>
           <Menu
             id="color-picker--menu"
+            anchorEl={menuAnchor}
+            open={!!menuAnchor}
+            onClose={() => setMenuAnchor(undefined)}
             aria-labelledby="color-picker-menu--button"
-            sx={{
-              p: 0,
-              overflow: 'visible',
-              bgcolor: 'transparent',
-              boxShadow: 'none',
-              border: 'none',
+            elevation={0}
+            disableScrollLock
+            slotProps={{
+              paper: {
+                sx: {
+                  bgcolor: 'transparent',
+                },
+              },
             }}
           >
             <MenuItem
               sx={{
                 padding: 0,
-                '&:hover': { bgcolor: 'inherit !important' },
+                // bgcolor: 'transparent',
+                '&:hover': {
+                  bgcolor: 'inherit',
+                },
               }}
             >
               <Stack direction="row">
@@ -116,7 +128,6 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                   <Tooltip title="Random" placement="right">
                     <Card sx={{ p: 0, boxShadow: 'md' }}>
                       <IconButton
-                        variant="plain"
                         onClick={() => onChange(chroma.random().hex())}
                       >
                         <Icon>ifl</Icon>
@@ -127,12 +138,12 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
               </Stack>
             </MenuItem>
           </Menu>
-        </Dropdown>
+        </>
       )}
       <Stack direction="row" sx={{ alignItems: 'center', width: '100%' }}>
         <Box sx={{ width: 72, display: 'flex', justifyContent: 'center' }}>
           {colorHex ? (
-            <Sheet
+            <Paper
               variant="outlined"
               style={{
                 width: 28,
@@ -153,13 +164,13 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
           sx={{ minWidth: 56 }}
         >
           <Tooltip title="Copy Hex" placement="top">
-            <IconButton variant="plain" onClick={() => void copyColorHex()}>
+            <IconButton onClick={() => void copyColorHex()}>
               <Icon>content_copy</Icon>
             </IconButton>
           </Tooltip>
         </Stack>
       </Stack>
-    </Card>
+    </Paper>
   );
 };
 

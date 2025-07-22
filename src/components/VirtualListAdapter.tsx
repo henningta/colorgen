@@ -1,14 +1,16 @@
 import React from 'react';
-import { Popper } from '@mui/base/Popper';
-import { AutocompleteListbox, AutocompleteOption, useTheme } from '@mui/joy';
-import { ListSubheader } from '@mui/joy';
-import { type ListChildComponentProps, FixedSizeList } from 'react-window';
+import {
+  ListSubheader,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
+import { type ListChildComponentProps, VariableSizeList } from 'react-window';
 
-const LISTBOX_PADDING = 6; // px
+const LISTBOX_PADDING = 8; // px
 
 function renderRow(props: ListChildComponentProps) {
   const { data, index, style } = props;
-
   const dataSet = data[index];
   const inlineStyle = {
     ...style,
@@ -17,7 +19,7 @@ function renderRow(props: ListChildComponentProps) {
 
   if (Object.hasOwn(dataSet as object, 'group')) {
     return (
-      <ListSubheader key={dataSet.key} component="li" style={inlineStyle}>
+      <ListSubheader key={dataSet.key} component="div" style={inlineStyle}>
         {dataSet.group}
       </ListSubheader>
     );
@@ -26,89 +28,98 @@ function renderRow(props: ListChildComponentProps) {
   const { key, ...optionProps } = dataSet[0];
 
   return (
-    <AutocompleteOption key={key} {...optionProps} style={inlineStyle}>
+    <Typography
+      key={key}
+      component="li"
+      {...optionProps}
+      noWrap
+      style={inlineStyle}
+    >
       {dataSet[1]}
-    </AutocompleteOption>
+    </Typography>
   );
 }
 
 const OuterElementContext = React.createContext({});
 
-const OuterElementType = React.forwardRef<HTMLDivElement>((props, ref) => {
-  const outerProps = React.useContext(OuterElementContext);
-  return (
-    <AutocompleteListbox
-      {...props}
-      {...outerProps}
-      component="div"
-      ref={ref}
-      sx={{
-        '& ul': {
-          padding: 0,
-          margin: 0,
-          flexShrink: 0,
-        },
-      }}
-    />
-  );
-});
+const OuterElementType = React.forwardRef<HTMLDivElement>(
+  function OuterElementType(props, ref) {
+    const outerProps = React.useContext(OuterElementContext);
+    return <div ref={ref} {...props} {...outerProps} />;
+  },
+);
 
-OuterElementType.displayName = 'OuterElementType';
+// eslint-disable-next-line
+function useResetCache(data: any) {
+  const ref = React.useRef<VariableSizeList>(null);
+  React.useEffect(() => {
+    if (ref.current) {
+      ref.current.resetAfterIndex(0, true);
+    }
+  }, [data]);
+  return ref;
+}
 
 // Adapter for react-window
 const ListboxComponent = React.forwardRef<
   HTMLDivElement,
-  {
-    // eslint-disable-next-line
-    anchorEl: any;
-    open: boolean;
-    // eslint-disable-next-line
-    modifiers: any[];
-  } & React.HTMLAttributes<HTMLElement>
+  React.HTMLAttributes<HTMLElement>
 >(function ListboxComponent(props, ref) {
-  const { children, anchorEl, open, modifiers, ...other } = props;
-
-  const theme = useTheme();
-
-  // eslint-disable-next-line
-  const itemData: any[] = [];
-  (children as [{ children: React.ReactElement[] | undefined }[]])[0].forEach(
-    (item) => {
+  const { children, ...other } = props;
+  const itemData: React.ReactElement[] = [];
+  (children as React.ReactElement[]).forEach(
+    (
+      item: React.ReactElement & {
+        children?: React.ReactElement[];
+      },
+    ) => {
       itemData.push(item);
       itemData.push(...(item.children ?? []));
     },
   );
 
+  const theme = useTheme();
+  const smUp = useMediaQuery(theme.breakpoints.up('sm'), {
+    noSsr: true,
+  });
   const itemCount = itemData.length;
-  const itemSize = 40;
+  const itemSize = smUp ? 36 : 48;
+
+  const getChildSize = (child: React.ReactElement) => {
+    if (Object.hasOwn(child, 'group')) {
+      return 48;
+    }
+
+    return itemSize;
+  };
+
+  const getHeight = () => {
+    if (itemCount > 8) {
+      return 8 * itemSize;
+    }
+    return itemData.map(getChildSize).reduce((a, b) => a + b, 0);
+  };
+
+  const gridRef = useResetCache(itemCount);
 
   return (
-    <Popper
-      ref={ref}
-      anchorEl={anchorEl}
-      open={open}
-      modifiers={modifiers}
-      disablePortal
-      style={{
-        display: itemCount === 0 ? 'none' : undefined,
-        zIndex: theme.zIndex.popup,
-      }}
-    >
+    <div ref={ref}>
       <OuterElementContext.Provider value={other}>
-        <FixedSizeList
+        <VariableSizeList
           itemData={itemData}
-          height={itemSize * 8}
+          height={getHeight() + 2 * LISTBOX_PADDING}
           width="100%"
+          ref={gridRef}
           outerElementType={OuterElementType}
           innerElementType="ul"
-          itemSize={itemSize}
+          itemSize={(index) => getChildSize(itemData[index])}
           overscanCount={5}
           itemCount={itemCount}
         >
           {renderRow}
-        </FixedSizeList>
+        </VariableSizeList>
       </OuterElementContext.Provider>
-    </Popper>
+    </div>
   );
 });
 

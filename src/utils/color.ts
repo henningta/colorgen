@@ -30,6 +30,10 @@ export const getContrastColor = (
   }
 
   const contrastWhite = chroma.contrast(bgColor, 'white');
+  if (contrastWhite >= 3.5) {
+    return 'common.white';
+  }
+
   const contrastBlack = chroma.contrast(bgColor, chroma(9, 9, 13));
   return contrastWhite >= contrastBlack ? 'common.white' : 'common.black';
 };

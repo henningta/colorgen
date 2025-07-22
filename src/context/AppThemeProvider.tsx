@@ -2,54 +2,55 @@ import React from 'react';
 import {
   CssBaseline,
   GlobalStyles,
-  CssVarsProvider as JoyCssVarsProvider,
-  extendTheme as extendJoyTheme,
-} from '@mui/joy';
+  ThemeProvider,
+  createTheme,
+  responsiveFontSizes,
+} from '@mui/material';
 
 export type AppThemeProviderProps = {
   children: React.ReactNode;
 };
 
 const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
-  const theme = extendJoyTheme({
+  const theme = createTheme({
+    cssVariables: {
+      colorSchemeSelector: '[data-mui-color-scheme="%s"]',
+    },
     colorSchemes: {
       dark: {
         palette: {
           background: {
-            body: '#1c1b22',
+            default: '#1c1b22',
           },
-          icon: 'rgb(154, 160, 166)',
+          icon: {
+            main: 'rgb(154, 160, 166)',
+          },
         },
       },
       light: {
         palette: {
           background: {
-            body: '#eeeff0',
+            default: '#eeeff0',
           },
-          icon: 'rgb(95, 99, 104)',
+          icon: {
+            main: 'rgb(95, 99, 104)',
+          },
         },
       },
     },
-    fontFamily: {
-      body: 'Manrope, var(--joy-fontFamily-fallback)',
-      display: 'Manrope, var(--joy-fontFamily-fallback)',
-      code: 'monospace',
-      fallback: 'arial, sans-serif',
-    },
     typography: {
+      allVariants: {
+        fontFamily: 'Manrope, arial, sans-serif',
+      },
       display1: {
         fontWeight: 300,
         fontSize: '3rem',
 
-        // '@media (min-width:600px)': {
-        //   fontSize: '4rem',
-        // },
-        // '@media (min-width:900px)': {
-        //   fontSize: '4rem',
-        // },
+        // @ts-expect-error don't care
         '@media (min-width:1200px)': {
           fontSize: '5rem',
         },
+
         '@media (min-width:1536px)': {
           fontSize: '6rem',
         },
@@ -68,9 +69,9 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
       },
     },
     components: {
-      JoyAlert: {
+      MuiAlert: {
         defaultProps: {
-          color: 'neutral',
+          color: 'info',
         },
         styleOverrides: {
           root: {
@@ -80,17 +81,32 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
           },
         },
       },
-      JoyButton: {
+      MuiButtonBase: {
         defaultProps: {
-          color: 'neutral',
+          disableRipple: true,
+          disableTouchRipple: true,
+        },
+      },
+      MuiButton: {
+        defaultProps: {
+          disableElevation: true,
         },
         styleOverrides: {
           root: {
             fontWeight: 600,
+            textTransform: 'none',
           },
         },
       },
-      JoyContainer: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          body: {
+            fontFamily: 'Manrope, arial, sans-serif',
+            code: 'monospace',
+          },
+        },
+      },
+      MuiContainer: {
         styleOverrides: {
           root: {
             '@media (min-width: 600px)': {
@@ -100,24 +116,24 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
           },
         },
       },
-      JoyIconButton: {
+      MuiIconButton: {
         defaultProps: {
           component: 'button',
-          color: 'neutral',
+          color: 'inherit',
         },
       },
-      JoyLink: {
+      MuiLink: {
         defaultProps: {
           underline: 'always',
         },
         styleOverrides: {
           root: ({ ownerState, theme }) => ({
-            color: theme.vars.palette.primary.solidBg,
-            textDecorationColor: theme.vars.palette.primary.solidBg,
+            color: theme.vars.palette.primary.main,
+            textDecorationColor: theme.vars.palette.primary.main,
 
             '&:hover': {
-              color: theme.vars.palette.primary.softColor,
-              textDecorationColor: theme.vars.palette.primary.softColor,
+              color: theme.vars.palette.primary.dark,
+              textDecorationColor: theme.vars.palette.primary.dark,
             },
 
             ...(ownerState.underline === 'always' && {
@@ -132,12 +148,12 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
           }),
         },
       },
-      JoySlider: {
+      MuiSlider: {
         defaultProps: {
-          color: 'neutral',
+          color: 'info',
         },
       },
-      JoySwitch: {
+      MuiSwitch: {
         styleOverrides: {
           thumb: {
             '.Icon': {
@@ -146,30 +162,18 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
           },
         },
       },
-      JoyTab: {
-        styleOverrides: {
-          root: {
-            fontWeight: 600,
-          },
-        },
-      },
-      JoyTabs: {
-        styleOverrides: {
-          root: {
-            backgroundColor: 'transparent',
-          },
-        },
-      },
-      JoyTypography: {
-        defaultProps: {
-          component: 'span',
-        },
-      },
+      // MuiTypography: {
+      //   defaultProps: {
+      //     component: 'span',
+      //   },
+      // },
     },
   });
 
+  const responsiveTheme = responsiveFontSizes(theme);
+
   return (
-    <JoyCssVarsProvider theme={theme} defaultMode="system">
+    <ThemeProvider theme={responsiveTheme} defaultMode="system">
       <CssBaseline />
       <GlobalStyles
         styles={{
@@ -182,7 +186,7 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
         }}
       />
       {children}
-    </JoyCssVarsProvider>
+    </ThemeProvider>
   );
 };
 

@@ -18,7 +18,7 @@ import debounce from 'lodash.debounce';
 import { ClientOnly, redirect, useNavigate } from '@tanstack/react-router';
 import { getColorHex, getColorName } from '../../../utils';
 import { createFileRoute } from '@tanstack/react-router';
-import { Box } from '@mui/joy';
+import { Box } from '@mui/material';
 import { useShallow } from 'zustand/shallow';
 
 const url = 'https://www.colorgen.io';
@@ -124,7 +124,7 @@ function ColorPage() {
             position: 'fixed',
             left: '50%',
             transform: 'translateX(-50%)',
-            zIndex: theme.zIndex.popup,
+            zIndex: theme.zIndex.modal,
             transition: 'all 150ms ease-in-out',
             top: 36,
           })}
