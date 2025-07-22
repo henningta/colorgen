@@ -29,12 +29,10 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({
       maxWidth={false}
       sx={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
     >
-      <Typography variant="h2" fontWeight={500}>
+      <Typography variant="h4" fontWeight={500}>
         {title}
       </Typography>
-      <Typography variant="subtitle1" sx={{ mt: 1 }}>
-        {subtitle}
-      </Typography>
+      <Typography sx={{ mt: 1 }}>{subtitle}</Typography>
     </Container>
     {fullWidth ? (
       <Grid container sx={{ flex: 1, mt: 2 }}>

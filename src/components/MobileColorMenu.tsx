@@ -83,13 +83,13 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
       hideBackdrop
       slotProps={{
         paper: {
+          elevation: 0,
           sx: {
             overflow: 'visible',
             bgcolor: 'transparent',
             px: 2,
             pb: 2,
             height: 'auto',
-            boxShadow: 'none',
           },
         },
       }}
@@ -148,11 +148,8 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
               <ColorPicker
                 value={value}
                 onChange={onChange}
-                sx={{
-                  boxShadow: 'none',
-                  border: 'none',
-                  backgroundColor: 'transparent',
-                }}
+                elevation={0}
+                sx={{ border: 'none', backgroundColor: 'transparent' }}
               />
             </Stack>
           </Paper>

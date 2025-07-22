@@ -24,15 +24,11 @@ const PageSection: React.FC<PageSectionProps> = ({
     >
       <Container maxWidth={false}>
         {title && (
-          <Typography variant="h1" fontWeight={600}>
+          <Typography variant="h3" fontWeight={600}>
             {title}
           </Typography>
         )}
-        {subtitle && (
-          <Typography variant="subtitle1" sx={{ mt: 1 }}>
-            {subtitle}
-          </Typography>
-        )}
+        {subtitle && <Typography sx={{ mt: 1 }}>{subtitle}</Typography>}
       </Container>
       {children}
     </Box>

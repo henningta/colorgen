@@ -101,9 +101,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
             disableScrollLock
             slotProps={{
               paper: {
-                sx: {
-                  bgcolor: 'transparent',
-                },
+                sx: { bgcolor: 'transparent', overflow: 'visible' },
               },
             }}
           >

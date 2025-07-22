@@ -57,15 +57,19 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
       },
       h1: {
         fontWeight: 300,
+        letterSpacing: '-0.025em',
       },
       h2: {
         fontWeight: 300,
+        letterSpacing: '-0.025em',
       },
       h3: {
         fontWeight: 300,
+        letterSpacing: '-0.025em',
       },
       h4: {
         fontWeight: 300,
+        letterSpacing: '-0.025em',
       },
     },
     components: {
