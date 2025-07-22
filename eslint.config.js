@@ -10,6 +10,7 @@ export default tseslint.config(
   {
     ignores: [
       // files
+      'nitro.config.*',
       'src/routeTree.gen.ts',
       'vite.config.*',
 
