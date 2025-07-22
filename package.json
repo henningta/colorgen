@@ -33,9 +33,9 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/joy": "5.0.0-beta.52",
-    "@tanstack/react-router": "1.128.8",
-    "@tanstack/react-router-devtools": "1.128.8",
-    "@tanstack/react-start": "1.128.8",
+    "@tanstack/react-router": "^1.129.2",
+    "@tanstack/react-router-devtools": "^1.129.2",
+    "@tanstack/react-start": "^1.129.2",
     "chroma-js": "^3.1.2",
     "color-name-list": "^11.24.0",
     "compression": "^1.8.1",
@@ -74,5 +74,10 @@
     "vite": "^6.3.5",
     "vite-plugin-checker": "^0.10.1",
     "vite-tsconfig-paths": "^5.1.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "react-is": "19.1.0"
+    }
   }
 }
