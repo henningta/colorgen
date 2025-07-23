@@ -33,6 +33,16 @@ export const Route = createRootRoute({
       { property: 'og:title', content: 'colorgen.io' },
       { property: 'og:description', content: description },
     ],
+    links: [
+      { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+      {
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com',
+        crossOrigin: 'anonymous',
+      },
+      { rel: 'preload', as: 'style', href: fontsUrl },
+      { rel: 'stylesheet', href: fontsUrl },
+    ],
   }),
   component: RootComponent,
 });
@@ -60,14 +70,6 @@ function RootDocument({ children }: Readonly<PropsWithChildren>) {
     <html>
       <head>
         <HeadContent />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link rel="preload" as="style" href={fontsUrl} />
-        <link rel="stylesheet" href={fontsUrl} />
       </head>
       <body>
         <InitColorSchemeScript attribute='[data-mui-color-scheme="%s"]' />

@@ -19,8 +19,8 @@ const PageSection: React.FC<PageSectionProps> = ({
 }) => {
   return (
     <Box
-      {...props}
       sx={[{ height: fullPage ? '100vh' : 'auto', py: 6 }, ...passSx(sx)]}
+      {...props}
     >
       <Container maxWidth={false}>
         {title && (

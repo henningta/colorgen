@@ -49,22 +49,12 @@ const ColorInfo: React.FC<ColorInfoProps> = ({ colorHex, style, ...props }) => {
       {...props}
     >
       <Stack
-        sx={(theme) => ({
+        sx={{
           minHeight: 'calc(100vh - 56px)',
           justifyContent: 'space-between',
-          py: 4,
-          px: 4,
-
-          [theme.breakpoints.up('sm')]: {
-            py: 12,
-            px: 12,
-          },
-
-          [theme.breakpoints.up('lg')]: {
-            py: 16,
-            px: 16,
-          },
-        })}
+          py: { xs: 4, sm: 12, lg: 16 },
+          px: { xs: 4, sm: 12, lg: 16 },
+        }}
       >
         <Box>
           <Typography
@@ -83,7 +73,7 @@ const ColorInfo: React.FC<ColorInfoProps> = ({ colorHex, style, ...props }) => {
             {colorName}
           </Typography>
         </Box>
-        <Stack sx={(theme) => ({ [theme.breakpoints.down('md')]: { mb: 20 } })}>
+        <Stack sx={{ mb: { xs: 20, md: 0 } }}>
           <ColorInfoPart label="Hex" color={contrastText}>
             {colorHex}
           </ColorInfoPart>

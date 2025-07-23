@@ -109,12 +109,12 @@ function Index() {
               Welcome
             </Typography>
             <Stack sx={{ mt: 4 }}>
-              <Typography fontWeight={300} color={contrastText}>
+              <Typography color={contrastText}>
                 Welcome to colorgen.io. This tool was created to help designers
                 and developers find just the right color palette they need to
                 beautifully brand their next app.
               </Typography>
-              <Typography fontWeight={300} color={contrastText} sx={{ mt: 4 }}>
+              <Typography color={contrastText} sx={{ mt: 4 }}>
                 This app is a work-in-progress, so stay tuned for more changes
                 and features coming soon.
               </Typography>
@@ -143,7 +143,7 @@ function Index() {
                   value={color}
                   onChange={setColor}
                   useHexPicker
-                  sx={{ my: 2 }}
+                  sx={{ maxWidth: 600, my: 2 }}
                 />
                 <Box sx={{ ml: 2 }}>
                   <ColorButton

@@ -31,7 +31,7 @@ export type LibDetailsProps = BoxProps & {
 
 const LibDetails: React.FC<LibDetailsProps> = ({ title, links }) => (
   <Box sx={{ mt: 4, overflow: 'hidden' }}>
-    <Typography variant="h3" sx={{ mb: 1 }}>
+    <Typography variant="h4" sx={{ mb: 1 }}>
       {title}
     </Typography>
     {links?.map((link) => (
@@ -70,7 +70,7 @@ function About() {
         </Box>
       </Box>
       <Box sx={{ mt: 8 }}>
-        <Typography variant="h2">Contributors:</Typography>
+        <Typography variant="h3">Contributors:</Typography>
         <Stack sx={{ mt: 4 }}>
           <Typography>Travis Henning - owner/developer</Typography>
           <Typography sx={{ mt: 2 }}>Ryan Meloy - designer</Typography>
@@ -86,7 +86,7 @@ function About() {
         </Stack>
       </Box>
       <Box sx={{ mt: 8 }}>
-        <Typography variant="h2">Awesome libraries we used:</Typography>
+        <Typography variant="h3">Awesome libraries we used:</Typography>
         <LibDetails
           title="chroma.js"
           links={[

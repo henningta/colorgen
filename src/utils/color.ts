@@ -30,7 +30,7 @@ export const getContrastColor = (
   }
 
   const contrastWhite = chroma.contrast(bgColor, 'white');
-  if (contrastWhite >= 3.5) {
+  if (contrastWhite >= 3) {
     return 'common.white';
   }
 

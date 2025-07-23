@@ -97,11 +97,11 @@ const ColorInput: React.FC<ColorInputProps> = ({ value, onChange }) => {
         [props, option, state.index] as React.ReactNode
       }
       renderGroup={(params) => params as unknown as React.ReactNode}
-      sx={(theme) => ({
+      sx={{
         width: 0,
         flex: 1,
-        [theme.breakpoints.down('md')]: { ml: 2 },
-      })}
+        ml: { xs: 2, md: 0 },
+      }}
     />
   );
 };

@@ -5,4 +5,12 @@ export default defineNitroConfig({
   awsAmplify: {
     runtime: 'nodejs20.x',
   },
+  rollupConfig: {
+    onLog: (level, log, handler) => {
+      if (log.code === 'MODULE_LEVEL_DIRECTIVE') {
+        return;
+      }
+      handler(level, log);
+    },
+  },
 });
