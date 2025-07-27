@@ -41,7 +41,7 @@ export const getContrastColor = (
 export const colorMap = (() =>
   colornames.reduce(
     (acc, x) => acc.set(x.name, x.hex),
-    new CaseInsensitiveMap<string, string>(),
+    new CaseInsensitiveMap<string>(),
   ))();
 
 /**

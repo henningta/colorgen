@@ -1,34 +1,21 @@
-class CaseInsensitiveMap<K, V> extends Map<K, V> {
-  set(key: K, value: V) {
-    if (typeof key === 'string') {
-      key = key.toLocaleLowerCase() as K;
-    }
-
-    return super.set(key, value);
+/**
+ * A Map with string keys that uses a "toLocaleLowerCase" transformation on all keys.
+ */
+class CaseInsensitiveMap<T> extends Map<string, T> {
+  set(key: string, value: T) {
+    return super.set(key.toLocaleLowerCase(), value);
   }
 
-  get(key: K) {
-    if (typeof key === 'string') {
-      key = key.toLocaleLowerCase() as K;
-    }
-
-    return super.get(key);
+  get(key: string) {
+    return super.get(key.toLocaleLowerCase());
   }
 
-  has(key: K) {
-    if (typeof key === 'string') {
-      key = key.toLocaleLowerCase() as K;
-    }
-
-    return super.has(key);
+  has(key: string) {
+    return super.has(key.toLocaleLowerCase());
   }
 
-  delete(key: K) {
-    if (typeof key === 'string') {
-      key = key.toLocaleLowerCase() as K;
-    }
-
-    return super.delete(key);
+  delete(key: string) {
+    return super.delete(key.toLocaleLowerCase());
   }
 }
 
