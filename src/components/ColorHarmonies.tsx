@@ -1,6 +1,6 @@
 import React, { memo, useMemo } from 'react';
 import { Grid } from '@mui/material';
-import PageSection from './PageSection';
+import { PageSection } from './layout';
 import ColorPalette from './ColorPalette';
 import chroma from 'chroma-js';
 

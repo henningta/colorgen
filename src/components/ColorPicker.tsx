@@ -12,10 +12,10 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
-import { copyToClipboard, getColorHex, passSx } from '../utils';
+import { copyToClipboard, getColorHex, passSx } from '~/utils';
 import chroma from 'chroma-js';
 import ColorInput, { type ColorInputProps } from './ColorInput';
-import { useSnackbarContext } from '../context';
+import { useSnackbarContext } from '~/context';
 import { ChevronDown, CircleDashed, Copy, Dices } from 'lucide-react';
 
 export type ColorPickerProps = Omit<PaperProps, 'onChange'> &

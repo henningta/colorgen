@@ -1,6 +1,8 @@
 import React from 'react';
 import {
   ListSubheader,
+  Paper,
+  Stack,
   Typography,
   useMediaQuery,
   useTheme,
@@ -28,15 +30,28 @@ function renderRow(props: ListChildComponentProps) {
   const { key, ...optionProps } = dataSet[0];
 
   return (
-    <Typography
+    <Stack
       key={key}
       component="li"
+      direction="row"
+      alignItems="center"
+      gap={2}
       {...optionProps}
-      noWrap
       style={inlineStyle}
     >
-      {dataSet[1]}
-    </Typography>
+      <Paper
+        variant="outlined"
+        sx={{
+          width: 24,
+          height: 24,
+          bgcolor: dataSet[1].hex,
+          borderRadius: '50%',
+        }}
+      />
+      <Typography noWrap flex={1}>
+        {dataSet[1].name}
+      </Typography>
+    </Stack>
   );
 }
 

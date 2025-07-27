@@ -8,8 +8,8 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { useSnackbarContext } from '../context';
-import { copyToClipboard, getContrastColor } from '../utils';
+import { useSnackbarContext } from '~/context';
+import { copyToClipboard, getContrastColor } from '~/utils';
 import { Copy, MoreVertical } from 'lucide-react';
 
 export type ColorCardProps = PaperProps & {

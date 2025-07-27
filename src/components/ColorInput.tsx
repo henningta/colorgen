@@ -8,8 +8,17 @@ import {
 } from '@mui/material';
 import { colornames } from 'color-name-list';
 import ListboxComponent from './VirtualListAdapter';
+import { getColorHex } from '~/utils';
 
-const options = colornames.map((x) => x.name);
+type ColorItem = {
+  name: string;
+  hex?: string;
+};
+
+const options = colornames.map<ColorItem>((x) => ({
+  name: x.name,
+  hex: getColorHex(x.name),
+}));
 
 // const normalizeString = (str: string, removeSpaces = false) => {
 //   let normal = str
@@ -60,22 +69,27 @@ export type ColorInputProps = {
 };
 
 const ColorInput: React.FC<ColorInputProps> = ({ value, onChange }) => {
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<ColorItem | null>(null);
 
   useEffect(() => {
     if (selected) {
-      onChange(selected);
+      onChange(selected.name);
     }
   }, [selected, onChange]);
 
   return (
     <Autocomplete
       options={options}
+      isOptionEqualToValue={(a, b) => a.name === b.name}
+      getOptionLabel={(option) =>
+        typeof option === 'string' ? option : option.name
+      }
       value={selected}
-      onChange={(_, selected) => setSelected(selected)}
+      onChange={(_, selected) => setSelected(selected as ColorItem)}
       inputValue={value}
       onInputChange={(_, value) => onChange(value)}
       freeSolo
+      openOnFocus
       selectOnFocus
       disableListWrap
       slots={{

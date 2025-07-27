@@ -6,9 +6,8 @@ import {
   Typography,
 } from '@mui/material';
 import React from 'react';
-import { passSx } from '../utils';
-import { RouterButton } from './RouterLink';
-import { useAppContext } from '../context';
+import { passSx } from '~/utils';
+import { RouterButton } from '~/components';
 import { useLocation } from '@tanstack/react-router';
 import { Heart } from 'lucide-react';
 
@@ -17,22 +16,20 @@ export type FooterProps = BoxProps;
 const Footer: React.FC<FooterProps> = ({ sx, ...props }) => {
   const location = useLocation();
 
-  const { isMobile } = useAppContext();
-
-  const hasColorMenu = isMobile && location.pathname.startsWith('/color');
+  const isColorPage = location.pathname.startsWith('/color');
 
   return (
     <Box
-      className={hasColorMenu ? 'has-color-menu' : undefined}
+      className={isColorPage ? 'is-color-page' : undefined}
       sx={[
         {
-          height: '72px',
+          height: 72,
           position: 'relative',
-          mt: '-72px',
+          mt: -9,
           clear: 'both',
 
-          '&.has-color-menu': {
-            mt: '-152px',
+          '&.is-color-page': {
+            mt: { xs: -19, md: -9 },
           },
         },
         ...passSx(sx),

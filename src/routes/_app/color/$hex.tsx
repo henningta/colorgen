@@ -7,18 +7,14 @@ import {
   MobileColorMenu,
   Page,
   TintsShades,
-} from '../../../components';
-import {
-  ColorStoreProvider,
-  useAppContext,
-  useColorStore,
-} from '../../../context';
+} from '~/components';
+import { ColorStoreProvider, useColorStore } from '~/context';
 import debounce from 'lodash.debounce';
-// import config from '../../../config';
+// import config from '~/config';
 import { ClientOnly, redirect, useNavigate } from '@tanstack/react-router';
-import { getColorHex, getColorName } from '../../../utils';
+import { getColorHex, getColorName } from '~/utils';
 import { createFileRoute } from '@tanstack/react-router';
-import { Box } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import { useShallow } from 'zustand/shallow';
 
 const url = 'https://www.colorgen.io';
@@ -71,13 +67,14 @@ function ColorPageWrapper() {
 function ColorPage() {
   const navigate = useNavigate();
 
-  const { isMobile } = useAppContext();
   const { colorHex, setColor } = useColorStore(
     useShallow((state) => ({
       colorHex: state.colorHex,
       setColor: state.setColor,
     })),
   );
+
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
   const [selectedColor, setSelectedColor] = useState(colorHex);
   const [selectedColorHex, setSelectedColorHex] = useState(colorHex);
@@ -120,7 +117,7 @@ function ColorPage() {
             width: '100%',
             maxWidth: 600,
             px: 2,
-            display: isMobile ? 'none' : undefined,
+            display: { xs: 'none', md: 'block' },
             position: 'fixed',
             left: '50%',
             transform: 'translateX(-50%)',
@@ -132,7 +129,7 @@ function ColorPage() {
           <ColorPicker
             value={selectedColor}
             onChange={setSelectedColor}
-            useHexPicker={!isMobile}
+            useHexPicker
           />
         </Box>
       </ClientOnly>

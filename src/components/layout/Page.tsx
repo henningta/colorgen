@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, type ContainerProps } from '@mui/material';
-import { passSx } from '../utils';
+import { passSx } from '~/utils';
 
 export type PageProps = ContainerProps;
 

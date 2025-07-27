@@ -1,6 +1,6 @@
 import { Box, type BoxProps, Link, Stack, Typography } from '@mui/material';
 import React from 'react';
-import { Page } from '../../components';
+import { Page } from '~/components';
 import { createFileRoute } from '@tanstack/react-router';
 
 const url = 'https://www.colorgen.io';

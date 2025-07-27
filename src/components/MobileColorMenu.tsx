@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { SnackbarProvider, useAppContext } from '../context';
+import { SnackbarProvider } from '~/context';
 import {
   Box,
   Drawer,
@@ -18,8 +18,10 @@ import {
 import ColorPicker from './ColorPicker';
 import chroma from 'chroma-js';
 import { HexColorPicker } from 'react-colorful';
-import { getColorHex, getContrastColor } from '../utils';
+import { getColorHex, getContrastColor } from '~/utils';
 import { ArrowDownToLine, Dices, Palette } from 'lucide-react';
+import { useAppStore } from '~/state';
+import { useShallow } from 'zustand/shallow';
 
 const drawerBleeding = 80;
 
@@ -47,7 +49,17 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
   onChange,
   ...props
 }) => {
-  const { mobileColorMenuOpen, onMobileColorMenuOpenChange } = useAppContext();
+  const {
+    mobileColorMenuOpen,
+    setMobileColorMenuOpen,
+    toggleMobileColorMenuOpen,
+  } = useAppStore(
+    useShallow((state) => ({
+      mobileColorMenuOpen: state.mobileColorMenuOpen,
+      setMobileColorMenuOpen: state.setMobileColorMenuOpen,
+      toggleMobileColorMenuOpen: state.toggleMobileColorMenuOpen,
+    })),
+  );
 
   const drawerRef = useRef<HTMLDivElement>(null);
 
@@ -72,10 +84,13 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
       {...props}
       ref={drawerRef}
       open={mobileColorMenuOpen}
-      onClose={() => onMobileColorMenuOpenChange(false)}
+      onClose={() => setMobileColorMenuOpen(false)}
       anchor="bottom"
       disableScrollLock
       keepMounted
+      sx={{
+        display: { xs: 'block', md: 'none' },
+      }}
       slotProps={{
         paper: {
           elevation: 0,
@@ -117,7 +132,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
           }}
           style={{ backgroundColor: colorComplement }}
           size="medium"
-          onClick={() => onMobileColorMenuOpenChange((prev) => !prev)}
+          onClick={toggleMobileColorMenuOpen}
         >
           <Stack sx={{ color: complementContrast }}>
             {mobileColorMenuOpen ? <ArrowDownToLine /> : <Palette />}
@@ -147,7 +162,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
                 value={value}
                 onChange={onChange}
                 elevation={0}
-                sx={{ border: 'none', backgroundColor: 'transparent' }}
+                sx={{ border: 'none', bgcolor: 'transparent' }}
               />
             </Stack>
           </Paper>

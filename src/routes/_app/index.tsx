@@ -7,13 +7,9 @@ import {
 } from '@mui/material';
 import chroma from 'chroma-js';
 import React from 'react';
-import { ColorPicker, Page, RouterButton } from '../../components';
-import {
-  ColorStoreProvider,
-  useAppContext,
-  useColorStore,
-} from '../../context';
-import { passSx } from '../../utils';
+import { ColorPicker, Page, RouterButton } from '~/components';
+import { ColorStoreProvider, useColorStore } from '~/context';
+import { passSx } from '~/utils';
 import { createFileRoute } from '@tanstack/react-router';
 import { useShallow } from 'zustand/shallow';
 import { ArrowRight } from 'lucide-react';
@@ -73,7 +69,6 @@ function IndexWrapper() {
 }
 
 function Index() {
-  const { isMobile } = useAppContext();
   const { color, setColor, colorName, colorHex, contrastText } = useColorStore(
     useShallow((state) => ({
       color: state.color,
@@ -88,73 +83,55 @@ function Index() {
     <Page sx={{ p: '0 !important' }} maxWidth={false}>
       <Box style={{ height: '100%', backgroundColor: colorHex }}>
         <Stack
-          sx={(theme) => ({
+          sx={{
             minHeight: 'calc(100vh - 56px)',
-            py: 4,
-            px: 0,
-
-            [theme.breakpoints.up('sm')]: {
-              py: 8,
-              px: 8,
-            },
-
-            [theme.breakpoints.up('lg')]: {
-              py: 16,
-              px: 16,
-            },
-          })}
+            px: { xs: 0, sm: 8, lg: 16 },
+            py: { xs: 4, sm: 8, lg: 16 },
+          }}
         >
-          <Container maxWidth="sm" sx={{ m: 0 }}>
-            <Typography variant="display1" color={contrastText}>
-              Welcome
-            </Typography>
-            <Stack sx={{ mt: 4 }}>
-              <Typography color={contrastText}>
-                Welcome to colorgen.io. This tool was created to help designers
-                and developers find just the right color palette they need to
-                beautifully brand their next app.
-              </Typography>
-              <Typography color={contrastText} sx={{ mt: 4 }}>
-                This app is a work-in-progress, so stay tuned for more changes
-                and features coming soon.
-              </Typography>
-              {isMobile && (
-                <>
-                  <ColorPicker
-                    value={color}
-                    onChange={setColor}
-                    useHexPicker
-                    sx={{ mt: 8 }}
-                  />
-                  <ColorButton
-                    colorHex={colorHex}
-                    colorName={colorName}
-                    textColor={contrastText}
-                    sx={{ mt: 4, ml: 'auto' }}
-                  />
-                </>
-              )}
-            </Stack>
-          </Container>
-          {!isMobile && (
-            <Container maxWidth={false} sx={{ m: 0, mt: 6 }}>
-              <Stack direction="row" alignItems="center">
+          <Container maxWidth="md" sx={{ m: 0 }}>
+            <Stack gap={8}>
+              <Container maxWidth="sm" disableGutters sx={{ m: 0 }}>
+                <Stack gap={4}>
+                  <Typography
+                    component="h1"
+                    variant="display1"
+                    color={contrastText}
+                  >
+                    Welcome
+                  </Typography>
+                  <Typography color={contrastText}>
+                    Welcome to colorgen.io. This tool was created to help
+                    designers and developers find just the right color palette
+                    they need to beautifully brand their next app.
+                  </Typography>
+                  <Typography color={contrastText}>
+                    This app is a work-in-progress, so stay tuned for more
+                    changes and features coming soon.
+                  </Typography>
+                </Stack>
+              </Container>
+              <Stack
+                direction="row"
+                alignItems="center"
+                flexWrap="wrap"
+                gap={4}
+              >
                 <ColorPicker
                   value={color}
                   onChange={setColor}
                   useHexPicker
-                  sx={{ maxWidth: 600, my: 2 }}
+                  sx={{ flex: 1, minWidth: 400 }}
                 />
-                <Box sx={{ ml: 2 }}>
-                  <ColorButton
-                    colorHex={colorHex}
-                    colorName={colorName}
-                    textColor={contrastText}
-                  />
-                </Box>
+                <ColorButton
+                  colorHex={colorHex}
+                  colorName={colorName}
+                  textColor={contrastText}
+                  sx={{ ml: 'auto' }}
+                />
               </Stack>
-            </Container>
-          )}
+            </Stack>
+          </Container>
         </Stack>
       </Box>
     </Page>

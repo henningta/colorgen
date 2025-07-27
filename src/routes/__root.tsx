@@ -7,11 +7,7 @@ import {
   HeadContent,
   Scripts,
 } from '@tanstack/react-router';
-import {
-  AppThemeProvider,
-  AppContextProvider,
-  SnackbarProvider,
-} from '../context';
+import { AppThemeProvider, SnackbarProvider } from '~/context';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import { InitColorSchemeScript } from '@mui/material';
 
@@ -58,9 +54,7 @@ function RootComponent() {
 function Providers({ children }: PropsWithChildren) {
   return (
     <AppThemeProvider>
-      <AppContextProvider>
-        <SnackbarProvider>{children}</SnackbarProvider>
-      </AppContextProvider>
+      <SnackbarProvider>{children}</SnackbarProvider>
     </AppThemeProvider>
   );
 }

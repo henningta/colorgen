@@ -1,8 +1,8 @@
 import { Stack } from '@mui/material';
 import React, { memo, useMemo } from 'react';
-import { getColorName, getShades, getTints } from '../utils';
+import { getColorName, getShades, getTints } from '~/utils';
 import ColorPalette from './ColorPalette';
-import PageSection from './PageSection';
+import { PageSection } from './layout';
 
 export type TintsShadesProps = {
   colorHex: string;

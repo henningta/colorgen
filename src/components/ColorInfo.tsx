@@ -6,7 +6,7 @@ import {
   type TypographyProps,
 } from '@mui/material';
 import React, { useMemo } from 'react';
-import { getColorName, getContrastColor, passSx } from '../utils';
+import { getColorName, getContrastColor, passSx } from '~/utils';
 import pant from 'nearest-pantone';
 import chroma from 'chroma-js';
 
@@ -58,7 +58,6 @@ const ColorInfo: React.FC<ColorInfoProps> = ({ colorHex, style, ...props }) => {
       >
         <Box>
           <Typography
-            // variant=""
             fontWeight={600}
             sx={{ opacity: 0.75 }}
             color={contrastText}
@@ -66,6 +65,7 @@ const ColorInfo: React.FC<ColorInfoProps> = ({ colorHex, style, ...props }) => {
             {colorHex}
           </Typography>
           <Typography
+            component="h1"
             variant="display1"
             color={contrastText}
             sx={{ wordWrap: 'break-word', hyphens: 'auto' }}
