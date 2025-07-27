@@ -10,13 +10,18 @@ import {
   Stack,
   Tooltip,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { copyToClipboard, getColorHex, passSx } from '~/utils';
 import chroma from 'chroma-js';
 import ColorInput, { type ColorInputProps } from './ColorInput';
-import { useSnackbarContext } from '~/context';
-import { ChevronDown, CircleDashed, Copy, Dices } from 'lucide-react';
+import {
+  ChevronDown,
+  CircleDashed,
+  Copy,
+  CopyCheck,
+  Dices,
+} from 'lucide-react';
 
 export type ColorPickerProps = Omit<PaperProps, 'onChange'> &
   Pick<ColorInputProps, 'value' | 'onChange'> & {
@@ -30,28 +35,27 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   sx,
   ...props
 }) => {
-  const { setSnackbar } = useSnackbarContext();
-
+  const [copied, setCopied] = useState(false);
   const [menuAnchor, setMenuAnchor] = useState<HTMLElement>();
 
   const colorHex = getColorHex(value);
 
-  const copyColorHex = async () => {
+  const copyColorHex = useCallback(async () => {
     if (!colorHex) {
       return;
     }
 
-    try {
-      await copyToClipboard(colorHex);
-      setSnackbar({
-        icon: <Copy />,
-        message: <>&ldquo;{colorHex}&rdquo; copied to clipboard.</>,
-        dismissable: true,
-      });
-    } catch (e) {
-      console.error('Copy error: ', e);
-    }
-  };
+    await copyToClipboard(colorHex);
+    setCopied(true);
+
+    const timeout = setTimeout(() => {
+      setCopied(false);
+    }, 3000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [colorHex]);
 
   return (
     <Paper
@@ -163,9 +167,9 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
           alignItems="center"
           sx={{ minWidth: 56 }}
         >
-          <Tooltip title="Copy Hex" placement="top">
+          <Tooltip title={copied ? 'Copied!' : 'Copy Hex'} placement="top">
             <IconButton onClick={() => void copyColorHex()}>
-              <Copy />
+              {copied ? <CopyCheck /> : <Copy />}
             </IconButton>
           </Tooltip>
         </Stack>

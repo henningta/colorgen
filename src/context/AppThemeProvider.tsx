@@ -48,6 +48,7 @@ const theme = createTheme({
     },
     display1: {
       fontWeight: 300,
+      letterSpacing: '-0.025em',
       fontSize: '3rem',
 
       // @ts-expect-error don't care
@@ -116,18 +117,12 @@ const theme = createTheme({
         },
       },
     },
-    MuiIconButton: {
-      defaultProps: {
-        component: 'button',
-        color: 'inherit',
-      },
-    },
     MuiLink: {
       defaultProps: {
         underline: 'always',
       },
       styleOverrides: {
-        root: ({ ownerState, theme }) => ({
+        root: ({ theme }) => ({
           color: theme.vars.palette.primary.main,
           textDecorationColor: theme.vars.palette.primary.main,
 
@@ -136,30 +131,33 @@ const theme = createTheme({
             textDecorationColor: theme.vars.palette.primary.dark,
           },
 
-          ...(ownerState.underline === 'always' && {
-            textDecoration: 'underline dotted',
-          }),
-
-          ...(ownerState.underline === 'hover' && {
-            '&:hover': {
-              textDecoration: 'underline dotted',
+          variants: [
+            {
+              props: { underline: 'always' },
+              style: {
+                textDecoration: 'underline dotted',
+              },
             },
-          }),
+            {
+              props: { underline: 'hover' },
+              style: {
+                '&:hover': {
+                  textDecoration: 'underline dotted',
+                },
+              },
+            },
+          ],
         }),
+      },
+    },
+    MuiMenuItem: {
+      defaultProps: {
+        dense: true,
       },
     },
     MuiSlider: {
       defaultProps: {
         color: 'info',
-      },
-    },
-    MuiSwitch: {
-      styleOverrides: {
-        thumb: {
-          '.Icon': {
-            fontSize: 18,
-          },
-        },
       },
     },
     MuiToggleButton: {
@@ -186,6 +184,17 @@ const theme = createTheme({
             },
           ],
         },
+      },
+    },
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: ({ theme }) => ({
+          backgroundColor: theme.vars.palette.background.paper,
+          color: theme.vars.palette.text.primary,
+          border: '1px solid',
+          borderColor: theme.vars.palette.divider,
+          fontWeight: 600,
+        }),
       },
     },
   },
