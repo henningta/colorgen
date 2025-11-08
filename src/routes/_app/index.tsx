@@ -6,7 +6,6 @@ import {
   Typography,
 } from '@mui/material';
 import chroma from 'chroma-js';
-import React from 'react';
 import { ColorPicker, Page, RouterButton } from '~/components';
 import { ColorStoreProvider, useColorStore } from '~/context';
 import { passSx } from '~/utils';

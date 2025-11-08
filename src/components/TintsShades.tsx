@@ -1,5 +1,5 @@
 import { Stack } from '@mui/material';
-import React, { memo, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { getColorName, getShades, getTints } from '~/utils';
 import ColorPalette from './ColorPalette';
 import { PageSection } from './layout';

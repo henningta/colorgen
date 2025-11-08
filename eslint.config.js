@@ -1,12 +1,13 @@
 import js from '@eslint/js';
 // import globals from 'globals';
+import { defineConfig } from 'eslint/config';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 import pluginRouter from '@tanstack/eslint-plugin-router';
 
-export default tseslint.config(
+export default defineConfig([
   {
     ignores: [
       // files
@@ -64,6 +65,9 @@ export default tseslint.config(
         },
       ],
 
+      // review and fix
+      'react-hooks/set-state-in-effect': 'off',
+
       // typescript
       '@typescript-eslint/consistent-type-definitions': ['warn', 'type'],
       '@typescript-eslint/no-confusing-void-expression': 'off',
@@ -77,4 +81,4 @@ export default tseslint.config(
       },
     },
   },
-);
+]);

@@ -1,15 +1,5 @@
 declare module '@mui/material/styles' {
   // eslint-disable-next-line
-  interface Palette {
-    icon: Palette['primary'];
-  }
-
-  // eslint-disable-next-line
-  interface PaletteOptions {
-    icon?: PaletteOptions['primary'];
-  }
-
-  // eslint-disable-next-line
   interface TypographyVariants {
     display1: React.CSSProperties;
   }

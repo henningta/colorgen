@@ -5,7 +5,7 @@ import {
   Typography,
   type TypographyProps,
 } from '@mui/material';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { getColorName, getContrastColor, passSx } from '~/utils';
 import pant from 'nearest-pantone';
 import chroma from 'chroma-js';

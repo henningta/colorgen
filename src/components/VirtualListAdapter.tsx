@@ -1,4 +1,10 @@
-import React from 'react';
+import {
+  createContext,
+  forwardRef,
+  useContext,
+  useEffect,
+  useRef,
+} from 'react';
 import {
   ListSubheader,
   Paper,
@@ -55,19 +61,19 @@ function renderRow(props: ListChildComponentProps) {
   );
 }
 
-const OuterElementContext = React.createContext({});
+const OuterElementContext = createContext({});
 
-const OuterElementType = React.forwardRef<HTMLDivElement>(
+const OuterElementType = forwardRef<HTMLDivElement>(
   function OuterElementType(props, ref) {
-    const outerProps = React.useContext(OuterElementContext);
+    const outerProps = useContext(OuterElementContext);
     return <div ref={ref} {...props} {...outerProps} />;
   },
 );
 
 // eslint-disable-next-line
 function useResetCache(data: any) {
-  const ref = React.useRef<VariableSizeList>(null);
-  React.useEffect(() => {
+  const ref = useRef<VariableSizeList>(null);
+  useEffect(() => {
     if (ref.current) {
       ref.current.resetAfterIndex(0, true);
     }
@@ -76,7 +82,7 @@ function useResetCache(data: any) {
 }
 
 // Adapter for react-window
-const ListboxComponent = React.forwardRef<
+const ListboxComponent = forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLElement>
 >(function ListboxComponent(props, ref) {

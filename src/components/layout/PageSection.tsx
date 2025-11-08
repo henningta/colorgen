@@ -1,5 +1,4 @@
 import { Box, type BoxProps, Container, Typography } from '@mui/material';
-import React from 'react';
 import { passSx } from '~/utils';
 
 export type PageSectionProps = BoxProps & {

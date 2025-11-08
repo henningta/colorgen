@@ -10,7 +10,7 @@ import {
   Stack,
   Tooltip,
 } from '@mui/material';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { copyToClipboard, getColorHex, passSx } from '~/utils';
 import chroma from 'chroma-js';

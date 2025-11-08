@@ -9,8 +9,9 @@ export default defineConfig({
   plugins: [
     tsConfigPaths({ projects: ['./tsconfig.json'] }),
     tanstackStart({
-      customViteReactPlugin: true,
-      target: 'aws-amplify',
+      // customViteReactPlugin: true,
+      srcDirectory: 'src',
+      // target: 'aws-amplify',
     }),
     react(),
     checker({

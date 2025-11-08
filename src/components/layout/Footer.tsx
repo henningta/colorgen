@@ -5,7 +5,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import React from 'react';
 import { passSx } from '~/utils';
 import { RouterButton } from '~/components';
 import { useLocation } from '@tanstack/react-router';

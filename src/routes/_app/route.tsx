@@ -1,4 +1,4 @@
-import { Footer, Header } from '~/components';
+import { Footer, Header, NavDrawer } from '~/components';
 import { Box, Divider } from '@mui/material';
 import { createFileRoute, Outlet, useLocation } from '@tanstack/react-router';
 
@@ -26,6 +26,7 @@ function AppLayout() {
       >
         <Header />
         <Divider />
+        <NavDrawer />
         <Box sx={{ position: 'relative', minHeight: '100%' }}>
           <Outlet />
         </Box>

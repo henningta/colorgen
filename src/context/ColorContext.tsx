@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren, useState } from 'react';
 import { getColorHex, getColorName, getContrastColor } from '~/utils';
 import { createStore } from 'zustand';
 import ColorContext, { ColorStore } from './ColorContextTypes';

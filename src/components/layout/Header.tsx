@@ -9,7 +9,6 @@ import {
 } from '@mui/material';
 import { ClientOnly } from '@tanstack/react-router';
 import { Moon, LaptopMinimal, Sun } from 'lucide-react';
-import React from 'react';
 import { RouterLink } from '~/components';
 
 type ColorMode = 'light' | 'dark' | 'system';
