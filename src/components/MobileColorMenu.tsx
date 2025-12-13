@@ -8,7 +8,9 @@ import {
   IconButton,
   Paper,
   Slider,
+  SliderProps,
   Stack,
+  StackProps,
   styled,
   ToggleButton,
   ToggleButtonGroup,
@@ -28,13 +30,71 @@ const drawerBleeding = 80;
 const ColorOptionButton = styled(ToggleButton)(() => ({
   color: 'inherit',
   justifyContent: 'flex-start',
-  borderRadius: 0,
   borderTopLeftRadius: '0 !important',
   borderBottomLeftRadius: '0 !important',
   paddingLeft: 16,
 }));
 
+type ColorSliderProps = Omit<StackProps, 'color' | 'onChange'> &
+  Pick<SliderProps, 'max' | 'step'> & {
+    label: string;
+    color: chroma.Color;
+    channel: string;
+    onChange: (value: string) => void;
+  };
+
+const ColorSlider: React.FC<ColorSliderProps> = ({
+  label,
+  color,
+  channel,
+  onChange,
+  max,
+  step,
+  ...props
+}) => (
+  <Stack {...props}>
+    <Typography variant="body2">{label}</Typography>
+    <Slider
+      value={color.get(channel)}
+      onChange={(_, value) => onChange(color.set(channel, value).hex())}
+      max={max}
+      step={step}
+      valueLabelDisplay="auto"
+      sx={{ py: 1 }}
+    />
+  </Stack>
+);
+
 type ColorPanelOption = 'hex' | 'rgb' | 'hsl' | 'hsv' | 'cmyk';
+
+type ColorSliderOpt = Pick<SliderProps, 'max' | 'step'> & {
+  label: string;
+  channel: string;
+};
+
+const panels: Record<Exclude<ColorPanelOption, 'hex'>, ColorSliderOpt[]> = {
+  rgb: [
+    { label: 'Red', channel: 'rgb.r', max: 255 },
+    { label: 'Green', channel: 'rgb.g', max: 255 },
+    { label: 'Blue', channel: 'rgb.b', max: 255 },
+  ],
+  hsl: [
+    { label: 'Hue', channel: 'hsl.h', max: 360 },
+    { label: 'HSL Saturation', channel: 'hsl.s', max: 1, step: 0.01 },
+    { label: 'Lightness', channel: 'hsl.l', max: 1, step: 0.01 },
+  ],
+  hsv: [
+    { label: 'Hue', channel: 'hsv.h', max: 360 },
+    { label: 'HSV Saturation', channel: 'hsv.s', max: 1, step: 0.01 },
+    { label: 'Value', channel: 'hsv.v', max: 1, step: 0.01 },
+  ],
+  cmyk: [
+    { label: 'Cyan', channel: 'cmyk.c', max: 1, step: 0.05 },
+    { label: 'Magenta', channel: 'cmyk.m', max: 1, step: 0.05 },
+    { label: 'Yellow', channel: 'cmyk.y', max: 1, step: 0.05 },
+    { label: 'Key', channel: 'cmyk.k', max: 1, step: 0.05 },
+  ],
+};
 
 export type MobileColorMenuProps = Omit<
   DrawerProps,
@@ -196,181 +256,16 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
                 >
                   Please select a valid color.
                 </Typography>
-              ) : activePanel === 'rgb' ? (
-                <Stack sx={{ height: '100%', justifyContent: 'space-around' }}>
-                  <Stack>
-                    <Typography variant="body2">Red</Typography>
-                    <Slider
-                      value={chromaColor.get('rgb.r')}
-                      onChange={(_, value) =>
-                        onChange(chromaColor.set('rgb.r', value).hex())
-                      }
-                      max={255}
-                      valueLabelDisplay="auto"
-                      sx={{ py: '8px !important' }}
-                    />
-                  </Stack>
-                  <Stack>
-                    <Typography variant="body2">Green</Typography>
-                    <Slider
-                      value={chromaColor.get('rgb.g')}
-                      onChange={(_, value) =>
-                        onChange(chromaColor.set('rgb.g', value).hex())
-                      }
-                      max={255}
-                      valueLabelDisplay="auto"
-                      sx={{ py: '8px !important' }}
-                    />
-                  </Stack>
-                  <Stack>
-                    <Typography variant="body2">Blue</Typography>
-                    <Slider
-                      value={chromaColor.get('rgb.b')}
-                      onChange={(_, value) =>
-                        onChange(chromaColor.set('rgb.b', value).hex())
-                      }
-                      max={255}
-                      valueLabelDisplay="auto"
-                      sx={{ py: '8px !important' }}
-                    />
-                  </Stack>
-                </Stack>
-              ) : activePanel === 'hsl' ? (
-                <Stack sx={{ height: '100%', justifyContent: 'space-around' }}>
-                  <Stack>
-                    <Typography variant="body2">Hue</Typography>
-                    <Slider
-                      value={chromaColor.get('hsl.h')}
-                      onChange={(_, value) =>
-                        onChange(chromaColor.set('hsl.h', value).hex())
-                      }
-                      max={360}
-                      valueLabelDisplay="auto"
-                      sx={{ py: '8px !important' }}
-                    />
-                  </Stack>
-                  <Stack>
-                    <Typography variant="body2">HSL Saturation</Typography>
-                    <Slider
-                      value={chromaColor.get('hsl.s')}
-                      onChange={(_, value) =>
-                        onChange(chromaColor.set('hsl.s', value).hex())
-                      }
-                      max={1}
-                      step={0.01}
-                      valueLabelDisplay="auto"
-                      sx={{ py: '8px !important' }}
-                    />
-                  </Stack>
-                  <Stack>
-                    <Typography variant="body2">Lightness</Typography>
-                    <Slider
-                      value={chromaColor.get('hsl.l')}
-                      onChange={(_, value) =>
-                        onChange(chromaColor.set('hsl.l', value).hex())
-                      }
-                      max={1}
-                      step={0.01}
-                      valueLabelDisplay="auto"
-                      sx={{ py: '8px !important' }}
-                    />
-                  </Stack>
-                </Stack>
-              ) : activePanel === 'hsv' ? (
-                <Stack sx={{ height: '100%', justifyContent: 'space-around' }}>
-                  <Stack>
-                    <Typography variant="body2">Hue</Typography>
-                    <Slider
-                      value={chromaColor.get('hsv.h')}
-                      onChange={(_, value) =>
-                        onChange(chromaColor.set('hsv.h', value).hex())
-                      }
-                      max={360}
-                      valueLabelDisplay="auto"
-                      sx={{ py: '8px !important' }}
-                    />
-                  </Stack>
-                  <Stack>
-                    <Typography variant="body2">HSV Saturation</Typography>
-                    <Slider
-                      value={chromaColor.get('hsv.s')}
-                      onChange={(_, value) =>
-                        onChange(chromaColor.set('hsv.s', value).hex())
-                      }
-                      max={1}
-                      step={0.01}
-                      valueLabelDisplay="auto"
-                      sx={{ py: '8px !important' }}
-                    />
-                  </Stack>
-                  <Stack>
-                    <Typography variant="body2">Value</Typography>
-                    <Slider
-                      value={chromaColor.get('hsv.v')}
-                      onChange={(_, value) =>
-                        onChange(chromaColor.set('hsv.v', value).hex())
-                      }
-                      max={1}
-                      step={0.01}
-                      valueLabelDisplay="auto"
-                      sx={{ py: '8px !important' }}
-                    />
-                  </Stack>
-                </Stack>
               ) : (
-                <Stack sx={{ height: '100%', justifyContent: 'space-around' }}>
-                  <Stack>
-                    <Typography variant="body2">Cyan</Typography>
-                    <Slider
-                      value={chromaColor.get('cmyk.c')}
-                      onChange={(_, value) =>
-                        onChange(chromaColor.set('cmyk.c', value).hex())
-                      }
-                      max={1}
-                      step={0.05}
-                      valueLabelDisplay="auto"
-                      sx={{ py: '8px !important' }}
+                <Stack justifyContent="space-around" sx={{ height: '100%' }}>
+                  {panels[activePanel].map((slider) => (
+                    <ColorSlider
+                      key={slider.label}
+                      color={chromaColor}
+                      onChange={onChange}
+                      {...slider}
                     />
-                  </Stack>
-                  <Stack>
-                    <Typography variant="body2">Magenta</Typography>
-                    <Slider
-                      value={chromaColor.get('cmyk.m')}
-                      onChange={(_, value) =>
-                        onChange(chromaColor.set('cmyk.m', value).hex())
-                      }
-                      max={1}
-                      step={0.05}
-                      valueLabelDisplay="auto"
-                      sx={{ py: '8px !important' }}
-                    />
-                  </Stack>
-                  <Stack>
-                    <Typography variant="body2">Yellow</Typography>
-                    <Slider
-                      value={chromaColor.get('cmyk.y')}
-                      onChange={(_, value) =>
-                        onChange(chromaColor.set('cmyk.y', value).hex())
-                      }
-                      max={1}
-                      step={0.05}
-                      valueLabelDisplay="auto"
-                      sx={{ py: '8px !important' }}
-                    />
-                  </Stack>
-                  <Stack>
-                    <Typography variant="body2">Key</Typography>
-                    <Slider
-                      value={chromaColor.get('cmyk.k')}
-                      onChange={(_, value) =>
-                        onChange(chromaColor.set('cmyk.k', value).hex())
-                      }
-                      max={1}
-                      step={0.05}
-                      valueLabelDisplay="auto"
-                      sx={{ py: '8px !important' }}
-                    />
-                  </Stack>
+                  ))}
                 </Stack>
               )}
             </Box>

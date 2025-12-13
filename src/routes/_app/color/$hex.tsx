@@ -110,7 +110,7 @@ function ColorPage() {
   }, [colorHex, navigate]);
 
   return (
-    <Page maxWidth={false} sx={{ p: '0 !important' }}>
+    <Page disableGutters maxWidth={false} sx={{ py: 0 }}>
       <ClientOnly>
         <Box
           sx={(theme) => ({

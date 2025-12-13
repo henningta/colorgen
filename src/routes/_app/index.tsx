@@ -79,7 +79,7 @@ function Index() {
   );
 
   return (
-    <Page sx={{ p: '0 !important' }} maxWidth={false}>
+    <Page disableGutters maxWidth={false} sx={{ py: 0 }}>
       <Box style={{ height: '100%', backgroundColor: colorHex }}>
         <Stack
           sx={{

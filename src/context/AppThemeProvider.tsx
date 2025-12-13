@@ -168,6 +168,20 @@ const theme = createTheme({
         root: {
           textTransform: 'none',
           fontWeight: 700,
+          padding: 0,
+          minWidth: 'auto',
+          minHeight: 40,
+
+          '&:not(:last-of-type)': {
+            marginRight: 16,
+          },
+        },
+      },
+    },
+    MuiTabs: {
+      styleOverrides: {
+        root: {
+          minHeight: 40,
         },
       },
     },

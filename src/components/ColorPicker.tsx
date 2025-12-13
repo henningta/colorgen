@@ -145,7 +145,14 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
         </>
       )}
       <Stack direction="row" sx={{ alignItems: 'center', width: '100%' }}>
-        <Box sx={{ width: 72, display: 'flex', justifyContent: 'center' }}>
+        <Box
+          sx={{
+            width: 72,
+            display: 'flex',
+            justifyContent: 'center',
+            color: 'action.active',
+          }}
+        >
           {colorHex ? (
             <Paper
               variant="outlined"
