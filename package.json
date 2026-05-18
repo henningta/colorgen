@@ -47,11 +47,13 @@
     "lucide-react": "^1.16.0",
     "nearest-color": "^0.4.4",
     "nearest-pantone": "^1.0.1",
+    "nitro": "3.0.260429-beta",
     "pngjs": "^7.0.0",
     "react": "^19.2.6",
     "react-colorful": "^5.7.0",
     "react-dom": "^19.2.6",
     "react-window": "^2.2.7",
+    "srvx": "^0.11.15",
     "zustand": "^5.0.13"
   },
   "devDependencies": {
@@ -72,7 +74,7 @@
     "husky": "^9.1.7",
     "prettier": "^3.8.3",
     "pretty-quick": "^4.2.2",
-    "typescript": "~5.8.3",
+    "typescript": "~5.9.3",
     "typescript-eslint": "^8.59.3",
     "vite": "^8.0.13",
     "vite-plugin-checker": "^0.13.0"

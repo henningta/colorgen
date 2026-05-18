@@ -11,6 +11,9 @@ node_modules/
 .nitro/
 .tanstack/
 
+# output
+dist/
+
 # etc.
 .DS_Store
 .env.*
