@@ -89,22 +89,22 @@ function Index() {
           }}
         >
           <Container maxWidth="md" sx={{ m: 0 }}>
-            <Stack gap={8}>
+            <Stack sx={{ gap: 8 }}>
               <Container maxWidth="sm" disableGutters sx={{ m: 0 }}>
-                <Stack gap={4}>
+                <Stack sx={{ gap: 4 }}>
                   <Typography
                     component="h1"
                     variant="display1"
-                    color={contrastText}
+                    sx={{ color: contrastText }}
                   >
                     Welcome
                   </Typography>
-                  <Typography color={contrastText}>
+                  <Typography sx={{ color: contrastText }}>
                     Welcome to colorgen.io. This tool was created to help
                     designers and developers find just the right color palette
                     they need to beautifully brand their next app.
                   </Typography>
-                  <Typography color={contrastText}>
+                  <Typography sx={{ color: contrastText }}>
                     This app is a work-in-progress, so stay tuned for more
                     changes and features coming soon.
                   </Typography>
@@ -112,9 +112,11 @@ function Index() {
               </Container>
               <Stack
                 direction="row"
-                alignItems="center"
-                flexWrap="wrap"
-                gap={4}
+                sx={{
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                  gap: 4,
+                }}
               >
                 <ColorPicker
                   value={color}

@@ -21,7 +21,7 @@ const ColorInfoPart: React.FC<ColorInfoPartProps> = ({
   sx,
   ...props
 }) => (
-  <Typography {...props} sx={[{ mt: 1 }, ...passSx(sx)]} fontWeight={300}>
+  <Typography sx={[{ fontWeight: 300, mt: 1 }, ...passSx(sx)]} {...props}>
     {label}: {children}
   </Typography>
 );
@@ -58,37 +58,42 @@ const ColorInfo: React.FC<ColorInfoProps> = ({ colorHex, style, ...props }) => {
       >
         <Box>
           <Typography
-            fontWeight={600}
-            sx={{ opacity: 0.75 }}
-            color={contrastText}
+            sx={{
+              color: contrastText,
+              fontWeight: 600,
+              opacity: 0.75,
+            }}
           >
             {colorHex}
           </Typography>
           <Typography
             component="h1"
             variant="display1"
-            color={contrastText}
-            sx={{ wordWrap: 'break-word', hyphens: 'auto' }}
+            sx={{
+              color: contrastText,
+              wordWrap: 'break-word',
+              hyphens: 'auto',
+            }}
           >
             {colorName}
           </Typography>
         </Box>
         <Stack sx={{ mb: { xs: 20, md: 0 } }}>
-          <ColorInfoPart label="Hex" color={contrastText}>
+          <ColorInfoPart label="Hex" sx={{ color: contrastText }}>
             {colorHex}
           </ColorInfoPart>
-          <ColorInfoPart label="RGB" color={contrastText}>
+          <ColorInfoPart label="RGB" sx={{ color: contrastText }}>
             {rgb[0]}, {rgb[1]}, {rgb[2]}
           </ColorInfoPart>
-          <ColorInfoPart label="HSL" color={contrastText}>
+          <ColorInfoPart label="HSL" sx={{ color: contrastText }}>
             {hsl[0].toFixed(0)}°, {(hsl[1] * 100).toFixed(1)},{' '}
             {(hsl[2] * 100).toFixed(1)}
           </ColorInfoPart>
-          <ColorInfoPart label="CMYK" color={contrastText}>
+          <ColorInfoPart label="CMYK" sx={{ color: contrastText }}>
             {(cmyk[0] * 100).toFixed(0)}, {(cmyk[1] * 100).toFixed(0)},{' '}
             {(cmyk[2] * 100).toFixed(0)}, {(cmyk[3] * 100).toFixed(0)}
           </ColorInfoPart>
-          <ColorInfoPart label="Closest Pantone" color={contrastText}>
+          <ColorInfoPart label="Closest Pantone" sx={{ color: contrastText }}>
             {nearestPantone ? (
               <>
                 {nearestPantone.pantone},{' '}

@@ -1,3 +1,4 @@
+import type {} from '@mui/material/themeCssVarsAugmentation';
 import type {} from '@mui/lab/themeAugmentation';
 
 import { PropsWithChildren } from 'react';

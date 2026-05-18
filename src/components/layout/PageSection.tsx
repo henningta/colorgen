@@ -23,7 +23,7 @@ const PageSection: React.FC<PageSectionProps> = ({
     >
       <Container maxWidth={false}>
         {title && (
-          <Typography variant="h3" fontWeight={600}>
+          <Typography variant="h3" sx={{ fontWeight: 600 }}>
             {title}
           </Typography>
         )}

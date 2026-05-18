@@ -124,7 +124,7 @@ function RouteComponent() {
         <Divider />
         <Container sx={{ py: 4 }}>
           <TabPanel value="mixer">
-            <Stack gap={4}>
+            <Stack sx={{ gap: 4 }}>
               <FormControl>
                 <InputLabel>Interpolation Mode</InputLabel>
                 <Select
@@ -140,10 +140,10 @@ function RouteComponent() {
                   ))}
                 </Select>
               </FormControl>
-              <Stack direction="row" alignItems="center" gap={1}>
-                <Stack flex={1}>
+              <Stack direction="row" sx={{ alignItems: 'center', gap: 1 }}>
+                <Stack sx={{ flex: 1 }}>
                   <Typography>Tints</Typography>
-                  <Stack direction="row" gap={1}>
+                  <Stack direction="row" sx={{ gap: 1 }}>
                     <ColorPicker
                       value={whitePointInput}
                       onChange={setWhitePointInput}
@@ -156,9 +156,9 @@ function RouteComponent() {
                     />
                   </Stack>
                 </Stack>
-                <Stack flex={1}>
+                <Stack sx={{ flex: 1 }}>
                   <Typography>Shades</Typography>
-                  <Stack direction="row" gap={1}>
+                  <Stack direction="row" sx={{ gap: 1 }}>
                     <ColorPicker
                       value={blackPointInput}
                       onChange={setBlackPointInput}
@@ -196,7 +196,7 @@ function RouteComponent() {
             </Stack>
           </TabPanel>
           <TabPanel value="lightness">
-            <Stack gap={4}>
+            <Stack sx={{ gap: 4 }}>
               <FormControl>
                 <InputLabel>Interpolation Mode</InputLabel>
                 <Select

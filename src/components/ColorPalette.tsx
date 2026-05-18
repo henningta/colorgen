@@ -29,7 +29,7 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({
         maxWidth={false}
         sx={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
       >
-        <Typography variant="h4" fontWeight={500}>
+        <Typography variant="h4" sx={{ fontWeight: 500 }}>
           {title}
         </Typography>
         <Typography sx={{ mt: 1 }}>{subtitle}</Typography>

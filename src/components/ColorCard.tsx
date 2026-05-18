@@ -148,9 +148,12 @@ const ColorCard: React.FC<ColorCardProps> = ({
       </Stack>
       {displayHex && (
         <Typography
-          color={contrastText}
-          fontWeight={600}
-          sx={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
+          sx={{
+            color: contrastText,
+            fontWeight: 600,
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+          }}
         >
           {colorHex}
         </Typography>

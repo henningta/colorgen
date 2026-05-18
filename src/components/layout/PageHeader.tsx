@@ -20,7 +20,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   <>
     <Paper square elevation={0} sx={{ pt: 8 }} {...props}>
       <Container sx={{ height: '100%' }}>
-        <Stack justifyContent="flex-end" sx={{ height: '100%' }}>
+        <Stack sx={{ justifyContent: 'flex-end', height: '100%' }}>
           <Typography variant="h1">{title}</Typography>
         </Stack>
       </Container>

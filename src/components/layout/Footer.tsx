@@ -51,7 +51,7 @@ const Footer: React.FC<FooterProps> = ({ sx, ...props }) => {
             mx: 0,
           }}
         >
-          <Stack direction="row" alignItems="center" gap={0.75}>
+          <Stack direction="row" sx={{ alignItems: 'center', gap: 0.75 }}>
             <Typography>Made with</Typography>
             <Heart size={18} color="#c41e3a" strokeWidth={2.5} />
           </Stack>

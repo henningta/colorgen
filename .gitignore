@@ -1,4 +1,5 @@
 # IDE-specific
+.claude/
 .vscode/
 
 # node

@@ -3,11 +3,11 @@ import js from '@eslint/js';
 import { defineConfig } from 'eslint/config';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
-import reactRefresh from 'eslint-plugin-react-refresh';
+import { reactRefresh } from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 import pluginRouter from '@tanstack/eslint-plugin-router';
 
-export default defineConfig([
+export default defineConfig(
   {
     ignores: [
       // files
@@ -20,6 +20,17 @@ export default defineConfig([
       'node_modules/',
     ],
   },
+  reactRefresh.configs.vite({
+    extraHOCs: [
+      'createFileRoute',
+      'createLazyFileRoute',
+      'createRootRoute',
+      'createRootRouteWithContext',
+      'createLink',
+      'createRoute',
+      'createLazyRoute',
+    ],
+  }),
   {
     extends: [
       js.configs.recommended,
@@ -41,16 +52,11 @@ export default defineConfig([
       '@tanstack/router': pluginRouter,
       react,
       'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
     },
     rules: {
       ...react.configs.recommended.rules,
       ...react.configs['jsx-runtime'].rules,
       ...reactHooks.configs['recommended-latest'].rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
 
       // javascript
       eqeqeq: 'error',
@@ -81,4 +87,4 @@ export default defineConfig([
       },
     },
   },
-]);
+);

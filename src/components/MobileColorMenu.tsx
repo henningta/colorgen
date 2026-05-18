@@ -157,7 +157,7 @@ const MobileColorMenu: React.FC<MobileColorMenuProps> = ({
           }}
         >
           <Paper elevation={4} sx={{ height: '100%', borderRadius: 3 }}>
-            <Stack justifyContent="flex-end" sx={{ height: '100%' }}>
+            <Stack sx={{ justifyContent: 'flex-end', height: '100%' }}>
               <ColorPicker
                 value={value}
                 onChange={onChange}

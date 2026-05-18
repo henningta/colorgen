@@ -163,9 +163,11 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
         <ColorInput value={value} onChange={onChange} />
         <Stack
           direction="row"
-          justifyContent="center"
-          alignItems="center"
-          sx={{ minWidth: 56 }}
+          sx={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            minWidth: 56,
+          }}
         >
           <Tooltip title={copied ? 'Copied!' : 'Copy Hex'} placement="top">
             <IconButton onClick={() => void copyColorHex()}>

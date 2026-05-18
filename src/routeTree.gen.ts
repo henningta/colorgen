@@ -47,10 +47,10 @@ const AppColorHexRoute = AppColorHexRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof AppIndexRoute
   '/about': typeof AppAboutRoute
   '/mixer': typeof AppMixerRoute
   '/api/$color': typeof ApiColorRoute
-  '/': typeof AppIndexRoute
   '/color/$hex': typeof AppColorHexRoute
 }
 export interface FileRoutesByTo {
@@ -71,7 +71,7 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/about' | '/mixer' | '/api/$color' | '/' | '/color/$hex'
+  fullPaths: '/' | '/about' | '/mixer' | '/api/$color' | '/color/$hex'
   fileRoutesByTo: FileRoutesByTo
   to: '/about' | '/mixer' | '/api/$color' | '/' | '/color/$hex'
   id:
@@ -94,7 +94,7 @@ declare module '@tanstack/react-router' {
     '/_app': {
       id: '/_app'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof AppRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
