@@ -15,8 +15,11 @@ import {
 } from '@mui/material';
 import { ClientOnly, createFileRoute } from '@tanstack/react-router';
 import chroma from 'chroma-js';
-import { useMemo, useState } from 'react';
+import debounce from 'lodash.debounce';
+import { useEffect, useMemo, useState } from 'react';
+import { useShallow } from 'zustand/shallow';
 import { ColorCard, ColorPicker, Page, PageHeader } from '~/components';
+import { ColorStoreProvider, useColorStore } from '~/context';
 import {
   getColorHex,
   getShades,
@@ -28,10 +31,9 @@ import {
 const url = 'https://www.colorgen.io';
 
 export const Route = createFileRoute('/_app/mixer')({
-  component: RouteComponent,
+  component: RouteWrapper,
   head: ({ match }) => {
-    // const description = `Tints, shades, and color info for hex code: ${hex}`;
-    const title = 'Mixer';
+    const title = 'Mixer · colorgen.io';
     const description = 'Mixer description';
 
     return {
@@ -66,8 +68,36 @@ const tabs: TabInfo[] = [
   { value: 'lightness', label: 'Lightness' },
 ];
 
+function RouteWrapper() {
+  return (
+    <ColorStoreProvider initialColor="#fff">
+      <RouteComponent />
+    </ColorStoreProvider>
+  );
+}
+
 function RouteComponent() {
-  const [colorHex, setColorHex] = useState('#fff');
+  const { colorHex, setColor } = useColorStore(
+    useShallow((state) => ({
+      colorHex: state.colorHex,
+      setColor: state.setColor,
+    })),
+  );
+
+  const [selectedColor, setSelectedColor] = useState(colorHex);
+
+  useEffect(() => {
+    setSelectedColor(colorHex);
+  }, [colorHex]);
+
+  const debouncedSetColor = useMemo(
+    () => debounce((color: string) => setColor(color), 200),
+    [setColor],
+  );
+
+  useEffect(() => {
+    debouncedSetColor(selectedColor);
+  }, [selectedColor, debouncedSetColor]);
 
   const [tab, setTab] = useState<TabValue>('lightness');
 
@@ -107,7 +137,11 @@ function RouteComponent() {
             top: 36,
           })}
         >
-          <ColorPicker value={colorHex} onChange={setColorHex} useHexPicker />
+          <ColorPicker
+            value={selectedColor}
+            onChange={setSelectedColor}
+            useHexPicker
+          />
         </Box>
       </ClientOnly>
       <PageHeader title="Mixer" />
@@ -179,17 +213,20 @@ function RouteComponent() {
                   <ColorCard
                     key={x.id}
                     colorHex={x.color.hex()}
-                    onSetAsSelected={setColorHex}
+                    onSetAsSelected={setSelectedColor}
                   />
                 ))}
               </Stack>
-              <ColorCard colorHex={colorHex} onSetAsSelected={setColorHex} />
+              <ColorCard
+                colorHex={colorHex}
+                onSetAsSelected={setSelectedColor}
+              />
               <Stack>
                 {shades.map((x) => (
                   <ColorCard
                     key={x.id}
                     colorHex={x.color.hex()}
-                    onSetAsSelected={setColorHex}
+                    onSetAsSelected={setSelectedColor}
                   />
                 ))}
               </Stack>
@@ -217,13 +254,13 @@ function RouteComponent() {
                   // .mix('white', 'a3aaae', 0.4, interpolation)
                   .set('oklab.l', 0.95)
                   .hex()}
-                onSetAsSelected={setColorHex}
+                onSetAsSelected={setSelectedColor}
               />
               {/* {lightnesses.map((x) => (
                 <ColorCard
                   key={x.id}
                   colorHex={x.color.hex()}
-                  onSetAsSelected={setColorHex}
+                  onSetAsSelected={setSelectedColor}
                 />
               ))} */}
             </Stack>

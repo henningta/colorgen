@@ -156,5 +156,3 @@ function About() {
     </Page>
   );
 }
-
-export default About;

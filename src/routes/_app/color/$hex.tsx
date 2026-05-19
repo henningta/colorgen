@@ -10,7 +10,6 @@ import {
 } from '~/components';
 import { ColorStoreProvider, useColorStore } from '~/context';
 import debounce from 'lodash.debounce';
-// import config from '~/config';
 import { ClientOnly, redirect, useNavigate } from '@tanstack/react-router';
 import { getColorHex, getColorName } from '~/utils';
 import { createFileRoute } from '@tanstack/react-router';
