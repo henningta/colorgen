@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Autocomplete,
   autocompleteClasses,
@@ -80,7 +80,9 @@ const ColorInput: React.FC<ColorInputProps> = ({ value, onChange }) => {
   return (
     <Autocomplete
       options={options}
-      isOptionEqualToValue={(a, b) => a.name === b.name}
+      isOptionEqualToValue={(a, b) =>
+        a.name.localeCompare(typeof b === 'string' ? b : b.name) === 0
+      }
       getOptionLabel={(option) =>
         typeof option === 'string' ? option : option.name
       }

@@ -1,5 +1,4 @@
 import { Box, type BoxProps, Container, Typography } from '@mui/material';
-import React from 'react';
 import { passSx } from '~/utils';
 
 export type PageSectionProps = BoxProps & {
@@ -24,7 +23,7 @@ const PageSection: React.FC<PageSectionProps> = ({
     >
       <Container maxWidth={false}>
         {title && (
-          <Typography variant="h3" fontWeight={600}>
+          <Typography variant="h3" sx={{ fontWeight: 600 }}>
             {title}
           </Typography>
         )}

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Container, Stack, type StackProps, Typography } from '@mui/material';
 import { Grid } from '@mui/material';
 import chroma from 'chroma-js';
@@ -25,17 +24,19 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({
   ...props
 }) => (
   <Stack {...props}>
-    <Container
-      maxWidth={false}
-      sx={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
-    >
-      <Typography variant="h4" fontWeight={500}>
-        {title}
-      </Typography>
-      <Typography sx={{ mt: 1 }}>{subtitle}</Typography>
-    </Container>
+    {(!!title || !!subtitle) && (
+      <Container
+        maxWidth={false}
+        sx={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
+      >
+        <Typography variant="h4" sx={{ fontWeight: 500 }}>
+          {title}
+        </Typography>
+        <Typography sx={{ mt: 1 }}>{subtitle}</Typography>
+      </Container>
+    )}
     {fullWidth ? (
-      <Grid container sx={{ flex: 1, mt: 2 }}>
+      <Grid container sx={{ flex: 1 }}>
         {colors.map((x) => (
           <Grid key={x.id} size={{ xs: 3, sm: 3, md: 'grow' }}>
             <ColorCard
@@ -48,7 +49,7 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({
         ))}
       </Grid>
     ) : (
-      <Stack direction="row" sx={{ flex: 1, mt: 2 }}>
+      <Stack direction="row" sx={{ flex: 1 }}>
         {colors.map((x) => (
           <ColorCard
             key={x.id}

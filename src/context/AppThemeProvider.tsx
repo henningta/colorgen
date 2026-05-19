@@ -1,3 +1,6 @@
+import type {} from '@mui/material/themeCssVarsAugmentation';
+import type {} from '@mui/lab/themeAugmentation';
+
 import { PropsWithChildren } from 'react';
 import {
   CssBaseline,
@@ -26,18 +29,12 @@ const theme = createTheme({
         background: {
           default: '#1c1b22',
         },
-        icon: {
-          main: 'rgb(154, 160, 166)',
-        },
       },
     },
     light: {
       palette: {
         background: {
           default: '#eeeff0',
-        },
-        icon: {
-          main: 'rgb(95, 99, 104)',
         },
       },
     },
@@ -117,6 +114,13 @@ const theme = createTheme({
         },
       },
     },
+    // MuiInputBase: {
+    //   styleOverrides: {
+    //     root: ({ theme }) => ({
+    //       backgroundColor: theme.vars.palette.background.paper,
+    //     }),
+    //   },
+    // },
     MuiLink: {
       defaultProps: {
         underline: 'always',
@@ -158,6 +162,21 @@ const theme = createTheme({
     MuiSlider: {
       defaultProps: {
         color: 'info',
+      },
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          fontWeight: 700,
+        },
+      },
+    },
+    MuiTabPanel: {
+      styleOverrides: {
+        root: {
+          padding: 0,
+        },
       },
     },
     MuiToggleButton: {
@@ -214,6 +233,7 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
         <GlobalStyles
           styles={{
             html: {
+              height: '100vh',
               overflowX: 'hidden',
             },
             body: {

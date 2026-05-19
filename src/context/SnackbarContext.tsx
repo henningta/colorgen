@@ -1,6 +1,6 @@
 import { Alert, type AlertProps } from '@mui/material';
 import { Snackbar, type SnackbarProps } from '@mui/material';
-import React, {
+import {
   createContext,
   PropsWithChildren,
   useEffect,

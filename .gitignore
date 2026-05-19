@@ -1,4 +1,5 @@
 # IDE-specific
+.claude/
 .vscode/
 
 # node
@@ -9,6 +10,9 @@ node_modules/
 .amplify-hosting/
 .nitro/
 .tanstack/
+
+# output
+dist/
 
 # etc.
 .DS_Store

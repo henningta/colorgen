@@ -3,18 +3,21 @@ import { colornames } from 'color-name-list';
 import nearestColor from 'nearest-color';
 import CaseInsensitiveMap from './CaseInsensitiveMap';
 
+export const interpolationModes = [
+  'hcl',
+  'hsi',
+  'hsl',
+  'hsv',
+  'lab',
+  'lch',
+  'lrgb',
+  'oklab',
+  'oklch',
+  'rgb',
+] as const;
+
 // chroma-js removed this export? :(
-type InterpolationMode =
-  | 'hcl'
-  | 'hsi'
-  | 'hsl'
-  | 'hsv'
-  | 'lab'
-  | 'lch'
-  | 'lrgb'
-  | 'oklab'
-  | 'oklch'
-  | 'rgb';
+export type InterpolationMode = (typeof interpolationModes)[number];
 
 const secretColors = [
   { name: 'Amanda', hex: '#b76e79' },

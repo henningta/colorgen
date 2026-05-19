@@ -1,4 +1,3 @@
-import React from 'react';
 import { Container, type ContainerProps } from '@mui/material';
 import { passSx } from '~/utils';
 

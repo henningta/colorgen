@@ -61,7 +61,7 @@ function Providers({ children }: PropsWithChildren) {
 
 function RootDocument({ children }: Readonly<PropsWithChildren>) {
   return (
-    <html>
+    <html lang="en">
       <head>
         <HeadContent />
       </head>

@@ -10,7 +10,7 @@ import {
   Stack,
   Tooltip,
 } from '@mui/material';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { copyToClipboard, getColorHex, passSx } from '~/utils';
 import chroma from 'chroma-js';
@@ -163,9 +163,11 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
         <ColorInput value={value} onChange={onChange} />
         <Stack
           direction="row"
-          justifyContent="center"
-          alignItems="center"
-          sx={{ minWidth: 56 }}
+          sx={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            minWidth: 56,
+          }}
         >
           <Tooltip title={copied ? 'Copied!' : 'Copy Hex'} placement="top">
             <IconButton onClick={() => void copyColorHex()}>

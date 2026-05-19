@@ -9,7 +9,6 @@ import {
 } from '@mui/material';
 import { ClientOnly } from '@tanstack/react-router';
 import { Moon, LaptopMinimal, Sun } from 'lucide-react';
-import React from 'react';
 import { RouterLink } from '~/components';
 
 type ColorMode = 'light' | 'dark' | 'system';
@@ -24,16 +23,19 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
       <Toolbar sx={{ minHeight: '56px !important' }}>
         <Stack
           direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-          width="100%"
+          sx={{
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '100%',
+          }}
         >
           <RouterLink
             to="/"
-            fontSize={30}
-            fontWeight={300}
             underline="none"
             sx={{
+              fontSize: 30,
+              fontWeight: 300,
+
               color: 'inherit',
               '&:hover': {
                 color: 'inherit',

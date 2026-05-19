@@ -10,9 +10,12 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { copyToClipboard, getContrastColor, passSx } from '~/utils';
 import { Copy, CopyCheck, MoreVertical, PaintBucket } from 'lucide-react';
+
+const CopyIcon = ({ copied }: { copied: boolean }) =>
+  copied ? <CopyCheck size={20} /> : <Copy size={20} />;
 
 export type ColorCardProps = PaperProps & {
   colorHex: string;
@@ -55,9 +58,6 @@ const ColorCard: React.FC<ColorCardProps> = ({
     },
     [colorHex],
   );
-
-  const CopyIcon = ({ copied }: { copied: boolean }) =>
-    copied ? <CopyCheck size={20} /> : <Copy size={20} />;
 
   return (
     <Paper
@@ -148,9 +148,12 @@ const ColorCard: React.FC<ColorCardProps> = ({
       </Stack>
       {displayHex && (
         <Typography
-          color={contrastText}
-          fontWeight={600}
-          sx={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
+          sx={{
+            color: contrastText,
+            fontWeight: 600,
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+          }}
         >
           {colorHex}
         </Typography>

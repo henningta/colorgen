@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { Grid } from '@mui/material';
 import { PageSection } from './layout';
 import ColorPalette from './ColorPalette';
