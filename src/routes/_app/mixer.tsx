@@ -15,11 +15,10 @@ import {
 } from '@mui/material';
 import { ClientOnly, createFileRoute } from '@tanstack/react-router';
 import chroma from 'chroma-js';
-import debounce from 'lodash.debounce';
-import { useEffect, useMemo, useState } from 'react';
-import { useShallow } from 'zustand/shallow';
+import { useMemo, useState } from 'react';
 import { ColorCard, ColorPicker, Page, PageHeader } from '~/components';
-import { ColorStoreProvider, useColorStore } from '~/context';
+import { ColorStoreProvider } from '~/context';
+import { useSelectedColor } from '~/hooks';
 import {
   getColorHex,
   getShades,
@@ -77,27 +76,7 @@ function RouteWrapper() {
 }
 
 function RouteComponent() {
-  const { colorHex, setColor } = useColorStore(
-    useShallow((state) => ({
-      colorHex: state.colorHex,
-      setColor: state.setColor,
-    })),
-  );
-
-  const [selectedColor, setSelectedColor] = useState(colorHex);
-
-  useEffect(() => {
-    setSelectedColor(colorHex);
-  }, [colorHex]);
-
-  const debouncedSetColor = useMemo(
-    () => debounce((color: string) => setColor(color), 200),
-    [setColor],
-  );
-
-  useEffect(() => {
-    debouncedSetColor(selectedColor);
-  }, [selectedColor, debouncedSetColor]);
+  const { colorHex, selectedColor, setSelectedColor } = useSelectedColor();
 
   const [tab, setTab] = useState<TabValue>('lightness');
 

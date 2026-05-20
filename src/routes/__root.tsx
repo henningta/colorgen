@@ -8,7 +8,8 @@ import {
   Scripts,
 } from '@tanstack/react-router';
 import { AppThemeProvider, SnackbarProvider } from '~/context';
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
+import { TanStackDevtools } from '@tanstack/react-devtools';
+import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 import { InitColorSchemeScript } from '@mui/material';
 
 const fontsUrl =
@@ -66,9 +67,16 @@ function RootDocument({ children }: Readonly<PropsWithChildren>) {
         <HeadContent />
       </head>
       <body>
-        <InitColorSchemeScript attribute='[data-mui-color-scheme="%s"]' />
+        <InitColorSchemeScript />
         <Providers>{children}</Providers>
-        <TanStackRouterDevtools position="bottom-right" />
+        <TanStackDevtools
+          plugins={[
+            {
+              name: 'Tanstack Router',
+              render: <TanStackRouterDevtoolsPanel />,
+            },
+          ]}
+        />
         <Scripts />
       </body>
     </html>

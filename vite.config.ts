@@ -3,10 +3,12 @@ import react from '@vitejs/plugin-react';
 import { checker } from 'vite-plugin-checker';
 import { tanstackStart } from '@tanstack/react-start/plugin/vite';
 import { nitro } from 'nitro/vite';
+import { devtools } from '@tanstack/devtools-vite';
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
+    devtools(),
     tanstackStart({ srcDirectory: 'src' }),
     // @ts-expect-error
     nitro({ preset: 'aws-amplify', awsAmplify: { runtime: 'nodejs24.x' } }),

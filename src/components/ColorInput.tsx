@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Autocomplete,
   autocompleteClasses,
+  type FilterOptionsState,
   Popper,
   styled,
   TextField,
@@ -13,45 +14,42 @@ import { getColorHex } from '~/utils';
 type ColorItem = {
   name: string;
   hex?: string;
+  normalized: string;
 };
 
 const options = colornames.map<ColorItem>((x) => ({
   name: x.name,
   hex: getColorHex(x.name),
+  normalized: x.name
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, ''),
 }));
 
-// const normalizeString = (str: string, removeSpaces = false) => {
-//   let normal = str
-//     .normalize('NFD')
-//     .replace(/[\u0300-\u036f]/g, '')
-//     .toLowerCase();
+const filterOptions = (
+  items: ColorItem[],
+  state: FilterOptionsState<ColorItem>,
+): ColorItem[] => {
+  const input = state.inputValue
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '');
 
-//   if (removeSpaces) {
-//     normal = normal.replaceAll(' ', '');
-//   }
+  if (!input) {
+    return items;
+  }
 
-//   return normal;
-// };
-
-// // const filterOptions = createFilterOptions<string>({
-// //   matchFrom: 'any',
-// //   trim: true,
-// // });
-
-// const buildFilterOptions = (options: string[]) => {
-//   const normalizedOptions = options.map((x) => normalizeString(x, true));
-//   const mappedOptions = options.map((option, i) => ({
-//     option,
-//     normalized: normalizedOptions[i],
-//   }));
-
-//   return (options: string[], state: FilterOptionsState<string>) =>
-//     mappedOptions
-//       .filter(({ normalized }) =>
-//         normalized.includes(normalizeString(state.inputValue, true)),
-//       )
-//       .map((x) => x.option);
-// };
+  const results: ColorItem[] = [];
+  for (const item of items) {
+    if (item.normalized.includes(input)) {
+      results.push(item);
+      if (results.length >= 100) break;
+    }
+  }
+  return results;
+};
 
 const StyledPopper = styled(Popper)({
   [`& .${autocompleteClasses.listbox}`]: {
@@ -69,27 +67,49 @@ export type ColorInputProps = {
 };
 
 const ColorInput: React.FC<ColorInputProps> = ({ value, onChange }) => {
-  const [selected, setSelected] = useState<ColorItem | null>(null);
+  const [inputDisplay, setInputDisplay] = useState(value);
+  const inputDisplayRef = useRef(value);
 
+  // Sync display from parent only when the resolved hex changes (external color change,
+  // e.g. clicking a tint/shade), not when the parent just resolved our selected name to hex.
   useEffect(() => {
-    if (selected) {
-      onChange(selected.name);
+    const displayHex = getColorHex(inputDisplayRef.current);
+    const valueHex = getColorHex(value);
+    if (
+      valueHex !== displayHex ||
+      (!valueHex && value !== inputDisplayRef.current)
+    ) {
+      inputDisplayRef.current = value;
+      setInputDisplay(value);
     }
-  }, [selected, onChange]);
+  }, [value]);
 
   return (
     <Autocomplete
       options={options}
+      filterOptions={filterOptions}
       isOptionEqualToValue={(a, b) =>
-        a.name.localeCompare(typeof b === 'string' ? b : b.name) === 0
+        a.name === (typeof b === 'string' ? b : b.name)
       }
       getOptionLabel={(option) =>
         typeof option === 'string' ? option : option.name
       }
-      value={selected}
-      onChange={(_, selected) => setSelected(selected as ColorItem)}
-      inputValue={value}
-      onInputChange={(_, value) => onChange(value)}
+      value={null}
+      onChange={(_, selected) => {
+        if (selected && typeof selected !== 'string') {
+          inputDisplayRef.current = selected.name;
+          setInputDisplay(selected.name);
+          onChange(selected.hex ?? selected.name);
+        }
+      }}
+      inputValue={inputDisplay}
+      onInputChange={(_, newValue, reason) => {
+        if (reason === 'input' || reason === 'clear') {
+          inputDisplayRef.current = newValue;
+          setInputDisplay(newValue);
+          onChange(newValue);
+        }
+      }}
       freeSolo
       openOnFocus
       selectOnFocus

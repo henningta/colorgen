@@ -12,3 +12,10 @@ export function getRouter() {
 
   return router;
 }
+
+declare module '@tanstack/react-router' {
+  // eslint-disable-next-line
+  interface Register {
+    router: ReturnType<typeof getRouter>;
+  }
+}

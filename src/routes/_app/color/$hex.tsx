@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import chroma from 'chroma-js';
 import {
   ColorHarmonies,
@@ -8,13 +8,12 @@ import {
   Page,
   TintsShades,
 } from '~/components';
-import { ColorStoreProvider, useColorStore } from '~/context';
-import debounce from 'lodash.debounce';
+import { ColorStoreProvider } from '~/context';
 import { ClientOnly, redirect, useNavigate } from '@tanstack/react-router';
 import { getColorHex, getColorName } from '~/utils';
 import { createFileRoute } from '@tanstack/react-router';
 import { Box, useMediaQuery } from '@mui/material';
-import { useShallow } from 'zustand/shallow';
+import { useSelectedColor } from '~/hooks';
 
 const url = 'https://www.colorgen.io';
 
@@ -66,16 +65,10 @@ function ColorPageWrapper() {
 function ColorPage() {
   const navigate = useNavigate();
 
-  const { colorHex, setColor } = useColorStore(
-    useShallow((state) => ({
-      colorHex: state.colorHex,
-      setColor: state.setColor,
-    })),
-  );
+  const { colorHex, selectedColor, setSelectedColor } = useSelectedColor();
 
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
-  const [selectedColor, setSelectedColor] = useState(colorHex);
   const [selectedColorHex, setSelectedColorHex] = useState(colorHex);
 
   useEffect(() => {
@@ -86,20 +79,6 @@ function ColorPage() {
   }, [selectedColor]);
 
   useEffect(() => {
-    setSelectedColor(colorHex);
-  }, [colorHex]);
-
-  const debouncedSetColor = useMemo(
-    () => debounce((color: string) => setColor(color), 200),
-    [setColor],
-  );
-
-  useEffect(() => {
-    debouncedSetColor(selectedColor);
-  }, [selectedColor, debouncedSetColor]);
-
-  useEffect(() => {
-    // already debounced from color set
     void navigate({
       to: '/color/$hex',
       params: { hex: colorHex.substring(1) },
